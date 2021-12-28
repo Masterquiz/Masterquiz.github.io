@@ -1,0 +1,38 @@
+:root {
+  --clr-primary-000: #FFCFCE;
+  /* Baby Pink - (255, 207, 206) */
+  --clr-primary-100: #FFF275;
+  /* Corn - (255, 242, 117) */
+  --clr-primary-300: #FFC566;
+  /* Maximum Yellow Red - (255, 197, 102) */
+  --clr-primary-500: #FF9757;
+  /* Atomic Tangerine - (255, 151, 87) */
+  --clr-primary-700: #FF6A47;
+  /* Outrageous Orange - (255, 106, 71) */
+  --clr-primary-900: #FF3C38;
+  /* Tart Orange - (255, 60, 56)*/
+  --clr-neutral-000: #FFF;
+  --clr-neutral-1000: #000;
+  --ff-accent: 'Oleo Script', cursive;
+  --ff-menu: 'Montserrat', sans-serif;
+  --ff-primary: 'Roboto', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}

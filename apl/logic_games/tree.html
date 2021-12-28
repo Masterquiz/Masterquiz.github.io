@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Master Quiz - Tree</title>
+
+  <link rel="stylesheet" href="/css/apl/logic_games/puzzle.css">
+
+  <script src="/js/apl/apl.js" defer></script>
+  <script src="/js/apl/logic_games/puzzle_utils.js" defer></script>
+  <script src="/js/apl/logic_games/tree.js" defer></script>
+  <script>
+    (async () => {
+      let header = await fetch('/base/header.html');
+      document.querySelector('#header').innerHTML = await header.text();
+
+      let nav = await fetch('/base/logic_games_nav.html');
+      document.querySelector('#nav').innerHTML = await nav.text();
+
+      let footer = await fetch('/base/footer.html');
+      document.querySelector('#footer').innerHTML = await footer.text();
+
+      // Menu animation
+      const hamburger = document.querySelector(".ham");
+      const navsub = document.querySelector(".menu");
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle("change");
+        navsub.classList.toggle("menu-change");
+
+        if (navsub.classList.contains("menu-change")) {
+          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+          window.onscroll = () => window.scrollTo(scrollLeft, scrollTop);
+        } else window.onscroll = {};
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div id="nav"></div>
+
+  <main>
+    <div class="intro">
+      <h1>Tree solver</h1>
+      <p class="description">
+        This Tree solver is entirely implemented in APL. Just fill the puzzle map and press solve! Change the
+        dimension, creating a puzzle with a side length from five to eleven cells. Use the create button to
+        create a valid puzzle.
+      </p>
+    </div>
+
+    <div class="sections">
+      <div class="inputSection">
+        <div class="dimension">
+          <!-- !Input refresha la pagina -->
+          <!-- TODO: Restartare il valore a "", facendo vedere il placeholder -->
+          <input class="dimInput" type="number" placeholder="Dimension..." onClick="this.select();">
+          <button class="dimButton" onclick="changeDim()" type="button">✓</button>
+        </div>
+
+        <div class="tableInp"></div>
+
+        <div class="btnsInp ">
+          <button class="trySolve" onClick="trySolve()" type="button">Try</button>
+          <button class="solve" onClick="solve()" type="button">Solve</button>
+          <button class="create" onClick="create()" type="button">Create</button>
+          <!-- * Change class to restart -->
+          <button class="clear" onClick="restart()" type="button">Restart</button>
+        </div>
+      </div>
+
+      <div class="outputSection">
+        <label class="solLabel">Solution</label>
+        <div class="tableOut"></div>
+      </div>
+
+      <div class="trySection">
+        <label class="tryLabel"></label>
+        <table class="tableTry"></table>
+        <div class="btnsTry">
+          <button class="verify" onclick="verify()">Verify</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+</body>
+
+</html>

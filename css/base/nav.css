@@ -1,0 +1,20 @@
+.pages {
+  margin-bottom: 2em;
+  display: flex;
+  justify-content: left;
+  font-size: 1.125rem;
+  font-weight: bold;
+  background-color: var(--clr-primary-300);
+}
+
+.pages-link {
+  display: inline-flex;
+  padding-inline: 1em;
+  line-height: 2em;
+  color: var(--clr-primary-900);
+}
+
+.pages-link:hover,
+.pages-link a:focus {
+  background-color: var(--clr-primary-500);
+}

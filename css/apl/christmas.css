@@ -1,0 +1,56 @@
+main {
+  min-height: 85vh;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5em;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.btn__animate,
+.btn__animate:disabled {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--clr-neutral-1000);
+  width: 10em;
+  border-radius: 15px;
+  padding: .7em 1em;
+  font-size: 1em;
+  background: #C8C66C;
+}
+
+.text_animate,
+.animation {
+  white-space: pre;
+  font-family: APL, monospace;
+}
+
+.animation {
+  border: 1px dashed #000;
+}
+
+@media only screen and (min-width: 768px) {
+  .section {
+    flex-direction: row;
+    justify-content: center;
+    gap: 5em;
+  }
+
+  .animation {
+    margin-top: auto;
+  }
+}

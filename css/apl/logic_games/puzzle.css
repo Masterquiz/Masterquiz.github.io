@@ -1,0 +1,247 @@
+main {
+  min-height: 85vh;
+}
+
+.hide {
+  display: none;
+}
+
+.view {
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  caret-color: transparent;
+  -moz-appearance: textfield;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1em;
+  margin-bottom: 2em;
+}
+
+.description {
+  max-width: 90%;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
+
+.inputSection,
+.outputSection,
+.trySection {
+  width: 80%;
+  max-height: 100%;
+  padding: 2em 1.5625em;
+  border-radius: 0.875em;
+  box-shadow: 0 0 2em rgba(0, 0, 0, .3);
+  min-width: fit-content;
+  min-height: fit-content;
+}
+
+
+/* Input section */
+.dimension {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-block: 0.625em;
+}
+
+.dimInput {
+  width: 7.25em;
+  padding-left: 0.5em;
+  border: 1px solid #1b6535;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+}
+
+.dimButton {
+  width: 1.565em;
+  color: var(--clr-neutral-000);
+  background-color: #a8c66c;
+  border: 0.0625em solid #1b6535;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+}
+
+.tableInp {
+  display: flex;
+  justify-content: center;
+  /* !Prevent wrap or calc .inp width */
+  /* TODO: Use gap */
+}
+
+.inp,
+.out {
+  /* !On click, highlight text */
+  width: 2em;
+  aspect-ratio: 1;
+  margin: 0.0625em;
+  text-align: center;
+}
+
+.btnsInp {
+  display: flex;
+  justify-content: center;
+  padding-inline: 0.625em;
+}
+
+.btnsInp button {
+  padding-inline: 0.5em;
+  margin-block: 1em;
+  border-radius: 0.3125em;
+  background-color: var(--clr-neutral-000);
+}
+
+.btnsInp button:hover,
+.btnsInp button:focus {
+  color: var(--clr-neutral-000);
+}
+
+.trySolve {
+  border: 1px solid #17552d;
+}
+
+.trySolve:hover,
+.trySolve:focus {
+  background-color: #1B6535;
+}
+
+.solve {
+  margin-left: 0.1875em;
+  border: 1px solid #1B6535;
+}
+
+.solve:hover,
+.solve:focus {
+  background-color: #1B6535;
+}
+
+.create {
+  margin-left: 3px;
+  border: 1px solid #C8C66C;
+}
+
+/* * Text color to black */
+.create:hover,
+.create:focus {
+  background-color: #E1DD72;
+}
+
+.clear {
+  margin-left: 3px;
+  border: 1px solid #DC143C;
+}
+
+.clear:hover,
+.clear:focus {
+  background-color: #DC143C;
+}
+
+
+/* Output section */
+.solLabel {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 13px 0 10px 0;
+  margin: 0px;
+}
+
+.tableOut {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Try section */
+.tryLabel {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 13px 0 10px 0;
+  margin: 0px;
+  color: var(--clr-neutral-1000);
+}
+
+.tableTry {
+  display: flex;
+  justify-content: center;
+}
+
+.try {
+  width: 2em;
+  aspect-ratio: 1;
+  margin: 0.0625em;
+  text-align: center;
+  caret-color: transparent;
+}
+
+.btnsTry {
+  display: flex;
+  justify-content: center;
+  padding-inline: 0.625em;
+}
+
+.verify {
+  padding-inline: 0.5em;
+  margin-block: 1em;
+  border-radius: 0.3125em;
+  background-color: var(--clr-neutral-000);
+  border: 1px solid #17552d;
+}
+
+.verify:hover,
+.verify:focus {
+  color: var(--clr-neutral-000);
+  background-color: #1B6535;
+}
+
+@media only screen and (min-width: 768px) {
+  .sections {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: max-content;
+    align-items: stretch;
+  }
+
+  .inputSection,
+  .outputSection,
+  .trySection {
+    width: 30%;
+    padding: 2em 1.5625em;
+    border-radius: 0.875em;
+    box-shadow: 0 0 2em rgba(0, 0, 0, .3);
+  }
+}
+
+/* @media only screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 2em;
+  }
+
+  .container+* {
+    margin-top: 2em;
+  }
+} */

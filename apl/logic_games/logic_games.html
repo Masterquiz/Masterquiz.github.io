@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Master Quiz - Logic games</title>
+
+  <link rel="stylesheet" href="/css/apl/logic_games/logic_games.css">
+
+  <script>
+    (async () => {
+      let header = await fetch('/base/header.html');
+      document.querySelector('#header').innerHTML = await header.text();
+
+      let nav = await fetch('/base/logic_games_nav.html');
+      document.querySelector('#nav').innerHTML = await nav.text();
+
+      let footer = await fetch('/base/footer.html');
+      document.querySelector('#footer').innerHTML = await footer.text();
+
+      // Menu animation
+      const hamburger = document.querySelector(".ham");
+      const navsub = document.querySelector(".menu");
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle("change");
+        navsub.classList.toggle("menu-change");
+
+        if (navsub.classList.contains("menu-change")) {
+          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+          window.onscroll = () => window.scrollTo(scrollLeft, scrollTop);
+        } else window.onscroll = {};
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div id="nav"></div>
+
+  <main>
+    <div class="puzzles">
+      <div class="container">
+        <div class="box">
+          <a class="box__link" href="/apl/logic_games/tree.html">Tree</a>
+          <img class="box__img" src="/img/logic_games/tree.png" alt="">
+        </div>
+
+        <div class="box">
+          <a class="box__link" href="/apl/logic_games/electric_charges.html">Electric charges</a>
+          <img class="box__img" src="/img/logic_games/electric_charges.png" alt="">
+        </div>
+
+        <div class="box">
+          <a class="box__link" href="/apl/logic_games/save_the_cow.html">Save the cow</a>
+          <img class="box__img" src="/img/logic_games/save_the_cow.png" alt="">
+        </div>
+
+        <div class="box">
+          <a class="box__link" href="/apl/logic_games/hitori.html">Hitori</a>
+          <img class="box__img" src="/img/logic_games/hitori.png" alt="">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+</body>
+
+</html>

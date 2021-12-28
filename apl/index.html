@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Master Quiz - Dyalog APL</title>
+
+  <link rel="stylesheet" href="/css/apl/index.css">
+
+  <script>
+    (async () => {
+      let header = await fetch('/base/header.html');
+      document.querySelector('#header').innerHTML = await header.text();
+
+      let nav = await fetch('/base/logic_games_nav.html');
+      document.querySelector('#nav').innerHTML = await nav.text();
+
+      let footer = await fetch('/base/footer.html');
+      document.querySelector('#footer').innerHTML = await footer.text();
+
+      // Menu animation
+      const hamburger = document.querySelector(".ham");
+      const navsub = document.querySelector(".menu");
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle("change");
+        navsub.classList.toggle("menu-change");
+
+        if (navsub.classList.contains("menu-change")) {
+          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+          window.onscroll = () => window.scrollTo(scrollLeft, scrollTop);
+        } else window.onscroll = {};
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div id="nav"></div>
+
+  <main>
+    <h1>This is Dyalog APL section!</h1>
+  </main>
+
+  <div id="footer"></div>
+</body>
+
+</html>

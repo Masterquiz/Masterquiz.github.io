@@ -1,0 +1,55 @@
+.title {
+  margin-block: 1em;
+  text-align: center;
+}
+
+.puzzles {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 12.5em;
+  aspect-ratio: 0.7;
+  padding-inline: 1.5625em;
+  border-radius: 0.875em;
+  box-shadow: 0 0 2em rgba(0, 0, 0, .3);
+  margin: 0.1875em;
+}
+
+.box__link {
+  text-decoration: none;
+  color: var(--clr-neutral-1000);
+}
+
+.box__img {
+  width: 12.5em;
+  aspect-ratio: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 2em;
+  }
+
+  .container+* {
+    margin-top: 2em;
+  }
+}
+
+
+/* TODO: Media for tablets */
