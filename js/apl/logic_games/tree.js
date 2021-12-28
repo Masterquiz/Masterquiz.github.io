@@ -25,9 +25,6 @@ async function trySolve() {
     session_style(3);
     document.querySelector(".tryLabel").innerText = "Solve";
     makeTryTable('number', matrix);
-  } else { // ?Useful
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
   }
 }
 
@@ -36,14 +33,12 @@ async function solve() {
 
   let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
   if (solution.length) {
+    debugger
     let input = solution.map(item =>
       item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
     );
     session_style(2);
     makeOutTable(input);
-  } else { // ?Useful
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
   }
 }
 
@@ -57,9 +52,6 @@ async function create() {
     );
     session_style(1);
     makeInpTable2(input);
-  } else { // ?Usefull
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
   }
 }
 

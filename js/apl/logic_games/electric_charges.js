@@ -1,7 +1,7 @@
 // Game propriety
 const MIN_WIDTH = 4;
 const MAX_WIDTH = 8;
-const DEFAULT_INP_VALUE = 9;
+const DEFAULT_INP_VALUE = '';
 const DEFAULT_OUT_VALUE = 9;
 
 // Request body
@@ -13,12 +13,13 @@ const hash = '{^ZA7QaCulfvh8g4iEUpNI*xqQL|v`7v*`{kY(6Boe91?%u|hxj&Rx}|G6<X0N~7P4
 function getInpMatrix() {
   return Array.from(document.querySelectorAll('.tableInp tr')).map(
     item => Array.from(item.querySelectorAll('.inp')).map(
-      x => ("0" === x.value) ? 0 : +x.value || DEFAULT_INP_VALUE)
+      x => ("0" === x.value) ? 0 : +x.value || 9)
   )
 }
 
 async function trySolve() {
   let matrix = getInpMatrix()
+  debugger;
 
   let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
   if (solution.length) {
