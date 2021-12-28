@@ -11,6 +11,7 @@
   <script src="/js/apl/apl.js"></script>
   <script src="/js/apl/christmas.js" defer></script>
 
+  <script src="/js/hamburger_menu.js" defer></script>
   <script>
     (async () => {
       let header = await fetch('/base/header.html');
@@ -21,21 +22,6 @@
 
       let footer = await fetch('/base/footer.html');
       document.querySelector('#footer').innerHTML = await footer.text();
-
-      // Menu animation
-      const hamburger = document.querySelector(".ham");
-      const navsub = document.querySelector(".menu");
-      hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle("change");
-        navsub.classList.toggle("menu-change");
-
-        if (navsub.classList.contains("menu-change")) {
-          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-          window.onscroll = () => window.scrollTo(scrollLeft, scrollTop);
-        } else window.onscroll = {};
-      });
     })();
   </script>
 </head>
