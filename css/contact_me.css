@@ -117,7 +117,7 @@ textarea:valid {
   background-color: var(--clr-primary-900);
 }
 
-@media screen and (max-width: 880px) {
+@media screen and (max-width: 768px) {
   .contact-box {
     grid-template-columns: 1fr;
   }

@@ -23,7 +23,6 @@ header {
   flex-grow: 1;
   -webkit-box-pack: end;
   display: -webkit-box;
-  padding-right: 2em;
 }
 
 .menu {
@@ -33,7 +32,7 @@ header {
 
 .menu-link {
   display: inline-block;
-  padding-inline: 0.625em;
+  padding-inline: 0.3125em;
   line-height: 2.50em;
   font-family: var(--ff-menu);
   font-size: 1.125rem;
@@ -91,6 +90,10 @@ header {
 
   .menu-change {
     transform: translate(0%);
+  }
+
+  .navbar {
+    padding-right: 1em;
   }
 
   .ham {

@@ -4,26 +4,20 @@ let size = 4714;
 let hash = 'Q8RQB21m8*>KGITSZD%X`NXIS)l_a?O44)Nko<Hn@KQr9ab0uNGW!}yj>rXrzaC0VJ@+34QLaeoHvnP5';
 
 function visualise(picture) {
-  const rows = document.querySelectorAll('p');
-  for (const row in picture) rows[row].innerHTML = picture[row]
+  document.querySelector('.output__text').value = picture.join`\n`;
 }
 
-let btnAnimate = document.querySelector('.btn__animate');
+let btnAnimate = document.querySelector('.input__btn');
 btnAnimate.addEventListener("click",
   async () => {
     btnAnimate.disabled = true;
 
-    var div = document.querySelector('.animation');
-    while (div.firstChild && div.removeChild(div.firstChild));
+    let text = document.querySelector('.input__text').value;
+    var picture = (text.length) ? text.split`\n` : await evaluateAPL(`pic`);
 
-    let text = document.querySelector('.text__animate').value;
-    let picture = (text.length) ? text.split`\n` : await evaluateAPL(`pic`);
-
-    for (const row in picture) {
-      const line = document.createElement('p');
-      line.id = `line${row}`;
-      document.querySelector('.animation').appendChild(line);
-    }
+    document.querySelector('.output__text').classList.remove('hide');
+    document.querySelector('.output__btn').classList.remove('hide');
+    visualise(picture);
 
     // Populate the WS with some variables
     const res = await fetch('https://tryapl.org/Exec', {
@@ -34,7 +28,14 @@ btnAnimate.addEventListener("click",
     const data = await res.json();
     [state, size, hash] = data.slice(0, -1);
 
-    for (let i = 0; i < 100; ++i) {
+    let finish = false;
+
+    document.querySelector('.output__btn').onclick = () => {
+      finish = true;
+      console.log('Finishing');
+    }
+
+    for (let i = 0; i < 100 && !finish; ++i) {
       visualise(picture);
       picture = await evaluateAPL(`next (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
     }

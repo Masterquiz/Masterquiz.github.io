@@ -1,10 +1,9 @@
-main {
-  min-height: 85vh;
+.hide {
+  display: none;
 }
 
 h1 {
-  display: flex;
-  justify-content: center;
+  text-align: center;
   margin-bottom: 1.5em;
 }
 
@@ -15,15 +14,15 @@ h1 {
   gap: 1em;
 }
 
-.input {
+.input,
+.output {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1em;
 }
 
-.btn__animate,
-.btn__animate:disabled {
+.input__btn {
   font-family: 'Montserrat', sans-serif;
   color: var(--clr-neutral-1000);
   width: 10em;
@@ -33,24 +32,31 @@ h1 {
   background: #C8C66C;
 }
 
-.text_animate,
-.animation {
+.input__text,
+.output__text {
   white-space: pre;
   font-family: APL, monospace;
 }
 
-.animation {
-  border: 1px dashed #000;
+.output__btn {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--clr-neutral-000);
+  width: 10em;
+  border-radius: 15px;
+  padding: .7em 1em;
+  font-size: 1em;
+  background: red;
+}
+
+.output__text {
+  resize: none;
+  pointer-events: none;
 }
 
 @media only screen and (min-width: 600px) {
   .section {
     flex-direction: row;
     justify-content: center;
-    gap: 5em;
-  }
-
-  .animation {
-    margin-top: auto;
+    /* gap: 5em; */
   }
 }
