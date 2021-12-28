@@ -35,7 +35,7 @@ main:after {
 }
 
 .left {
-  background: url("https://raw.githubusercontent.com/sefyudem/Contact-Us-Form/master/img/bg.jpg") no-repeat center;
+  background: url('/img/contact_me.jpg') no-repeat center;
   background-size: cover;
   height: 100%;
 }
@@ -83,6 +83,7 @@ h2:after {
 textarea {
   min-height: 9.375em;
   max-width: 45.75em;
+  resize: none;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }

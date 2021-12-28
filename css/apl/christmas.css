@@ -23,7 +23,7 @@ h1 {
 }
 
 .input__btn {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--ff-primary);
   color: var(--clr-neutral-1000);
   width: 10em;
   border-radius: 15px;
@@ -35,11 +35,11 @@ h1 {
 .input__text,
 .output__text {
   white-space: pre;
-  font-family: APL, monospace;
+  font-family: var(--ff-code-APL);
 }
 
 .output__btn {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--ff-primary);
   color: var(--clr-neutral-000);
   width: 10em;
   border-radius: 15px;

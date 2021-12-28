@@ -14,8 +14,9 @@
   --clr-neutral-000: #FFF;
   --clr-neutral-1000: #000;
   --ff-accent: 'Oleo Script', cursive;
-  --ff-menu: 'Montserrat', sans-serif;
-  --ff-primary: 'Roboto', sans-serif;
+  --ff-menu: 'Roboto', sans-serif;
+  --ff-primary: 'Montserrat', sans-serif;
+  --ff-code-APL: 'APL', monospace;
 }
 
 * {
