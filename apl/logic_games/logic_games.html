@@ -15,8 +15,9 @@
 
       let nav = await fetch('/base/logic_games_nav.html');
       document.querySelector('#nav').innerHTML = await nav.text();
-
+      
       let footer = await fetch('/base/footer.html');
+      document.querySelector('#footer').innerHTML = await footer.text();
     })();
   </script>
 </head>
