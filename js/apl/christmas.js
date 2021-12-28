@@ -34,7 +34,7 @@ btnAnimate.addEventListener("click",
     const data = await res.json();
     [state, size, hash] = data.slice(0, -1);
 
-    for (let i = 0; i < 10; ++i) {
+    for (let i = 0; i < 100; ++i) {
       visualise(picture);
       picture = await evaluateAPL(`next (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
     }

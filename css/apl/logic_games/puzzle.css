@@ -215,7 +215,7 @@ input[type=number] {
   background-color: #1B6535;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 600px) {
   .sections {
     display: flex;
     flex-direction: row;
@@ -233,15 +233,3 @@ input[type=number] {
     box-shadow: 0 0 2em rgba(0, 0, 0, .3);
   }
 }
-
-/* @media only screen and (min-width: 768px) {
-  .container {
-    flex-direction: row;
-    justify-content: center;
-    gap: 2em;
-  }
-
-  .container+* {
-    margin-top: 2em;
-  }
-} */
