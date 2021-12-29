@@ -42,9 +42,9 @@ h2::after {
   background-color: var(--clr-primary-900);
 }
 
-.field {
+form input,
+form textarea {
   width: 100%;
-  border: 2px solid rgba(0, 0, 0, 0);
   outline: none;
   color: rgba(0, 0, 0, 0.8);
   border: .2em solid var(--clr-primary-300);
@@ -55,12 +55,14 @@ h2::after {
   transition: .3s;
 }
 
-.field:hover,
-.field:focus {
+form input:hover,
+form input:focus,
+form textarea:hover,
+form textarea:focus {
   background-color: var(--clr-primary-100);
 }
 
-textarea {
+form textarea {
   min-height: 9.375em;
   max-width: 45.75em;
   resize: none;
@@ -68,21 +70,21 @@ textarea {
   -ms-overflow-style: none;
 }
 
-textarea::-webkit-scrollbar {
+form textarea::-webkit-scrollbar {
   display: none;
 }
 
-input:not(:placeholder-shown),
-textarea:not(:placeholder-shown) {
+form input:not(:placeholder-shown),
+form textarea:not(:placeholder-shown) {
   background-color: var(--clr-primary-300);
 }
 
-input:valid,
-textarea:valid {
+form input:valid,
+form textarea:valid {
   background-color: var(--clr-primary-100);
 }
 
-.btn {
+form button {
   width: 100%;
   padding: 0.5rem 1rem;
   background-color: var(--clr-primary-700);
@@ -90,12 +92,43 @@ textarea:valid {
   font-size: 1.1rem;
   border: none;
   outline: none;
-  cursor: pointer;
   transition: .3s;
 }
 
-.btn:focus {
+form button:focus {
   background-color: var(--clr-primary-900);
+}
+
+.file__input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  width: 100%;
+  border: .2em solid var(--clr-primary-300);
+  padding: 1em .5rem;
+  font-size: 1.1rem;
+  margin-bottom: 22px;
+}
+
+.uploadBtn {
+  display: none;
+}
+
+.file__input label span {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: .5em 1em;
+  background: var(--clr-primary-300);
+}
+
+.file__input label span:hover,
+.file__input label span:focus {
+  background-color: var(--clr-primary-100);
+}
+
+.optional {
+  color: grey;
 }
 
 @media screen and (max-width: 768px) {

@@ -6,14 +6,14 @@
   background-color: var(--clr-primary-300);
 }
 
-.pages-link {
+.pages li {
   display: inline-flex;
   padding-inline: 1em;
   line-height: 2em;
   color: var(--clr-primary-900);
 }
 
-.pages-link:hover,
-.pages-link a:focus {
-  background-color: var(--clr-primary-500);
+.pages li:hover,
+.pages li:focus {
+  background-color: var(--clr-primary-100);
 }
