@@ -43,11 +43,12 @@ body {
 
 main {
   flex-grow: 1;
-  padding-top: 2em;
+  margin-block: 3em;
 }
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 ul {

@@ -1,10 +1,13 @@
+main {
+  margin-inline: 1.5em;
+}
+
 .cards {
-  margin: 0 1.5em;
+  margin: 0 auto;
   max-width: 1200px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
   gap: 2em;
-  padding-top: 30px;
 }
 
 .card {
@@ -16,7 +19,6 @@
   overflow: hidden;
   border-radius: 0.875em;
   box-shadow: 0 0 2em rgba(0, 0, 0, .3);
-  color: var(--clr-neutral-1000);
 }
 
 .card__img {

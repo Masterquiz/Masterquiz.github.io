@@ -78,11 +78,10 @@ input[type=number] {
   border-radius: 0 5px 5px 0;
 }
 
+/* !Responsive width */
 .tableInp {
   display: flex;
   justify-content: center;
-  /* !Prevent wrap or calc .inp width */
-  /* TODO: Use gap */
 }
 
 .inp,
