@@ -57,6 +57,5 @@ h1 {
   .section {
     flex-direction: row;
     justify-content: center;
-    /* gap: 5em; */
   }
 }

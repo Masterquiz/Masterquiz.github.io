@@ -22,6 +22,7 @@ header {
   flex-grow: 1;
   -webkit-box-pack: end;
   display: -webkit-box;
+  padding-right: 1em;
 }
 
 .menu {

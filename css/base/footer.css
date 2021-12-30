@@ -19,14 +19,23 @@
 .quick-items a {
   padding: 0 15px;
   font-size: 20px;
-  color: var(--clr-primary-700);
+  color: var(--clr-primary-900);
   transition: all .25s;
 }
 
-.quick-items a:hover,
-.quick-items a:focus {
-  color: var(--clr-primary-900);
-  font-weight: bold;
+.quick-items::after {
+  content: '';
+  width: 0;
+  height: 0.125em;
+  background-color: var(--clr-primary-900);
+  display: block;
+  margin: auto;
+  transition: .5s;
+}
+
+.quick-items:hover::after,
+.quick-items:focus::after {
+  width: 60%;
 }
 
 .outer-footer {
