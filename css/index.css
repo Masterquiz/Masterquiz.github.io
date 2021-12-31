@@ -1,0 +1,90 @@
+/* main */
+main>* {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding-top: 3em;
+}
+
+/* Animation */
+.name-animation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 88vh;
+  background: var(--clr-primary-000);
+}
+
+.name-animation h1 {
+  font-family: var(--ff-accent);
+  position: relative;
+  font-size: 25vw;
+  color: var(--clr-primary-000);
+}
+
+.name-animation h1::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  animation-timing-function: ease-in-out;
+  animation-direction: forwards;
+}
+
+.name-animation h1:first-child::before {
+  color: var(--clr-primary-900);
+  border-right: 0px solid var(--clr-primary-900);
+  animation: start 6s 1s forwards,
+    finish 1s 12s forwards;
+}
+
+.name-animation h1:last-child::before {
+  color: var(--clr-primary-500);
+  border-right: 0px solid var(--clr-primary-500);
+  animation: start 6s 5s forwards,
+    finish 1s 12s forwards;
+}
+
+@keyframes start {
+  100% {
+    width: 102%;
+  }
+
+  0%, 100% {
+    border-right-width: 3px;
+  }
+}
+
+@keyframes finish {
+  100% {
+    width: 0;
+    color: var(--clr-primary-000);
+    border-color: var(--clr-primary-000);
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .name-animation h1 {
+    font-size: 14vw;
+  }
+
+  .name-animation h1:first-child {
+    transform: translateX(-50%);
+  }
+
+  .name-animation h1:last-child {
+    transform: translateX(50%);
+  }
+
+  .name-animation h1:first-child::before {
+    animation-timing-function: ease-in;
+  }
+  
+  .name-animation h1:last-child::before {
+    animation-timing-function: ease-out;
+  }
+}

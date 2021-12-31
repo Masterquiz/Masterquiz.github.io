@@ -1,6 +1,6 @@
 // Game propriety
 const MIN_WIDTH = 5;
-const MAX_WIDTH = 10;
+const MAX_WIDTH = 8;
 const DEFAULT_INP_VALUE = 1;
 const DEFAULT_OUT_VALUE = 0;
 
@@ -9,64 +9,78 @@ const state = 'c-pm@349Y(9>?FLS6T?I&;lAZohFpCDz*qE0;UD5gbG5SBS%Z7=`<}(JLyc)(t@ZQ
 const size = 7986;
 const hash = '*Z0rXuwzRg)sQAY?=tI6q$kr2N5-a{hLF>WD^vLLRSK1EOEajar{nE3$T!y-8_-=vu@@ZKb-`2jIUxkR';
 
-function getInpMatrix() {
-  return Array.from(document.querySelectorAll('.tableInp tr')).map(
-    item => Array.from(item.querySelectorAll('.inp')).map(
+function getInputMatrix() {
+  return Array.from(document.querySelectorAll('.input__table tr')).map(
+    item => Array.from(item.querySelectorAll('input')).map(
       x => +x.value || DEFAULT_INP_VALUE
     )
   )
 }
 
-async function trySolve() {
-  let matrix = getInpMatrix();
+document.querySelector('.btns__solve').addEventListener('click', async () => {
+  let input = getInputMatrix();
 
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
+  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`);
   if (solution.length) {
-    session_style(3);
-    document.querySelector(".tryLabel").innerText = "Solve";
-    makeTryTable('number', matrix);
-  }
-}
-
-async function solve() {
-  let matrix = getInpMatrix();
-
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
-  if (solution.length) {
-    debugger
     let input = solution.map(item =>
       item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
     );
     session_style(2);
-    makeOutTable(input);
+    makeOutputTable(input);
   }
-}
+});
 
-async function create() {
+document.querySelector('.btns__create').addEventListener('click', async () => {
   // !Check if there's only one possible solution
   // *Add an alert if there are changes in tableInp & tableTry
-  let result = await evaluateAPL(`creator ${document.querySelector('.dimInput').value || MIN_WIDTH}`);
+  let result = await evaluateAPL(`creator ${document.querySelector('.dimension__value').value || MIN_WIDTH}`);
   if (result.length) {
-    let input = result.map(item =>
-      item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
-    );
     session_style(1);
-    makeInpTable2(input);
+    makeInputTable2(result.map(item =>
+      item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
+    ));
   }
-}
+});
 
-async function verify() {
-  let matrix = getInpMatrix();
+document.querySelector('.btns__try').addEventListener('click', async () => {
+  let input = getInputMatrix();
+  let try_label = document.querySelector('.try__label');
 
-  let try_matrix = Array.from(document.querySelectorAll('.tableTry tr'))
+  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`);
+  if (solution.length) {
+    session_style(3);
+    try_label.innerText = 'Solve';
+    try_label.style.color = '#4169e1';
+    makeTryTable(input);
+  }
+});
+
+document.querySelector('.btns__verify').addEventListener('click', async () => {
+  let input = getInputMatrix();
+
+  let try_matrix = Array.from(document.querySelectorAll('.try__table tr'))
     .map(item =>
-      Array.from(item.querySelectorAll('.try'))
+      Array.from(item.querySelectorAll('.try__table input'))
         .map(x => +x.value || DEFAULT_OUT_VALUE)
     )
 
-  let result = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
+  let result = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`);
   let solution = result.map(item => item.split` `.map(x => +x))
 
-  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) document.querySelector(".tryLabel").innerText = "Correct!";
-  else document.querySelector(".tryLabel").innerText = "Wrong!";
-}
+  let try_label = document.querySelector('.try__label');
+
+  if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {
+    try_label.innerText = 'Correct!';
+    try_label.style.color = '#008000';
+  } else {
+    try_label.innerText = 'Wrong!';
+    try_label.style.color = '#e62020';
+  }
+
+  document.querySelectorAll('.try__table input').forEach((e) => {
+    e.addEventListener('click', () => {
+      try_label.innerText = 'Try again!';
+      try_label.style.color = '#4169e1';
+    })
+  })
+});

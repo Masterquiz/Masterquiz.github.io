@@ -10,77 +10,131 @@ const state = 'c-p;~2V7G}9LMiH1O*YOg3`u@L_h>_0SZRZs3?kYff5I30%%l}M;KwaDvsLisCLj=
 const size = 5282;
 const hash = '{^ZA7QaCulfvh8g4iEUpNI*xqQL|v`7v*`{kY(6Boe91?%u|hxj&Rx}|G6<X0N~7P49Y6_8R>bI49r$h';
 
-function getInpMatrix() {
-  return Array.from(document.querySelectorAll('.tableInp tr')).map(
-    item => Array.from(item.querySelectorAll('.inp')).map(
+function getInputMatrix() {
+  return Array.from(document.querySelectorAll('.input__table tr')).map(
+    item => Array.from(item.querySelectorAll('input')).map(
       x => ("0" === x.value) ? 0 : +x.value || 9)
   )
 }
 
-async function trySolve() {
-  let matrix = getInpMatrix()
-  debugger;
+document.querySelector('.btns__solve').addEventListener('click', async () => {
+  let input = getInputMatrix();
+  debugger
 
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
+  let solution = await evaluateAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`);
   if (solution.length) {
-    session_style(3);
-    document.querySelector(".tryLabel").innerText = "Solve";
-    makeTryTable('number', matrix);
-  } else { // ?Useful
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
-  }
-}
-
-async function solve() {
-  // Take input
-  var matrix = getInpMatrix();
-
-  let solution = await evaluateAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
-  if (solution.length) {
-    let input = solution.map(item => item.split``)
-    for (i in input) {
-      for (j in input[i]) {
-        if (' ' === input[i][j]) input[i][j] = matrix[i][j];
+    let matrix = solution.map(item => item.split``)
+    for (i in matrix) {
+      for (j in matrix[i]) {
+        if (' ' === matrix[i][j]) matrix[i][j] = input[i][j];
       }
     }
     session_style(2);
-    makeOutTable(input);
-  } else { // ?Useful
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
+    makeOutputTable(matrix);
   }
-}
+});
 
-async function create() {
-  alert("You can't create this puzzle");
-  // let result = await evaluateAPL(`creator ${document.querySelector('.dimInput').value || MIN_WIDTH}`);
-  // if (result.length) {
-  //   let input = result.map(item =>
-  //     item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
-  //   );
-  //   session_style(1);
-  //   makeInpTable2(input);
-  // } else { // ?Usefull
-  //   session_style(1);
-  //   alert("This puzzle hasn't got an answer...");
-  // }
-}
+document.querySelector('.btns__create').addEventListener('click', async () => {
+  // alert("I can't create this puzzle yet, but you can try to solve this");
+  session_style(1);
+  let matrix = [[3, '', -1, ''], ['', '', '', ''], [0, '', '', 0], [-2, '', 0, '']]
+  let input_table = document.querySelector('.input__table');
+  input_table.innerHTML = '';
 
-async function verify() {
-  let matrix = getInpMatrix();
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+  input_table.appendChild(table);
 
+  const width = matrix[0].length;
+  for (i = 0; i < width; ++i) {
+    let row = document.createElement('tr');
+    for (j = 0; j < width; ++j) {
+      let input = document.createElement('input');
+      input.type = 'number';
+      input.value = matrix[i][j];
+      row.appendChild(input);
+    }
+    tbody.appendChild(row);
+  };
+});
+
+document.querySelector('.btns__try').addEventListener('click', async () => {
+  let matrix = getInputMatrix();
+
+  let solution = (await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`))
+    .map(item => item
+      .split` `
+      .filter(x => x !== "")
+      .map(x => +x.replace('¯', '-'))
+    )
+
+  if (solution.length) {
+    session_style(3);
+    matrix.map(x => +x)
+    let try_label = document.querySelector('.try__label');
+    try_label.innerText = 'Solve';
+    try_label.style.color = '#4169e1';
+    // !makeTryTable(matrix)
+
+    let try_table = document.querySelector('.try__table');
+    try_table.innerHTML = '';
+
+    const table = document.createElement('table');
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    try_table.appendChild(table);
+
+    const width = solution[0].length;
+    for (i = 0; i < width; ++i) {
+      let row = document.createElement('tr');
+      for (j = 0; j < width; ++j) {
+        let input = document.createElement('input');
+        input.type = 'number';
+        if (matrix[i][j] !== 9) {
+          input.placeholder = matrix[i][j];
+          input.readOnly = 'true';
+        } else input.onclick = 'this.select()';
+        if (1) input.style.userSelect = 'none';
+        row.appendChild(input);
+      }
+      tbody.appendChild(row);
+    }
+  }
+});
+
+document.querySelector('.btns__verify').addEventListener('click', async () => {
   // TODO: Make cells not equal to 9, unselectable
   // TODO: User can input +-
-  let try_matrix = Array.from(document.querySelectorAll('.tableTry tr')).map(
-    item => Array.from(item.querySelectorAll('.try')).map(
-      x => ("0" === x.value) ? 0 : +x.value || DEFAULT_OUT_VALUE)
-  )
 
-  // !Non funziona
-  let result = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
-  let solution = result.map(item => item.split` `.map(x => +x))
+  let matrix = getInputMatrix();
 
-  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) document.querySelector(".tryLabel").innerText = "Correct!";
-  else document.querySelector(".tryLabel").innerText = "Wrong!";
-}
+  let try_matrix = Array.from(document.querySelectorAll('.try__table tr')).map(
+    item => Array.from(item.querySelectorAll('.try__table input')).map(
+      x => ("0" === x.value) ? 0 : +x.value || 0
+    ))
+
+  let solution = (await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`))
+    .map(item => item
+      .split` `
+      .filter(x => x !== "")
+      .map(x => +x.replace('¯', '-'))
+    )
+
+  let try_label = document.querySelector('.try__label');
+
+  if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {
+    try_label.innerText = 'Correct!';
+    try_label.style.color = '#008000';
+  } else {
+    try_label.innerText = 'Wrong!';
+    try_label.style.color = '#e62020';
+  }
+
+  document.querySelectorAll('.try__table input').forEach((e) => {
+    e.addEventListener('click', () => {
+      try_label.innerText = 'Try again!';
+      try_label.style.color = '#4169e1';
+    })
+  })
+});

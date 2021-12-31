@@ -7,18 +7,11 @@
 
   <link rel="stylesheet" href="/css/apl/logic_games/logic_games.css">
 
-  <script src="/js/hamburger_menu.js" defer></script>
-  <script src="/js/hamburger_menu.js"></script>
+  <script src="/js/load_header_footer.js"></script>
   <script>
     (async () => {
-      let header = await fetch('/base/header.html');
-      document.querySelector('#header').innerHTML = await header.text();
-
       let nav = await fetch('/base/logic_games_nav.html');
       document.querySelector('#nav').innerHTML = await nav.text();
-      
-      let footer = await fetch('/base/footer.html');
-      document.querySelector('#footer').innerHTML = await footer.text();
     })();
   </script>
 </head>
@@ -40,7 +33,8 @@
           <img class="card__img" src="/img/logic_games/electric_charges.png" alt="">
         </a>
 
-        <a class="card" href="/apl/logic_games/save_the_cow.html">
+        <!-- Work in progress!
+          <a class="card" href="/apl/logic_games/save_the_cow.html">
           <h2>Save the cow</h2>
           <img class="card__img" src="/img/logic_games/save_the_cow.png" alt="">
         </a>
@@ -48,7 +42,7 @@
         <a class="card" href="/apl/logic_games/hitori.html">
           <h2>Hitori</h2>
           <img class="card__img" src="/img/logic_games/hitori.png" alt="">
-        </a>
+        </a> -->
     </div>
   </main>
 

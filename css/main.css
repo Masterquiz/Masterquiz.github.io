@@ -11,11 +11,9 @@
   /* Outrageous Orange - (255, 106, 71) */
   --clr-primary-900: #FF3C38;
   /* Tart Orange - (255, 60, 56)*/
-  --clr-neutral-000: #FFF;
-  --clr-neutral-1000: #000;
+
   --ff-accent: 'Oleo Script', cursive;
-  --ff-menu: 'Roboto', sans-serif;
-  --ff-primary: 'Montserrat', sans-serif;
+  --ff-primary: system-ui, sans-serif;
   --ff-code-APL: 'APL', monospace;
 }
 
@@ -39,17 +37,35 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  font-family: var(--ff-primary);
 }
 
 main {
   flex-grow: 1;
-  margin: 2em 1em;
+  padding: 2em 1em;
 }
 
 @media only screen and (min-width: 600px) {
   main {
-    margin: 3em 2em;
+    padding: 3em 2em;
   }
+}
+
+h1 {
+  font-weight: 800;
+  font-size: calc(1.15rem + 1.9vw);
+}
+
+h2 {
+  font-family: var(--ff-heading);
+  font-size: calc(1.1rem + 1.2vw);
+}
+
+p,
+a,
+li {
+  font-weight: 400;
+  font-size: calc(1.02rem + .24vw);
 }
 
 ul {
@@ -64,4 +80,15 @@ a {
 
 button {
   cursor: pointer;
+}
+
+.hide {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
 }

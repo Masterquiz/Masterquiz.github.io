@@ -6,22 +6,15 @@
   <title>Master Quiz - Christmas animation</title>
 
   <link rel="stylesheet" href="/css/apl/christmas.css">
-  <link rel="stylesheet" href="https://use.typekit.net/rnz2bks.css">
 
   <script src="/js/apl/apl.js"></script>
   <script src="/js/apl/christmas.js" defer></script>
 
-  <script src="/js/hamburger_menu.js"></script>
+  <script src="/js/load_header_footer.js"></script>
   <script>
     (async () => {
-      let header = await fetch('/base/header.html');
-      document.querySelector('#header').innerHTML = await header.text();
-
       let nav = await fetch('/base/logic_games_nav.html');
       document.querySelector('#nav').innerHTML = await nav.text();
-
-      let footer = await fetch('/base/footer.html');
-      document.querySelector('#footer').innerHTML = await footer.text();
     })();
   </script>
 </head>
@@ -32,11 +25,15 @@
   <section id="nav"></section>
 
   <main>
-    <h1>There will be a Christmas animation!</h1>
+    <div class="intro">
+      <h1>A Christmas animation!</h1>
+      <p>Enter an image made with characters, or just press animate!</p>
+      <p>But remember to don't use the snow symbol: '*'</p>
+    </div>
     <div class="section">
       <div class="input">
         <button class="input__btn">Animate</button>
-        <textarea class="input__text" cols="30" rows="18" placeholder="&#10; Enter an image made&#10; with characters,&#10; or just press animate!"></textarea>
+        <textarea class="input__text" cols="30" rows="18"></textarea>
       </div>
       <div class="output">
         <button class="output__btn hide">Finish</button>

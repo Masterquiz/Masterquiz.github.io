@@ -1,5 +1,7 @@
 .inner-footer {
   background-color: var(--clr-primary-300);
+  position: relative;
+  z-index: 99;
 }
 
 .quick-links {
@@ -20,7 +22,6 @@
   padding: 0 15px;
   font-size: 20px;
   color: var(--clr-primary-900);
-  transition: all .25s;
 }
 
 .quick-items::after {
@@ -43,6 +44,8 @@
   text-align: center;
   color: var(--clr-primary-700);
   background-color: var(--clr-primary-100);
+  position: relative;
+  z-index: 99;
 }
 
 @media only screen and (min-width: 600px) {

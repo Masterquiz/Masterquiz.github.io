@@ -6,27 +6,125 @@
   <title>Master Quiz</title>
 
   <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/dyalog-apl.css">
+  <link rel="stylesheet" href="/css/contact_me.css">
 
-  <script src="/js/hamburger_menu.js"></script>
-  <script>
-    (async () => {
-      let header = await fetch('/base/header.html');
-      document.querySelector('#header').innerHTML = await header.text();
-
-      let footer = await fetch('/base/footer.html');
-      document.querySelector('#footer').innerHTML = await footer.text();
-    })();
+  <script src="/js/load_header_footer.js"></script>
+  <script defer>
+    // Reset animation
+    setInterval(() => {
+      let leftName = document.querySelector('.name-animation h1:first-child');
+      let rightName = document.querySelector('.name-animation h1:last-child');
+      leftName.parentNode.replaceChild(leftName, leftName);
+      rightName.parentNode.replaceChild(rightName, rightName);
+    }, 13000);
   </script>
 </head>
 
 <body>
   <section id="header"></section>
 
+  <section class="name-animation">
+    <h1 data-text="Master">Master</h1>
+    <h1 data-text="Quiz...">Quiz...</h1>
+  </section>
+
   <main>
-    <h1>This is the index page!</h1>
+    <section id="dyalog-apl">
+      <h1>Dyalog APL</h1>
+      <section class="text-block">
+        <h2>What is APL?</h2>
+        <div class="center-quote">
+          <blockquote>
+            <p>APL is an <u>array-oriented</u> programming language.</p>
+            <p>
+              Its natural, concise syntax lets you develop <u>shorter programs</u> while <u>thinking more</u>
+              about the problem you're trying to solve than how to express it to a computer.
+            </p>
+          </blockquote>
+        </div>
+        <a href="https://aplwiki.com" target="_">~APL wiki</a>
+      </section>
+      <section class="text-block">
+        <h2>What can you find in this section?</h2>
+        <p>I've posted and I'll post some of my projects written in APL.</p>
+        <p>Soon you'll find also a blog section, where I'll show and explain the functions that I've created. Stay tuned!</p>
+
+        <div class="cards">
+          <a class="card" href="/apl/logic_games/logic_games.html">
+            <h2>Logic game solvers</h2>
+            <p>In this section you'll find logic game solvers of several ones</p>
+            <ol>
+              <li>Tree</li>
+              <li>Electric charges</li>
+            </ol>
+            <p>Try them!</p>
+          </a>
+
+          <a class="card" href="/apl/christmas.html">
+            <h2>Animations</h2>
+            <p>Have you ever wanted to animate an image made with characters?</p>
+            <p>Now you can, add a <u>Christmas animation</u> to whatever you want!</p>
+          </a>
+        </div>
+      </section>
+    </section>
+
+    <section id="contact-me">
+      <div class="contact-box">
+        <section>
+          <h2>Contact Me</h2>
+          <p>Noticed a <u>bug</u>,</p>
+          <p>or have anything to <u>suggest</u>?</p>
+          <p>Please, <u>let me know</u> with an email.</p>
+        </section>
+        <form action="https://formsubmit.co/67f2dabb477f56ac1c41d324c50c6677" method="POST">
+          <input name="name" placeholder="Your Name" maxlength="32" pattern="\S+.*" required>
+          <input type="email" name="email" placeholder="Your email adress" maxlength="32" pattern="\S+.*" required>
+          <textarea id="message" name="message" spellcheck="false" placeholder="Your message" maxlength="1024"
+            pattern="\S+.*" required></textarea>
+          <section class="file__input">
+            <label>
+              <input class="uploadBtn" type="file" name="attachment" accept="image/png, image/jpeg">
+              <span>Upload a file</span>
+            </label>
+            <p class="optional">Optional</p>
+            <p class="file__name"></p>
+          </section>
+          <input type="hidden" name="_next" value="https://masterquiz.github.io/">
+          <input type="hidden" name="_subject" value="New submission!">
+          <input type="text" name="_honey" style="display:none">
+          <input type="hidden" name="_autoresponse"
+            value="Thank you for contacting me.&#10;I will reply as soon as possible!">
+          <input type="hidden" name="_template" value="table">
+          <button type="submit">Submit Form</button>
+        </form>
+      </div>
+    </section>
   </main>
 
   <section id="footer"></section>
+
+  <script>
+    // Check validity of textarea
+    ['input', 'change', 'propertychange'].forEach((event) => {
+      document.getElementById('message').addEventListener(event, () => {
+        let textarea = document.getElementById('message');
+        let pattern = textarea.getAttribute('pattern');
+
+        let patternRegex = new RegExp("^" + pattern.replace(/^\^|\$$/g, '') + "$", "g");
+
+        if (textarea.value.match(patternRegex)) textarea.style.backgroundColor = '#FFF275';
+        else textarea.style.backgroundColor = '#FFC566';
+      });
+    });
+
+    // Display file path, when uploaded
+    document.querySelector('.uploadBtn').onchange = () => {
+      document.querySelector('.optional').style.display = 'none';
+      document.querySelector('.file__name').innerText = `Uploaded: "${document.querySelector('.uploadBtn').value}"`;
+    };
+  </script>
 </body>
 
 </html>

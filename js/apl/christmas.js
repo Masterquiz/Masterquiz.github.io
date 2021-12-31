@@ -8,13 +8,23 @@ function visualise(picture) {
 }
 
 let btnAnimate = document.querySelector('.input__btn');
+
 btnAnimate.addEventListener("click",
   async () => {
     btnAnimate.disabled = true;
+    
+    let inputSection = document.querySelector('.input__text');
 
-    let text = document.querySelector('.input__text').value;
-    var picture = (text.length) ? text.split`\n` : await evaluateAPL(`pic`);
+    let text = inputSection.value;
 
+    if (text.length) var picture = text.split`\n`;
+    else {
+      var picture = await evaluateAPL(`pic`);
+      inputSection.value = picture.join`\n`;
+    }
+
+    if (text.indexOf('*') !== -1) alert("I've said to don't use the snow symbol...")
+    else {
     document.querySelector('.output__text').classList.remove('hide');
     document.querySelector('.output__btn').classList.remove('hide');
     visualise(picture);
@@ -44,6 +54,13 @@ btnAnimate.addEventListener("click",
       visualise(picture);
       picture = await evaluateAPL(`finish (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
     }
+  }
 
     btnAnimate.disabled = false;
+    setTimeout(() => {
+      document.querySelector('.output__text').classList.add('hide');
+      document.querySelector('.output__btn').classList.add('hide');
+    }, 2000);
   });
+
+  
