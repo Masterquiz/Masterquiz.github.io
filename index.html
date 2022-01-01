@@ -47,12 +47,12 @@
       </section>
       <section class="text-block">
         <h2>What can you find in this section?</h2>
-        <p>I've posted and I'll post some of my projects written in APL.</p>
-        <p>Soon you'll find also a blog section, where I'll show and explain the functions that I've created. I'm currently working also to improve the user experience with logic games. Stay tuned!</p>
+        <p class="text-block__center">I've posted and I'll post some of my projects written in APL.</p>
+        <p class="text-block__center">Soon you'll find also a blog section, where I'll show and explain the functions that I've created. I'm currently working also to improve the user experience with logic games. Stay tuned!</p>
 
         <div class="cards">
           <a class="card" href="/apl/logic_games/logic_games.html">
-            <h2>Logic game solvers</h2>
+            <h2>Logic game</h2>
             <p>In this section you'll find logic game solvers of several ones</p>
             <ol>
               <li>Tree</li>
@@ -83,7 +83,7 @@
           <input name="name" placeholder="Your Name" maxlength="32" pattern="\S+.*" required>
           <input type="email" name="email" placeholder="Your email adress" maxlength="32" pattern="\S+.*" required>
           <textarea id="message" name="message" spellcheck="false" placeholder="Your message" maxlength="1024"
-            pattern="\S+.*" required></textarea>
+            pattern="[\S\s]" required></textarea>
           <section class="file__input">
             <label>
               <input class="uploadBtn" type="file" name="attachment" accept="image/png, image/jpeg">

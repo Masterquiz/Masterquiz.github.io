@@ -54,7 +54,7 @@
   bottom: -6.5rem;
 }
 
-.text-block + .text-block p {
+.text-block__center {
   max-width: 90%;
   margin: auto;
 }
@@ -99,6 +99,7 @@
 .card h2 {
   color: var(--clr-primary-700);
   text-decoration: underline;
+  margin-inline: auto;
 }
 
 .card ol {

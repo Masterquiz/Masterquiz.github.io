@@ -1,1 +1,0 @@
-# masterquiz.qithub.io
