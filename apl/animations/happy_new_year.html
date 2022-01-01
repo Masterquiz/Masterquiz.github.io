@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Quiz - Christmas animation</title>
+
+  <link rel="stylesheet" href="/css/apl/animations/happy_new_year.css">
+
+  <script src="/js/apl/apl.js"></script>
+  <script src="/js/apl/animations/happy_new_year.js" defer></script>
+
+  <script src="/js/load_header_footer.js"></script>
+  <script>
+    (async () => {
+      let nav = await fetch('/base/logic_games_nav.html');
+      document.querySelector('#nav').innerHTML = await nav.text();
+    })();
+  </script>
+</head>
+
+<body>
+  <section id="header"></section>
+
+  <section id="nav"></section>
+
+  <main>
+    <div class="intro">
+      <h1>Happy new Year!</h1>
+      <p>Enjoy the following animation!</p>
+    </div>
+    <div class="input">
+      <button class="input__btn">Start</button>
+      <textarea class="input__text" cols="27" rows="6"></textarea>
+    </div>
+  </main>
+
+  <section id="footer"></section>
+</body>
+
+</html>
