@@ -72,6 +72,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
   if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {
     try_label.innerText = 'Correct!';
     try_label.style.color = '#008000';
+    document.querySelectorAll('.try__table input').forEach(elem => elem.readOnly = 'true');
   } else {
     try_label.innerText = 'Wrong!';
     try_label.style.color = '#e62020';

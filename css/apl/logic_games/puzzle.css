@@ -39,18 +39,6 @@ input[type=number] {
   margin-bottom: 2em;
 }
 
-/* .input,
-.output,
-.try {
-  width: 80%;
-  max-height: 100%;
-  padding: 2em 1.5625em;
-  border-radius: 0.875em;
-  box-shadow: 0 0 2em rgba(0, 0, 0, .3);
-  min-width: fit-content;
-  min-height: fit-content;
-} */
-
 /* Input section */
 .contact-box form input {
   width: 100%;
@@ -166,9 +154,10 @@ input[type=number] {
 
 .output__label,
 .try__label {
-  line-height: 3.375em;
+  line-height: 2.25;
   font-weight: bold;
   color: #4169e1;
+  font-size: 1.5em;
 }
 
 .btns__verify {
@@ -180,6 +169,4 @@ input[type=number] {
   background-color: #4169e1;
 }
 
-@media only screen and (min-width: 600px) {
-  
-}
+@media only screen and (min-width: 600px) {}

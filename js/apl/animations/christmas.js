@@ -3,6 +3,7 @@ let state = 'c-qaE2UrwG6oBVWIZ9N}pps}1q=;CsiwcMpMZ|)777(ykP{4{UwrHv)nqrDwlbD!dG~
 let size = 4714;
 let hash = 'Q8RQB21m8*>KGITSZD%X`NXIS)l_a?O44)Nko<Hn@KQr9ab0uNGW!}yj>rXrzaC0VJ@+34QLaeoHvnP5';
 
+// pic ← ↑'                               ' '              ⍟                ' '             / \               ' '            /   \              ' '            /   \              ' '           /     \             ' '          <       >            ' '         <         >           ' '        <___     ___>          ' '         <         >           ' '        <           >          ' '       <___       ___>         ' '        <           >          ' '       <             >         ' '      <_______________>        ' '             │ │               ' '             └─┘               ' 
 function visualise(picture) {
   document.querySelector('.output__text').value = picture.join`\n`;
 }
@@ -37,9 +38,8 @@ btnAnimate.addEventListener("click",
     })
     const data = await res.json();
     [state, size, hash] = data.slice(0, -1);
-debugger
-    let finish = false;
 
+    let finish = false;
     document.querySelector('.output__btn').onclick = () => finish = true;
 
     for (let i = 0; i < 100 && !finish; ++i) {

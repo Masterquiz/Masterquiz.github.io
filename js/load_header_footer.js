@@ -14,6 +14,10 @@
     menu.classList.toggle("menu-change");
   })
 
+  // Load footer
+  let footer = await fetch('/base/footer.html');
+  document.querySelector('#footer').innerHTML = await footer.text();
+
   // Smooth scroll
   document.querySelectorAll("a[href^='/#']").forEach((e) => {
     e.addEventListener('click', (e) => {
@@ -31,8 +35,4 @@
       }
     })
   });
-
-  // Load footer
-  let footer = await fetch('/base/footer.html');
-  document.querySelector('#footer').innerHTML = await footer.text();
 })();

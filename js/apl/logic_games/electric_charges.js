@@ -19,23 +19,28 @@ function getInputMatrix() {
 
 document.querySelector('.btns__solve').addEventListener('click', async () => {
   let input = getInputMatrix();
-  debugger
 
-  let solution = await evaluateAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`);
+  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`);
   if (solution.length) {
-    let matrix = solution.map(item => item.split``)
+    let matrix = solution.map(item => item
+      .split` `
+      .filter(x => x !== "")
+      .map(x => x.replace('¯', '-'))
+    )
+
     for (i in matrix) {
       for (j in matrix[i]) {
-        if (' ' === matrix[i][j]) matrix[i][j] = input[i][j];
+        if (matrix[i][j] === "0") matrix[i][j] = input[i][j];
       }
     }
+
     session_style(2);
     makeOutputTable(matrix);
   }
 });
 
 document.querySelector('.btns__create').addEventListener('click', async () => {
-  // alert("I can't create this puzzle yet, but you can try to solve this");
+  alert("I can't create this puzzle yet, but you can try to solve this");
   session_style(1);
   let matrix = [[3, '', -1, ''], ['', '', '', ''], [0, '', '', 0], [-2, '', 0, '']]
   let input_table = document.querySelector('.input__table');
@@ -126,6 +131,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
   if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {
     try_label.innerText = 'Correct!';
     try_label.style.color = '#008000';
+    document.querySelectorAll('.try__table input').forEach(elem => elem.readOnly = 'true');
   } else {
     try_label.innerText = 'Wrong!';
     try_label.style.color = '#e62020';

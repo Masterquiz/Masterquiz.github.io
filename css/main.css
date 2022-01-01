@@ -1,3 +1,15 @@
+@font-face {
+	font-display: swap;
+	font-family: 'DejaVu Sans Mono';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('DejaVu Sans Mono'),
+		url(/css/font/DejaVuSansMono.woff2) format('woff2'),
+		url(/css/font/DejaVuSansMono.woff) format('woff');
+}
+
+
 :root {
   --clr-primary-000: #FFCFCE;
   /* Baby Pink - (255, 207, 206) */
@@ -14,7 +26,8 @@
 
   --ff-accent: 'Oleo Script', cursive;
   --ff-primary: system-ui, sans-serif;
-  --ff-code-APL: 'APL', monospace;
+  --ff-code-APL: 'DejaVu Sans Mono', monospace;
+  /* --ff-code-APL: 'APL', monospace; */
 }
 
 * {

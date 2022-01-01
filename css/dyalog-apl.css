@@ -54,6 +54,11 @@
   bottom: -6.5rem;
 }
 
+.text-block + .text-block p {
+  max-width: 90%;
+  margin: auto;
+}
+
 .text-block u {
   color: var(--clr-primary-900);
 }

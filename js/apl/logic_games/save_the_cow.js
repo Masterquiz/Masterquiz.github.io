@@ -49,17 +49,6 @@ async function solve() {
 
 async function create() {
   alert("You can't create this puzzle");
-  // let result = await evaluateAPL(`creator ${document.querySelector('.dimInput').value || MIN_WIDTH}`);
-  // if (result.length) {
-  //   let input = result.map(item =>
-  //     item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
-  //   );
-  //   session_style(1);
-  //   makeInpTable2(input);
-  // } else { // ?Usefull
-  //   session_style(1);
-  //   alert("This puzzle hasn't got an answer...");
-  // }
 }
 
 async function verify() {
@@ -71,7 +60,6 @@ async function verify() {
         .map(x => +x.value || DEFAULT_OUT_VALUE)
     )
 
-  // !Da vedere
   let result = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
   let solution = result.map(item => item.split` `.map(x => +x))
 
