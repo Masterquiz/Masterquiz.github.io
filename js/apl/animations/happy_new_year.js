@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const data = await res.json();
   [state, size, hash] = data.slice(0, -1);
 
-  visualise(await evaluateAPL(`mat2021`));
+  visualise(await executeAPL(`mat2021`));
 });
 
 let btnAnimate = document.querySelector('.input__btn');
@@ -32,9 +32,9 @@ btnAnimate.addEventListener("click",
       document.querySelector('.input__text').value = '';
       await new Promise(resolve => setTimeout(resolve, 500))
     }
-    visualise(await evaluateAPL(`mat2021`));
+    visualise(await executeAPL(`mat2021`));
 
-    [len2021, len2022] = (await evaluateAPL(`(+/'*'=∊)¨mat2021 mat2022`))[0].split` `.map(x => +x)
+    [len2021, len2022] = (await executeAPL(`(+/'*'=∊)¨mat2021 mat2022`))[0].split` `.map(x => +x)
 
     for (i = 0; i < len2021 / 2; ++i) {
       let code = `mat2021 ← ' '@(2↑vec2021) ⊢mat2021`;

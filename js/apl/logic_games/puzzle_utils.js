@@ -1,8 +1,10 @@
-document.addEventListener('DOMContentLoaded', (e) => {
-  document.querySelector('.dimension__value').value = '';
+document.addEventListener('DOMContentLoaded', async () => {
   session_style(1);
+  document.querySelector('.dimension__value').value = '';
+  document.querySelector('.dimension__button').click();
 
-  makeInputTable(MIN_WIDTH);
+  [...document.querySelectorAll('.btns__solve, .btns__create, .btns__try')]
+    .map(x => x.disabled = true)
 });
 
 function session_style(mode) {
@@ -28,116 +30,48 @@ function session_style(mode) {
   }
 }
 
-function makeInputTable(width) {
-  let input_table = document.querySelector('.input__table');
-  input_table.innerHTML = '';
-
-  const table = document.createElement('table');
-  const tbody = document.createElement('tbody');
-  table.appendChild(tbody);
-  input_table.appendChild(table);
-
-  for (i = 0; i < width; ++i) {
-    let row = document.createElement('tr');
-    for (j = 0; j < width; ++j) {
-      let input = document.createElement('input');
-      input.type = 'number';
-      input.placeholder = DEFAULT_INP_VALUE;
-      input.setAttribute('onclick', 'select()');
-      row.appendChild(input);
-    }
-    tbody.appendChild(row);
-  }
-}
-
-// !Rewrite
-function makeInputTable2(matrix, type = 'value') { // !Use makeInputTable()?
-  let input_table = document.querySelector('.input__table');
-  input_table.innerHTML = '';
-
-  const table = document.createElement('table');
-  const tbody = document.createElement('tbody');
-  table.appendChild(tbody);
-  input_table.appendChild(table);
-
-  const width = matrix[0].length;
-  for (i = 0; i < width; ++i) {
-    let row = document.createElement('tr');
-    for (j = 0; j < width; ++j) {
-      let input = document.createElement('input');
-      input.readOnly = true;
-      if (type === 'value') input.value = matrix[i][j];
-      else input.placeholder = matrix[i][j];
-      row.appendChild(input);
-    }
-    tbody.appendChild(row);
-  }
-}
-
-function makeOutputTable(matrix) {
-  let output_table = document.querySelector('.output__table');
-  output_table.innerHTML = '';
-
-  const table = document.createElement('table');
-  const tbody = document.createElement('tbody');
-  table.appendChild(tbody);
-  output_table.appendChild(table);
-
-  const width = matrix[0].length;
-  for (i = 0; i < width; ++i) {
-    let row = document.createElement('tr');
-    for (j = 0; j < width; ++j) {
-      let input = document.createElement('input');
-      input.readOnly = true;
-      input.placeholder = matrix[i][j];
-      row.appendChild(input);
-    }
-    tbody.appendChild(row);
-  }
-}
-
-function makeTryTable(matrix) {
-  let try_table = document.querySelector('.try__table');
-  try_table.innerHTML = '';
-
-  const table = document.createElement('table');
-  const tbody = document.createElement('tbody');
-  table.appendChild(tbody);
-  try_table.appendChild(table);
-
-  const width = matrix[0].length;
-  for (i = 0; i < width; ++i) {
-    let row = document.createElement('tr');
-    for (j = 0; j < width; ++j) {
-      let input = document.createElement('input');
-      input.type = 'number';
-      input.placeholder = matrix[i][j];
-      input.onclick = 'this.select()';
-      row.appendChild(input);
-    }
-    tbody.appendChild(row);
-  }
-}
+document.querySelector('.dimension__value').addEventListener('keyup', e => {
+  if (e.keyCode === 13) document.querySelector('.dimension__button').click();
+});
 
 document.querySelector('.dimension__button').addEventListener('click', () => {
-  let input_dim = document.querySelector('.dimension__value');
+  session_style(1);
+
+  const input_dim = document.querySelector('.dimension__value');
   input_dim.blur();
 
   let width = input_dim.value || MIN_WIDTH;
 
-  session_style(1);
-  if (MIN_WIDTH <= width && width <= MAX_WIDTH) makeInputTable(width);
-  else alert('Dimension not valid!\nTry again with a number between ' + MIN_WIDTH + ' and ' + MAX_WIDTH);
-});
+  if (MIN_WIDTH <= width && width <= MAX_WIDTH) {
+    let input_table = document.querySelector('.input__table');
+    input_table.innerHTML = '';
 
-document.querySelector('.dimension__value').addEventListener('keyup', (e) => {
-  if (e.keyCode === 13) document.querySelector('.dimension__button').click();
+    const table = document.createElement('table');
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    input_table.appendChild(table);
+
+    for (i = 0; i < width; ++i) {
+      let row = document.createElement('tr');
+      for (j = 0; j < width; ++j) {
+        let cell = document.createElement('input');
+        cell.type = 'number';
+        cell.placeholder = '';
+        cell.setAttribute('onclick', 'select()');
+        row.appendChild(cell);
+      }
+      tbody.appendChild(row);
+    }
+  }
+  else alert(`Dimension not valid!\nTry again with a number between ${MIN_WIDTH} and ${MAX_WIDTH}`);
 });
 
 document.querySelector('.btns__restart').addEventListener('click', () => {
   session_style(1);
-  Array.from(document.querySelectorAll('.input__table input')).map(x => {
-    x.value = '';
-    x.placeholder = DEFAULT_INP_VALUE
-  });
+
+  [...document.querySelectorAll('.input__table input')]
+    .map(x => {
+      x.value = '';
+      x.placeholder = DEFAULT_INP_VALUE;
+    });
 });

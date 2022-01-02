@@ -13,45 +13,45 @@ let btnAnimate = document.querySelector('.input__btn');
 btnAnimate.addEventListener("click",
   async () => {
     btnAnimate.disabled = true;
-    
+
     let inputSection = document.querySelector('.input__text');
 
     let text = inputSection.value;
 
     if (text.length) var picture = text.split`\n`;
     else {
-      var picture = await evaluateAPL(`pic`);
+      var picture = await executeAPL(`pic`);
       inputSection.value = picture.join`\n`;
     }
 
     if (text.indexOf('*') !== -1) alert("I've said to don't use the snow symbol...")
     else {
-    document.querySelector('.output__text').classList.remove('hide');
-    document.querySelector('.output__btn').classList.remove('hide');
-    visualise(picture);
-
-    // Populate the WS with some variables
-    const res = await fetch('https://tryapl.org/Exec', {
-      'method': 'POST',
-      'headers': { "Content-Type": "application/json; charset=utf-8" },
-      'body': JSON.stringify([state, size, hash, `(height width safe) ← (⍴,⊂∘⍸∘(<⍀' '∘≠)) (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`]),
-    })
-    const data = await res.json();
-    [state, size, hash] = data.slice(0, -1);
-
-    let finish = false;
-    document.querySelector('.output__btn').onclick = () => finish = true;
-
-    for (let i = 0; i < 100 && !finish; ++i) {
+      document.querySelector('.output__text').classList.remove('hide');
+      document.querySelector('.output__btn').classList.remove('hide');
       visualise(picture);
-      picture = await evaluateAPL(`next (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
-    }
 
-    for (let i = 0; i <= picture.length; ++i) {
-      visualise(picture);
-      picture = await evaluateAPL(`finish (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
+      // Populate the WS with some variables
+      const res = await fetch('https://tryapl.org/Exec', {
+        'method': 'POST',
+        'headers': { "Content-Type": "application/json; charset=utf-8" },
+        'body': JSON.stringify([state, size, hash, `(height width safe) ← (⍴,⊂∘⍸∘(<⍀' '∘≠)) (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`]),
+      })
+      const data = await res.json();
+      [state, size, hash] = data.slice(0, -1);
+
+      let finish = false;
+      document.querySelector('.output__btn').onclick = () => finish = true;
+
+      for (let i = 0; i < 100 && !finish; ++i) {
+        visualise(picture);
+        picture = await executeAPL(`next (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
+      }
+
+      for (let i = 0; i <= picture.length; ++i) {
+        visualise(picture);
+        picture = await executeAPL(`finish (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
+      }
     }
-  }
 
     btnAnimate.disabled = false;
     setTimeout(() => {
@@ -60,4 +60,4 @@ btnAnimate.addEventListener("click",
     }, 2000);
   });
 
-  
+

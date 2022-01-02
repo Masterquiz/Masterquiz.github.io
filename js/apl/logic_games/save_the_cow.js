@@ -20,7 +20,7 @@ function getInpMatrix() {
 async function trySolve() {
   let matrix = getInpMatrix();
 
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
+  let solution = await executeAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
   if (solution.length) {
     session_style(3);
     document.querySelector(".tryLabel").innerText = "Solve";
@@ -34,7 +34,7 @@ async function trySolve() {
 async function solve() {
   let matrix = getInpMatrix();
 
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
+  let solution = await executeAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
   if (solution.length) {
     let input = solution.map(item =>
       item.split` `.filter(x => x !== "").map(x => +x)
@@ -60,7 +60,7 @@ async function verify() {
         .map(x => +x.value || DEFAULT_OUT_VALUE)
     )
 
-  let result = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
+  let result = await executeAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
   let solution = result.map(item => item.split` `.map(x => +x))
 
   if (JSON.stringify(solution) === JSON.stringify(try_matrix)) document.querySelector(".tryLabel").innerText = "Correct!";

@@ -1,80 +1,198 @@
 // Game propriety
 const MIN_WIDTH = 5;
-const MAX_WIDTH = 11;
-const DEFAULT_INP_VALUE = '';
-const DEFAULT_OUT_VALUE = 1;
+const MAX_WIDTH = 8;
+const EXAMPLES = {
+  5: [
+    [[1, 4, 3, 2, 5], [2, 5, 2, 3, 3], [5, 3, 1, 4, 5], [4, 2, 4, 4, 1], [2, 1, 5, 3, 4]],
+  ],
+  6: [
+    [[1, 1, 2, 4, 3, 5], [1, 1, 5, 4, 4, 6], [4, 6, 6, 2, 1, 1], [6, 3, 3, 3, 5, 4], [2, 3, 4, 1, 6, 5], [2, 5, 4, 6, 2, 5]],
+    [[5, 3, 1, 6, 5, 4], [6, 2, 2, 1, 1, 2], [3, 5, 4, 4, 2, 1], [6, 1, 3, 6, 6, 2], [5, 2, 4, 1, 3, 1], [1, 3, 5, 4, 4, 3]],
+  ],
+  7: [
+    [[2, 6, 5, 2, 6, 7, 1], [7, 5, 3, 4, 1, 5, 5], [6, 4, 5, 1, 5, 2, 3], [2, 6, 6, 5, 6, 4, 5], [4, 5, 2, 4, 7, 2, 6], [1, 4, 4, 7, 6, 5, 2], [7, 7, 1, 2, 2, 3, 1]],
+  ],
+  8: [
+    [[8, 7, 4, 2, 4, 5, 6, 3], [4, 6, 2, 6, 5, 6, 6, 3], [3, 5, 4, 1, 4, 4, 8, 7], [6, 8, 7, 4, 1, 2, 3, 5], [5, 6, 1, 8, 3, 3, 7, 7], [8, 3, 8, 4, 8, 8, 1, 2], [1, 6, 3, 7, 2, 7, 4, 4], [7, 8, 5, 3, 8, 1, 2, 2]],
+  ],
+  9: [
+    [[4, 5, 1, 5, 8, 6, 7, 9, 7], [3, 7, 4, 3, 4, 7, 6, 5, 6], [5, 1, 3, 4, 9, 4, 8, 7, 2], [7, 8, 6, 8, 1, 9, 6, 1, 7], [4, 3, 9, 4, 7, 2, 9, 2, 6], [2, 6, 4, 3, 1, 7, 6, 3, 2], [3, 5, 9, 5, 4, 1, 7, 6, 4], [7, 4, 5, 7, 3, 2, 8, 8, 9], [8, 9, 7, 4, 6, 7, 2, 4, 7]],
+  ],
+  10: [
+    [[2, 9, 9, 4, 8, 3, 8, 2, 7, 2], [8, 10, 7, 3, 1, 6, 5, 9, 6, 7], [9, 1, 3, 1, 9, 8, 4, 4, 9, 6], [7, 9, 2, 8, 4, 6, 6, 3, 1, 2], [6, 4, 3, 5, 3, 7, 3, 2, 9, 1], [10, 9, 5, 7, 5, 6, 1, 8, 6, 9], [7, 2, 7, 8, 8, 7, 9, 2, 3, 7], [9, 8, 2, 10, 5, , 1, 5, 7, 2, 3], [2, 5, 10, 1, 7, 9, 3, 6, 1, 2], [3, 7, 3, 9, 5, 4, 9, 10, 5, 7]],
+  ],
+  11: [
+    [[1, 6, 3, 6, 5, 1, 3, 7, 11, 8, 10], [8, 10, 11, 5, 4, 3, 2, 6, 6, 10, 4], [1, 4, 6, 3, 1, 4, 5, 3, 10, 2, 5], [2, 8, 10, 1, 3, 6, 4, 11, 4, 5, 9], [11, 9, 6, 3, 11, 2, 1, 6, 11, 7, 2], [7, 2, 8, 5, 6, 4, 3, 9, 9, 8, 5], [1, 8, 9, 6, 3, 8, 2, 4, 2, 0, 4], [7, 7, 2, 1, 4, 9, 6, 8, 11, 11, 1], [11, 1, 5, 4, 1, 2, 1, 9, 7, 2, 3], [8, 10, 7, 1, 9, 5, 4, 6, 1, 10, 5], [2, 11, 1, 9, 2, 4, 8, 5, 6, 4, 6]],
+  ]
+};
 
-// Request body
-const state = 'c-p;}2Y6Fe6vyvNn-oIRv_PdANMBkiEk&RymJmTI7AheOTiZBF$;;>?kmi;5lC~g<N^uVmH!cwO-dl0uz^y2#2<|;_Z~WinzJBzzX`+6g@B4l^@2>OiIQN{Bof`*`o=+x|y1}-=RNk_wS5y4SVsh)ep5s-0`UcYHvxhx0E9a<sj_f&J`%#XNQxoGg^#c<1f017G&rrFH^xeNxou^vwNc2~TM8c$<1c}_IJ{c{_-s4z(8(Ko7m9_S6j}RX;%e~jd+FOY|Nqt3<`o8suz1J0Aub(W$-27y5l5xHy`*einJhGWorg>}jKEFGd%uvT~>Z#9M)P0Wqo?ohc)9P34rEpY2j$mb82#0xJSnw}a_|}*b<$XckFGV6je>52ALy!91LL0Mx&AL;qD_OrR&HVD!`9&n&-dT~DA|F!1LL{K{v;S$>Z(8T9-iJIUn~5RuvV_{71I%GxJ&}lQ&Lwg{5%Zf#rU?bTCtp`>^U77OB15BKHZ)er;@oDEg|=KLA<Hci=eBZgN9R&&z0ot@Yp-nL+(NzH!@GE#V3Spn3-q3z`=!_H51S1MEEU2MjCt*h%>pgws{N}8zxO_8X#5dL(~gtv3rVrx$sX;!*q4=k+<!YKtvwCY>{qF3Pi?U%GbU>J{$Mz)@KOt^Bvb`E{lT^<FGYf>^p&Xk=1EE@8j>PZi5zST3b;3XB-ZK+$_g*aQmn1dd!)S=x+LpR&$*EGGplhYL!ULsls9D9h{BSx@^QV!Woza;S)Ff9sHG(+2P4rCX4-qkp$IQa9SUFCT2aR1uE80EW33UC?PclsmEqm{f_<*wqY~Xrg%<*g1V26+-|%$&#GWMkq1Wt3xBuDm&;07Y^;60GUv(0{{C~$gG5xsJBR>Ay_<kU(|GL{hdhtVD(FSl8xSmD5r@`ys1Mnf3h@)_T25=3>d}tsVhy~gM9f3|!?0~Pl)FKggCg(PL2R4>)Zky2~n7xBMcrA**W;d1?JvMkxv&n<EBF;_7LaW3zlN^&Mu4pD^li2CZZ5-(;l*OpC(r&KFw~uz!7CWFN!&NAVF=uCHgUM4bXGUeQofZbsLRqv-7DdHbX{**5Erc6uk-QjU%kvae*9#7g%b{M}SIW8l9H+BNdF2+n*V|<D6kswFT@HJxAQ(M4E*qWEZmU!qYsaJpo2X90&8CALIkom$G;>qYtmHJ4AvAapZlguYtn8}exC<>(SG`lmEu+1wU8~Sp$F*7|TbH9o$E~(V2p*ifo}hLm*6ilEAT)9Ax-O?(CLH33l6L%9&f-U*CVmV^5kJy>Qr!!ZW?qx(o+NLt=(k-=q2HIHUDm85**#13B>TUh#`R%_p8mbtZ?S}FUHSTx*L4}DB=cvf@=Wv4{_BmTe}Ad%pR7J3#d`Ic^=kE~cARS83>rPEzwT1?3?)4m%xs>n(?sJK+iL^+hK1z<RmFrX)+O=)I+bN8$G`&S{e1D<1@{XCK?}37g&+hL0h-f<nQcUX6u%d6p>ca6aeIn_7-$C_EWcXH@*a+@=T<P5>caQOLsCnpx1kbDU_QEvdR&&dPGbAN0cUqL<VfbJsmC^;?hwdn;7~x5wCP|5s0D|CnZN~R0eCkun`Ogu0p0$?K^>@P`6T^|+X!e%OaHze1&(HCNzeIDa4%Rv+pvbmARh-$u&6;V&~so5cpkg}UIZ_Jm%*#xH5OgAg6-ff@HW`N{xi|2^CkEed<T96$AX)1z{k<`W8D++?d$MPL;aKBDX^KI8S0;fd<DD#wt;uRPOuBS2i|8<?IZ9p_yl|kJ_DbFFThvvI7!GiU^h4hj001lzlr7$#fdyEfVoVeb_01Zq!+Rji~<LsTn>H)Z_=^UR#6|t*yHiO26@R^prE`3#yOhWGv19L3;ha;61nh6kSjqM7)|W}Yy`{Eb`Tgt?GR&RPzPp#nP3XI0R0v~P69LyYJi+W?*mu_1ho6W_h|b8`~-dh)K#FFSi%0_E>M6u=7MZ66ihBjB-g{iNH7760lJbzj`b_}4g4PePe#ZebbqK`D8C2NN$&|h@+jnbdXA`HjY*yh=A)h_vGZA+yAoUr&PRPS@E0fU!ru91w_hk9<2<Ixki`wu=`#jw|1I<RH@8j6e#><KFLz!4_;q719baLuoN!>(M8~9WAG>nH#+yDlWZI!M(`VEkHq$lBJ$ugFd5724AJNe0Ir6BZ*IoYW7r9^M4IVNyf1hCm`|f8MKEhha+lq=umh3;Ov~2XTn~uA6!SCNsJ$UjTCmithH_hLjDERy*t?UW}Pi_$xh88UjpVAtU+D^Ukv?a1~di0Dl&pNyPoYia2U3=d77j#^B(Z!vYEPd_uWm|7}<I~SR|8jn8(DEN|`|0-TdvCt)>uaxh=;5nhd3F6&4?OtnLB~J($PahlV_dQ2nai$tdh?4<z2N=%ujlrxdikYsPds_YE#}=hf4=weyE}Hi^Zo}PeYopR)gPO!z1$_Wu<=^|zDoDc@`Jwt<$OjN';
-const size = 4962;
-const hash = '6);$?p2m_N*v5indMSWWKeo{UVXdp2oQf<4cOR~FEFCV8l{fOfu?kY*+=X{R25R0(HkWBXEgTfgv#-l_';
+(async () => {
+  let code = `⋄
+    ∇ res ← solver m;b;g;m1;m2;nbor;primes
+      nbor ← {⍺×⍵∨(0 1↓⍵,0)∨(1↓⍵⍪0)∨(0 ¯1↓0,⍵)∨¯1↓0⍪⍵}
+      primes ← 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47↑⍨≢m
+      g ← ⊃⊂∨.=⊂⌽⍨¨⍳∘(1-⍨≢)
+      m1 ← primes×⍤¯1⊢m×g m
+      m2 ← primes×⍤1⊢m×⍉g⍉m
+      b ← ⊃,/{((1,2≠/⊢)∘{⍵[⍋⍵]}⊂((⍸0≠⍵)⌷⍨∘⊂⍋))0~⍨,⍵}¨m1 m2
+      b ← {⍵∘~¨⊂¨⍵}¨b
+      res ← {⊃z⊣{z⊢←{⍵/⍨check¨⍵},z∘.{0@⍵⊢⍺}⍵}¨⍵⊣z←⊂m}b
+    ∇`;
+  code += `⋄
+    ∇ z←check x;T
+      z←0=+/,(x⍷⍨⍪0 0)∨0 0⍷x ⍝ no 2x1 black islands
+      z∧←{⍵≡⍵∘nbor⍣≡⊢1@(⊂⊃⍸⍵)⊢0⍴⍨⍴x}x≠0 ⍝ all blacks must be connected
+    ∇`
 
-function getInpMatrix() {
-  return Array.from(document.querySelectorAll('.tableInp tr')).map(
-    item => Array.from(item.querySelectorAll('.inp')).map(
-      x => +x.value || DEFAULT_INP_VALUE
-    )
-  )
-}
+  const res = await fetch('https://tryapl.org/Exec', {
+    'method': 'POST',
+    'headers': { "Content-Type": "application/json; charset=utf-8" },
+    'body': JSON.stringify(['', 0, '', code]),
+  });
+  [state, size, hash] = (await res.json()).slice(0, -1);
+  [...document.querySelectorAll('.btns__solve, .btns__create, .btns__try')]
+    .map(x => x.disabled = false)
+})();
 
-async function trySolve() {
-  let matrix = getInpMatrix();
-
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
-  if (solution.length) {
-    session_style(3);
-    document.querySelector(".tryLabel").innerText = "Solve";
-    makeTryTable('number', matrix);
-  } else { // ?Useful
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
-  }
-}
-
-async function solve() {
-  let matrix = getInpMatrix();
-
-  let solution = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
-  if (solution.length) {
-    let input = solution.map(item =>
-      item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
-    );
-    session_style(2);
-    makeOutTable(input);
-  } else { // ?Useful
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
-  }
-}
-
-async function create() {
-  // !Check if there's only one possible solution
-  // *Add an alert if there are changes in tableInp & tableTry
-  let result = await evaluateAPL(`creator ${document.querySelector('.dimInput').value || MIN_WIDTH}`);
-  if (result.length) {
-    let input = result.map(item =>
-      item.split` `.map(x => +x || DEFAULT_OUT_VALUE)
-    );
-    session_style(1);
-    makeInpTable2(input);
-  } else { // ?Usefull
-    session_style(1);
-    alert("This puzzle hasn't got an answer...");
-  }
-}
-
-async function verify() {
-  let matrix = getInpMatrix();
-
-  let try_matrix = Array.from(document.querySelectorAll('.tableTry tr'))
-    .map(item =>
-      Array.from(item.querySelectorAll('.try'))
-        .map(x => +x.value || DEFAULT_OUT_VALUE)
+document.querySelector('.btns__solve').addEventListener('click', async () => {
+  const input = [...document.querySelectorAll('.input__table tr')]
+    .map(item => [...item.querySelectorAll('input')]
+      .map(x => +x.value)
     )
 
-  let result = await evaluateAPL(`solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`);
-  let solution = result.map(item => item.split` `.map(x => +x))
+  const output_table = document.querySelector('.output__table');
+  output_table.innerHTML = '';
 
-  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) document.querySelector(".tryLabel").innerText = "Correct!";
-  else document.querySelector(".tryLabel").innerText = "Wrong!";
-}
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+  output_table.appendChild(table);
+
+  JSON.parse(await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`))
+    .map((item, i) => {
+      const row = document.createElement('tr');
+      item.map((x, j) => {
+        const cell = document.createElement('input');
+        cell.readOnly = true;
+        cell.style.outline = 'none';
+        if (x) cell.placeholder = x;
+        else {
+          cell.placeholder = input[i][j];
+          cell.style.border = 'none';
+          cell.style.backgroundColor = '#4169e1';
+        }
+        row.appendChild(cell);
+      });
+      tbody.appendChild(row);
+    });
+
+  session_style(2);
+});
+
+document.querySelector('.btns__create').addEventListener('click', async () => {
+  session_style(1);
+  const input_table = document.querySelector('.input__table');
+  const width = document.querySelector('.dimension__value').value || input_table.querySelector('tr').childElementCount;
+
+  input_table.innerHTML = '';
+
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+  input_table.appendChild(table);
+
+  // Fill .input__table with a random matrix from examples
+  EXAMPLES[width][EXAMPLES[width].length * Math.random() | 0].map(item => {
+    const row = document.createElement('tr');
+    item.map(x => {
+      const cell = document.createElement('input');
+      cell.type = 'number';
+      cell.value = x;
+      row.appendChild(cell);
+    })
+    tbody.appendChild(row);
+  });
+});
+
+document.querySelector('.btns__try').addEventListener('click', async () => {
+  const input = [...document.querySelectorAll('.input__table tr')]
+    .map(item => [...item.querySelectorAll('input')]
+      .map(x => +x.value)
+    )
+
+  const try_label = document.querySelector('.try__label');
+  try_label.innerText = 'Solve';
+  try_label.style.color = '#4169e1';
+
+  const try_table = document.querySelector('.try__table');
+  try_table.innerHTML = '';
+
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+  try_table.appendChild(table);
+
+  input.map(item => {
+    const row = document.createElement('tr');
+    item.map(x => {
+      const cell = document.createElement('input');
+      cell.placeholder = x;
+      cell.readOnly = true;
+      cell.style.outline = 'none';
+      row.appendChild(cell);
+    })
+    tbody.appendChild(row);
+  });
+
+  [...try_table.querySelectorAll('input')].map(x =>
+    x.addEventListener('click', () => {
+      if (x.style.backgroundColor) {
+        x.style.border = '';
+        x.style.backgroundColor = '';
+      } else {
+        x.style.border = 'none';
+        x.style.backgroundColor = '#4169e1';
+      }
+    })
+  );
+
+  document.querySelector('.btns__verify').disabled = false;
+
+  session_style(3);
+});
+
+document.querySelector('.btns__verify').addEventListener('click', async () => {
+  const input = [...document.querySelectorAll('.input__table tr')]
+    .map(item => [...item.querySelectorAll('input')]
+      .map(x => +x.value)
+    );
+
+  const solution = JSON.parse(await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`));
+
+  const try_matrix = [...document.querySelectorAll('.try__table tr')]
+    .map((item, i) => [...item.querySelectorAll('input')]
+      .map((x, j) => (x.style.backgroundColor) ? 0 : input[i][j])
+    );
+
+  const try_label = document.querySelector('.try__label');
+  const try_table_input = [...document.querySelectorAll('.try__table input')];
+
+  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) {
+    try_label.innerText = 'Correct!';
+    try_label.style.color = '#008000';
+    try_table_input.map(elem => elem.style.pointerEvents = 'none');
+    document.querySelector('.btns__verify').disabled = true;
+  } else {
+    try_label.innerText = 'Wrong!';
+    try_label.style.color = '#e62020';
+
+    try_table_input.map(elem => {
+      elem.addEventListener('click', () => {
+        try_label.innerText = 'Try again!';
+        try_label.style.color = '#4169e1';
+
+        if (try_label.innerText === 'Correct!') this.removeEventListener('click', arguments.callee, false);
+      })
+    })
+  }
+});

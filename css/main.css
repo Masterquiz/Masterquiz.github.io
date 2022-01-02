@@ -9,7 +9,6 @@
 		url(/css/font/DejaVuSansMono.woff) format('woff');
 }
 
-
 :root {
   --clr-primary-000: #FFCFCE;
   /* Baby Pink - (255, 207, 206) */
@@ -93,6 +92,10 @@ a {
 
 button {
   cursor: pointer;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .hide {
