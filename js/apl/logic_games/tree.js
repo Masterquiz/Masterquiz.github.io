@@ -52,8 +52,6 @@ const EXAMPLES = {
     ∇`;
   code += `⋄
     creator ← {(createTree∘≢) {⍵⍵ ⍵:⍵ ⋄ ∇⍺⍺ ⍵} (((1=≢)∧(∧/1∘∊¨))∘{n←1+8<≢m←⍵ ⋄ {⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢(⊂0⍴⍨⍴)⍵}) ⊢0⍴⍨⍵ ⍵}`
-  // code += `⋄
-  //   creator ← {mat⊣{mat⊢←createTree≢⍵}⍣{1∊solver mat}⊢mat←⍵ ⍵⍴⍬}`;
 
   const res = await fetch('https://tryapl.org/Exec', {
     'method': 'POST',
@@ -61,8 +59,9 @@ const EXAMPLES = {
     'body': JSON.stringify(['', 0, '', code]),
   });
   [state, size, hash] = (await res.json()).slice(0, -1);
+
   [...document.querySelectorAll('.btns__solve, .btns__create, .btns__try')]
-    .map(x => x.disabled = false)
+    .map(x => x.disabled = false);
 })();
 
 document.querySelector('.btns__solve').addEventListener('click', async () => {
@@ -118,6 +117,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
       item.split` `.map(x => {
         const cell = document.createElement('input');
         cell.type = 'number';
+        cell.setAttribute('onclick', 'select()');
         cell.value = x;
         row.appendChild(cell);
       })
@@ -171,7 +171,7 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
     );
 
   // TODO Check if the puzzle has (one) solution
-  const try_label = document.querySelector('.try__label');
+  const try_label = document.querySelector('.try h2');
   try_label.innerText = 'Solve';
   try_label.style.color = '#4169e1';
 
@@ -189,7 +189,6 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
       const cell = document.createElement('input');
       cell.placeholder = x;
       cell.readOnly = true;
-      cell.style.outline = 'none';
       row.appendChild(cell);
     })
     tbody.appendChild(row);
@@ -225,7 +224,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
       .map(x => (x.value) ? 1 : 0)
     );
 
-  const try_label = document.querySelector('.try__label');
+  const try_label = document.querySelector('.try h2');
   const try_table_input = document.querySelectorAll('.try__table input');
 
   if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {

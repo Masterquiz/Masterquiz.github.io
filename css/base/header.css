@@ -134,7 +134,7 @@ header {
 
   .menu li {
     flex-direction: column;
-    padding-inline: 1em;
+    padding-left: 1em;
   }
 
   .menu li a::after {

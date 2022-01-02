@@ -50,8 +50,9 @@ const EXAMPLES = {
     'body': JSON.stringify(['', 0, '', code]),
   });
   [state, size, hash] = (await res.json()).slice(0, -1);
+
   [...document.querySelectorAll('.btns__solve, .btns__create, .btns__try')]
-    .map(x => x.disabled = false)
+    .map(x => x.disabled = false);
 })();
 
 document.querySelector('.btns__solve').addEventListener('click', async () => {
@@ -107,6 +108,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
     item.map(x => {
       const cell = document.createElement('input');
       cell.type = 'number';
+      cell.setAttribute('onclick', 'select()');
       cell.value = x;
       row.appendChild(cell);
     })
@@ -120,7 +122,7 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
       .map(x => +x.value)
     )
 
-  const try_label = document.querySelector('.try__label');
+  const try_label = document.querySelector('.try h2');
   try_label.innerText = 'Solve';
   try_label.style.color = '#4169e1';
 
@@ -174,7 +176,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
       .map((x, j) => (x.style.backgroundColor) ? 0 : input[i][j])
     );
 
-  const try_label = document.querySelector('.try__label');
+  const try_label = document.querySelector('.try h2');
   const try_table_input = [...document.querySelectorAll('.try__table input')];
 
   if (JSON.stringify(solution) === JSON.stringify(try_matrix)) {

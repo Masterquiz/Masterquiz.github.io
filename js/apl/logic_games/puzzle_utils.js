@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector('.dimension__button').click();
 
   [...document.querySelectorAll('.btns__solve, .btns__create, .btns__try')]
-    .map(x => x.disabled = true)
+    .map(x => x.disabled = true);
 });
 
 function session_style(mode) {

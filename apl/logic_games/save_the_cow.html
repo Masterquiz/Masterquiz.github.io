@@ -26,41 +26,43 @@
   <section id="nav"></section>
 
   <main>
-    <div class="intro">
-      <h1>Electric charges solver</h1>
-      <p>Fill the puzzle below and press solve! Change the dimension, creating a puzzle with a side length from ten to
-        thirteen cells.</p>
+    <h1>Save the cow solver</h1>
+
+    <div class="view-on-mobile">
+      <p>For the moment you can't play with this game with small screens.</p>
+      <p>Try to activate the Desktop View, or connect from a PC.</p>
     </div>
+    <div class="hide-on-mobile">
+      <div class="cards">
+        <section class="input">
+          <div class="input__dimension">
+            <input class="dimension__value" type="number" placeholder="Dimension">
+            <button class="dimension__button">✓</button>
+          </div>
 
-    <div class="cards">
-      <section class="input">
-        <div class="input__dimension">
-          <input class="dimension__value" type="number" placeholder="Dimension">
-          <button class="dimension__button" type="button">✓</button>
-        </div>
+          <div class="input__table"></div>
 
-        <div class="input__table"></div>
+          <div class="input__btns">
+            <button class="btns__solve">Solve</button>
+            <button class="btns__create">Create</button>
+            <button class="btns__try">Try</button>
+            <button class="btns__restart">Restart</button>
+          </div>
+        </section>
 
-        <div class="input__btns">
-          <button class="btns__solve" type="button">Solve</button>
-          <button class="btns__create" type="button">Create</button>
-          <button class="btns__try" type="button">Try</button>
-          <button class="btns__restart" type="button">Restart</button>
-        </div>
-      </section>
+        <section class="output">
+          <h2>Solution</h2>
+          <div class="output__table"></div>
+        </section>
 
-      <section class="output">
-        <label class="output__label">Solution</label>
-        <div class="output__table"></div>
-      </section>
-
-      <section class="try">
-        <label class="try__label"></label>
-        <table class="try__table"></table>
-        <div class="try__btns">
-          <button class="btns__verify">Verify</button>
-        </div>
-      </section>
+        <section class="try">
+          <h2>Solve</h2>
+          <table class="try__table"></table>
+          <div class="try__btns">
+            <button class="btns__verify">Verify</button>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
 
