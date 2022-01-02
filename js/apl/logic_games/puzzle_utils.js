@@ -72,6 +72,6 @@ document.querySelector('.btns__restart').addEventListener('click', () => {
   [...document.querySelectorAll('.input__table input')]
     .map(x => {
       x.value = '';
-      x.placeholder = DEFAULT_INP_VALUE;
+      x.placeholder = '';
     });
 });
