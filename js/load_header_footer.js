@@ -35,4 +35,8 @@
       }
     })
   });
+
+  // Loose focus when button clicked
+  [...document.querySelectorAll('button')]
+    .map(x => x.addEventListener('click', x.blur()));
 })();
