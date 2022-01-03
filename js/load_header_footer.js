@@ -3,16 +3,24 @@
   let header = await fetch('/base/header.html');
   document.querySelector('#header').innerHTML = await header.text();
 
-
   // Menu animation
-  let ham = document.querySelector(".ham");
+  // !Menu MQ, position
   let menu = document.querySelector(".menu");
 
-  ham.addEventListener('click', (e) => {
-    e.target.classList.toggle("change");
-    menu.style.transitionDuration = '.3s';
-    menu.classList.toggle("menu-change");
-  })
+  if (Math.random() < 1) {
+    document.getElementById("menu_label").style.display = 'none';
+    document.querySelector(".ham").addEventListener('click', elem => {
+      elem.target.classList.toggle("change");
+      menu.style.transitionDuration = '.3s';
+      menu.classList.toggle("menu-change");
+    })
+  } else {
+    document.querySelector(".ham").style.display = 'none';
+    document.getElementById("menu_label").addEventListener('click', () => {
+      menu.style.transitionDuration = '.3s';
+      menu.classList.toggle("menu-change");
+    })
+  }
 
   // Load footer
   let footer = await fetch('/base/footer.html');

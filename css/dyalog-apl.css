@@ -9,7 +9,7 @@
   flex-direction: column;
   gap: 1em;
   padding-inline: .5em;
-  padding-block: 1em;
+  padding-block: 3em;
   background-color: var(--clr-primary-000);
   border-left: 6px solid var(--clr-primary-900);
   text-align: center;

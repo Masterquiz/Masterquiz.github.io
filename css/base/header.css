@@ -25,6 +25,150 @@ header {
   padding-right: 1em;
 }
 
+/* Menu MQ */
+#webapp_cover {
+  position: relative;
+  z-index: 99;
+}
+
+#menu_button {
+  width: 1.7em;
+  overflow: hidden;
+}
+
+#menu_checkbox {
+  display: none;
+}
+
+#menu_label {
+  position: relative;
+  display: block;
+  height: 29px;
+  cursor: pointer;
+}
+
+#menu_label:before, #menu_label:after, #menu_text_bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0.1875em;
+  background-color: var(--clr-primary-300);
+  box-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
+}
+
+#menu_label:before, #menu_label:after {
+  content: '';
+  transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) left;
+}
+
+#menu_label:before {
+  top: 10px;
+}
+
+#menu_label:after {
+  top: 17px;
+}
+
+#menu_text_bar {
+  top: 24px;
+}
+
+#menu_text_bar:before {
+  content: 'MQ';
+  position: absolute;
+  top: 10px;
+  right: 0;
+  left: 0;
+  color: var(--clr-primary-300);
+  font-size: 1em;
+  font-weight: bolder;
+  font-family: var(--ff-accent);
+  text-align: center;
+}
+
+#menu_checkbox:checked+#menu_label:before {
+  left: -39px;
+}
+
+#menu_checkbox:checked+#menu_label:after {
+  left: 39px;
+}
+
+#menu_checkbox:checked+#menu_label #menu_text_bar:before {
+  animation: moveUpThenDown .8s ease 0.2s forwards, shakeWhileMovingUp 0.8s ease 0.2s forwards, shakeWhileMovingDown 0.2s ease 0.8s forwards;
+}
+
+@keyframes moveUpThenDown {
+  0% {
+    top: -5px;
+  }
+
+  50% {
+    top: -27px;
+  }
+
+  100% {
+    top: -20px;
+  }
+}
+
+@keyframes shakeWhileMovingUp {
+  0% {
+    transform: rotateZ(0);
+  }
+
+  12.5% {
+    transform: rotateZ(-10deg);
+  }
+
+  25% {
+    transform: rotateZ(-20deg);
+  }
+
+  37.5% {
+    transform: rotateZ(-10deg);
+  }
+
+  50% {
+    transform: rotateZ(0deg);
+  }
+
+  62.5% {
+    transform: rotateZ(10deg);
+  }
+
+  75% {
+    transform: rotateZ(20deg);
+  }
+
+  87.5% {
+    transform: rotateZ(10deg);
+  }
+
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+@keyframes shakeWhileMovingDown {
+  0% {
+    transform: rotateZ(0);
+  }
+
+  80% {
+    transform: rotateZ(3deg);
+  }
+
+  90% {
+    transform: rotateZ(-3deg);
+  }
+
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+/* Menu ham */
 .ham {
   position: relative;
   display: table;
