@@ -1,12 +1,12 @@
 @font-face {
-	font-display: swap;
-	font-family: 'DejaVu Sans Mono';
-	font-style: normal;
-	font-weight: 400;
-	src:
-		local('DejaVu Sans Mono'),
-		url(/css/font/DejaVuSansMono.woff2) format('woff2'),
-		url(/css/font/DejaVuSansMono.woff) format('woff');
+  font-display: swap;
+  font-family: 'DejaVu Sans Mono';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local('DejaVu Sans Mono'),
+    url(/css/font/DejaVuSansMono.woff2) format('woff2'),
+    url(/css/font/DejaVuSansMono.woff) format('woff');
 }
 
 :root {
@@ -23,10 +23,9 @@
   --clr-primary-900: #FF3C38;
   /* Tart Orange - (255, 60, 56)*/
 
-  --ff-accent: 'Oleo Script', cursive;
+  --ff-accent: 'Oleo Script', serif;
   --ff-primary: system-ui, sans-serif;
   --ff-code-APL: 'DejaVu Sans Mono', monospace;
-  /* --ff-code-APL: 'APL', monospace; */
 }
 
 * {

@@ -52,7 +52,7 @@
           that I've created. I'm currently working also to improve the user experience with logic games. Stay tuned!</p>
 
         <div class="cards">
-          <a class="card" href="/apl/logic_games/logic_games.html">
+          <a class="card" href="/apl/logic_games/">
             <h2>Logic game</h2>
             <p>In this section you'll find logic game solvers of several ones</p>
             <ol>
@@ -126,7 +126,7 @@
     // Display file path, when uploaded
     document.querySelector('.uploadBtn').onchange = () => {
       document.querySelector('.optional').style.display = 'none';
-      document.querySelector('.file__name').innerText = `Uploaded: "${document.querySelector('.uploadBtn').value}"`;
+      document.querySelector('.file__name').innerText = `Uploaded: "${document.querySelector('.uploadBtn').value.slice(12, -4)}"`;
     };
   </script>
 </body>

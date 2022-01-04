@@ -88,5 +88,3 @@ btnAnimate.addEventListener("click", async () => {
 
   btnAnimate.disabled = false;
 });
-
-

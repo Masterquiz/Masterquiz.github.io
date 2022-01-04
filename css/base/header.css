@@ -25,90 +25,94 @@ header {
   padding-right: 1em;
 }
 
-/* Menu MQ */
-#webapp_cover {
+.ham,
+.hamMQ {
   position: relative;
   z-index: 99;
 }
 
-#menu_button {
-  width: 1.7em;
-  overflow: hidden;
+.change,
+.changeMQ {
+  position: fixed;
+  top: 1.8em;
+  right: 1em;
 }
 
-#menu_checkbox {
-  display: none;
+.bar1, .bar2, .bar3,
+.bar1MQ, .bar2MQ, .bar3MQ {
+  pointer-events: none;
 }
 
-#menu_label {
-  position: relative;
+/* Menu ham */
+.ham span {
   display: block;
-  height: 29px;
-  cursor: pointer;
-}
-
-#menu_label:before, #menu_label:after, #menu_text_bar {
-  position: absolute;
-  left: 0;
-  width: 100%;
+  width: 1.7em;
   height: 0.1875em;
+  margin: 0.3125em auto;
   background-color: var(--clr-primary-300);
   box-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
+  transition: 0.4s;
 }
 
-#menu_label:before, #menu_label:after {
-  content: '';
-  transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) left;
+.change .bar1 {
+  transform: rotate(45deg) translate(8px, 3px);
 }
 
-#menu_label:before {
-  top: 10px;
+.change .bar2 {
+  opacity: 0;
 }
 
-#menu_label:after {
-  top: 17px;
+.change .bar3 {
+  transform: rotate(-45deg) translate(8px, -3px);
 }
 
-#menu_text_bar {
-  top: 24px;
+/* Menu MQ */
+.hamMQ span {
+  display: block;
+  width: 1.7em;
+  height: 0.1875em;
+  margin: 0.3125em auto;
+  background-color: var(--clr-primary-300);
+  box-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
+  transition: 0.4s;
 }
 
-#menu_text_bar:before {
-  content: 'MQ';
+.changeMQ .bar1MQ,
+.changeMQ .bar2MQ {
+  opacity: 0;
+}
+
+.hamMQ label {
   position: absolute;
-  top: 10px;
-  right: 0;
-  left: 0;
+  top: 25px;
   color: var(--clr-primary-300);
-  font-size: 1em;
-  font-weight: bolder;
   font-family: var(--ff-accent);
-  text-align: center;
+  font-weight: bolder;
+  opacity: 0;
+  pointer-events: none;
 }
 
-#menu_checkbox:checked+#menu_label:before {
-  left: -39px;
-}
-
-#menu_checkbox:checked+#menu_label:after {
-  left: 39px;
-}
-
-#menu_checkbox:checked+#menu_label #menu_text_bar:before {
-  animation: moveUpThenDown .8s ease 0.2s forwards, shakeWhileMovingUp 0.8s ease 0.2s forwards, shakeWhileMovingDown 0.2s ease 0.8s forwards;
+.changeMQ label {
+  animation: moveUpThenDown .8s ease 0.2s forwards,
+    shakeWhileMovingUp 0.8s ease 0.2s forwards,
+    shakeWhileMovingDown 0.2s ease 0.8s forwards;
 }
 
 @keyframes moveUpThenDown {
+  0%, 100% {
+    opacity: 1;
+  }
+
   0% {
     top: -5px;
   }
 
   50% {
-    top: -27px;
+    top: -20px;
   }
 
   100% {
-    top: -20px;
+    top: -5px;
   }
 }
 
@@ -166,47 +170,6 @@ header {
   100% {
     transform: rotateZ(0);
   }
-}
-
-/* Menu ham */
-.ham {
-  position: relative;
-  display: table;
-  z-index: 99;
-}
-
-.ham span {
-  display: block;
-  width: 1.7em;
-  height: 0.1875em;
-  margin: 0.3125em auto;
-  background-color: var(--clr-primary-300);
-  box-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
-  transition: 0.4s;
-}
-
-.change {
-  position: fixed;
-  top: 1.8em;
-  right: 1em;
-}
-
-.bar1,
-.bar2,
-.bar3 {
-  pointer-events: none;
-}
-
-.change .bar1 {
-  transform: rotate(45deg) translate(8px, 3px);
-}
-
-.change .bar2 {
-  opacity: 0;
-}
-
-.change .bar3 {
-  transform: rotate(-45deg) translate(8px, -3px);
 }
 
 .menu {

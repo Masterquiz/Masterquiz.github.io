@@ -4,19 +4,18 @@
   document.querySelector('#header').innerHTML = await header.text();
 
   // Menu animation
-  // !Menu MQ, position
   let menu = document.querySelector(".menu");
-
-  if (Math.random() < 1) {
-    document.getElementById("menu_label").style.display = 'none';
-    document.querySelector(".ham").addEventListener('click', elem => {
-      elem.target.classList.toggle("change");
+  if (Math.random() < .2) {
+    document.querySelector(".ham").style.display = 'none';
+    document.querySelector(".hamMQ").addEventListener('click', elem => {
+      elem.target.classList.toggle("changeMQ");
       menu.style.transitionDuration = '.3s';
       menu.classList.toggle("menu-change");
-    })
+    });
   } else {
-    document.querySelector(".ham").style.display = 'none';
-    document.getElementById("menu_label").addEventListener('click', () => {
+    document.querySelector(".hamMQ").style.display = 'none';
+    document.querySelector(".ham").addEventListener('click', elem => {
+      elem.target.classList.toggle("change");
       menu.style.transitionDuration = '.3s';
       menu.classList.toggle("menu-change");
     })
