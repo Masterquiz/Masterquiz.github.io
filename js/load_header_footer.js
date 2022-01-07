@@ -25,24 +25,6 @@
   let footer = await fetch('/base/footer.html');
   document.querySelector('#footer').innerHTML = await footer.text();
 
-  // Smooth scroll
-  document.querySelectorAll("a[href^='/#']").forEach((e) => {
-    e.addEventListener('click', (e) => {
-      const targetId = e.currentTarget.getAttribute("href").split("#")[1];
-      const targetElement = document.getElementById(targetId);
-
-      if (targetElement) {
-        e.preventDefault();
-        window.scrollBy({
-          top: targetElement.getBoundingClientRect().top,
-          behavior: 'smooth',
-        });
-
-        setTimeout(() => ham.click(), 500);
-      }
-    })
-  });
-
   // Loose focus when button clicked
   [...document.querySelectorAll('button')]
     .map(x => x.addEventListener('click', x.blur()));

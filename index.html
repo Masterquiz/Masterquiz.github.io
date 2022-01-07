@@ -64,7 +64,7 @@
             <p>Try them!</p>
           </a>
 
-          <a class="card" href="/apl/animations/animations.html">
+          <a class="card" href="/apl/animations/">
             <h2>Animations</h2>
             <p>Have you ever wanted to animate an image made with characters?</p>
             <p>Now you can, add a <u>Christmas animation</u> to whatever you want!</p>
@@ -86,7 +86,8 @@
           <input name="name" placeholder="Your Name" maxlength="32" pattern="\S+.*" required>
           <input type="email" name="email" placeholder="Your email adress" maxlength="32" pattern="\S+.*" required>
           <textarea id="message" name="message" spellcheck="false" placeholder="Your message" maxlength="1024"
-            pattern="[\S\s]" required></textarea>
+            pattern="\S+.*" required></textarea>
+          <!-- /[\r\n]+/ -->
           <section class="file__input">
             <label>
               <input class="uploadBtn" type="file" name="attachment" accept="image/png, image/jpeg">
@@ -116,7 +117,7 @@
         let textarea = document.getElementById('message');
         let pattern = textarea.getAttribute('pattern');
 
-        let patternRegex = new RegExp("^" + pattern.replace(/^\^|\$$/g, '') + "$", "g");
+        let patternRegex = new RegExp(`^${pattern.replace(/^\^|\$$/g, '')}$`, 'm');
 
         if (textarea.value.match(patternRegex)) textarea.style.backgroundColor = '#FFF275';
         else textarea.style.backgroundColor = '#FFC566';
