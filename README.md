@@ -13,7 +13,7 @@ Actually you can find:
 Do you have an idea to solve a Logic game or an idea of an animation? Let me know!
 
 ## What I'm working on?
-- [ ] Improve user experience with logic games
+- [X] Improve user experience with logic games
 - [ ] Add a blog section to show and explain how my solvers work
 
 [Tree]: https://masterquiz.github.io/apl/logic_games/tree.html
