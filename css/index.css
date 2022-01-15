@@ -1,5 +1,5 @@
 /* main */
-main>* {
+main > * {
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -38,15 +38,13 @@ main>* {
 .name-animation h1:first-child::before {
   color: var(--clr-primary-900);
   border-right: 0px solid var(--clr-primary-900);
-  animation: start 6s 1s forwards,
-    finish 1s 12s forwards;
+  animation: start 6s 1s forwards, finish 1s 12s forwards;
 }
 
-.name-animation h1:last-child::before {
+.name-animation h1:nth-child(2)::before {
   color: var(--clr-primary-500);
   border-right: 0px solid var(--clr-primary-500);
-  animation: start 6s 5s forwards,
-    finish 1s 12s forwards;
+  animation: start 6s 5s forwards, finish 1s 12s forwards;
 }
 
 @keyframes start {
@@ -54,7 +52,8 @@ main>* {
     width: 102%;
   }
 
-  0%, 100% {
+  0%,
+  100% {
     border-right-width: 3px;
   }
 }
@@ -83,7 +82,7 @@ main>* {
   .name-animation h1:first-child::before {
     animation-timing-function: ease-in;
   }
-  
+
   .name-animation h1:last-child::before {
     animation-timing-function: ease-out;
   }
