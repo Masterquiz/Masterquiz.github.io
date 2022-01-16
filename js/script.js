@@ -5,20 +5,20 @@
 
   // Menu animation
   let menu = document.querySelector(".menu");
-  if (Math.random() < .2) {
-    document.querySelector(".ham").style.display = 'none';
-    document.querySelector(".hamMQ").addEventListener('click', elem => {
-      elem.target.classList.toggle("changeMQ");
-      menu.style.transitionDuration = '.3s';
-      menu.classList.toggle("menu-change");
-    });
-  } else {
+  if (Math.random() > .2) {
     document.querySelector(".hamMQ").style.display = 'none';
     document.querySelector(".ham").addEventListener('click', elem => {
-      elem.target.classList.toggle("change");
+      elem.target.closest(".ham").classList.toggle("change");
       menu.style.transitionDuration = '.3s';
       menu.classList.toggle("menu-change");
     })
+  } else {
+    document.querySelector(".ham").style.display = 'none';
+    document.querySelector(".hamMQ").addEventListener('click', elem => {
+      elem.target.closest(".hamMQ").classList.toggle("changeMQ");
+      menu.style.transitionDuration = '.3s';
+      menu.classList.toggle("menu-change");
+    });
   }
 
   // Load footer
@@ -26,6 +26,6 @@
   document.querySelector('#footer').innerHTML = await footer.text();
 
   // Loose focus when button clicked
-  [...document.querySelectorAll('button')]
-    .map(x => x.addEventListener('click', x.blur()));
+  [...document.querySelectorAll('button')].map(x =>
+    x.addEventListener('click', () => setTimeout(() => x.blur(), 270)));
 })();

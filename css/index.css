@@ -75,7 +75,7 @@ main > * {
     transform: translateX(-50%);
   }
 
-  .name-animation h1:last-child {
+  .name-animation h1:nth-child(2) {
     transform: translateX(50%);
   }
 
@@ -83,7 +83,7 @@ main > * {
     animation-timing-function: ease-in;
   }
 
-  .name-animation h1:last-child::before {
+  .name-animation h1:nth-child(2)::before {
     animation-timing-function: ease-out;
   }
 }

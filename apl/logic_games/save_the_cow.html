@@ -11,7 +11,7 @@
   <script src="/js/apl/logic_games/puzzle_utils.js" defer></script>
   <script src="/js/apl/logic_games/save_the_cow.js" defer></script>
 
-  <script src="/js/load_header_footer.js"></script>
+  <script src="/js/script.js"></script>
   <script>
     (async () => {
       let nav = await fetch('/base/logic_games_nav.html');
@@ -26,6 +26,7 @@
   <section id="nav"></section>
 
   <main>
+    <!-- Work in progress -->
     <h1>Save the cow solver</h1>
 
     <div class="view-on-mobile">
@@ -59,6 +60,7 @@
           <table class="try__table"></table>
           <div class="try__btns">
             <button class="btns__verify">Verify</button>
+            <input class="btns__mode" type="number">
           </div>
         </section>
       </div>

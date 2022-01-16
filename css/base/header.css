@@ -6,7 +6,8 @@ header {
 }
 
 .logo {
-  filter: invert(90%) sepia(48%) saturate(5427%) hue-rotate(309deg) brightness(101%) contrast(104%);
+  filter: invert(90%) sepia(48%) saturate(5427%) hue-rotate(309deg)
+    brightness(101%) contrast(104%);
   z-index: 99;
 }
 
@@ -36,11 +37,6 @@ header {
   position: fixed;
   top: 1.8em;
   right: 1em;
-}
-
-.bar1, .bar2, .bar3,
-.bar1MQ, .bar2MQ, .bar3MQ {
-  pointer-events: none;
 }
 
 /* Menu ham */
@@ -93,13 +89,14 @@ header {
 }
 
 .changeMQ label {
-  animation: moveUpThenDown .8s ease 0.2s forwards,
+  animation: moveUpThenDown 0.8s ease 0.2s forwards,
     shakeWhileMovingUp 0.8s ease 0.2s forwards,
     shakeWhileMovingDown 0.2s ease 0.8s forwards;
 }
 
 @keyframes moveUpThenDown {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
 
@@ -176,7 +173,7 @@ header {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: rgba(255, 60, 56, .75);
+  background-color: rgba(255, 60, 56, 0.75);
   z-index: 98;
   position: fixed;
   top: 0;
@@ -192,29 +189,29 @@ header {
 }
 
 .menu-change::before {
-  content: '';
+  content: "";
   position: absolute;
   background: inherit;
   z-index: -1;
   inset: 0;
-  box-shadow: var(inset 0 0 2000px rgba(255, 60, 56, .75));
+  box-shadow: var(inset 0 0 2000px rgba(255, 60, 56, 0.75));
   filter: blur(10px);
 }
 
 .menu li {
   padding-inline: 0.3125em;
-  line-height: 2.50em;
+  line-height: 2.5em;
   font-size: 1.125rem;
   color: var(--clr-primary-300);
 }
 
 .menu li a::after {
-  content: '';
+  content: "";
   width: 0;
   height: 0.125em;
   background-color: var(--clr-primary-300);
   display: block;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .menu li a:hover::after,
@@ -253,7 +250,8 @@ header {
     width: 80%;
   }
 
-  .ham {
+  .ham,
+  .hamMQ {
     display: none;
   }
 }

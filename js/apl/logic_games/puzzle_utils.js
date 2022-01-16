@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
   session_style(1);
+  document.querySelector('.dimension__value').setAttribute('onclick', 'select()');
   document.querySelector('.dimension__value').value = '';
   document.querySelector('.dimension__button').click();
 
-  [...document.querySelectorAll('.btns__solve, .btns__create, .btns__try')]
-    .map(x => x.disabled = true);
+  input_btns = [...document.querySelectorAll('.input__btns button')];
+  input_btns.map(elem => elem.disabled = true);
 });
 
 function session_style(mode) {
@@ -34,6 +35,10 @@ document.querySelector('.dimension__value').addEventListener('keyup', e => {
   if (e.keyCode === 13) document.querySelector('.dimension__button').click();
 });
 
+document.querySelector('.btns__restart').addEventListener('click', () => {
+  document.querySelector('.dimension__button').click();
+});
+
 document.querySelector('.dimension__button').addEventListener('click', () => {
   session_style(1);
 
@@ -52,26 +57,16 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
     input_table.appendChild(table);
 
     for (i = 0; i < width; ++i) {
-      let row = document.createElement('tr');
+      let tr = document.createElement('tr');
       for (j = 0; j < width; ++j) {
-        let cell = document.createElement('input');
-        cell.type = 'number';
-        cell.placeholder = '';
-        cell.setAttribute('onclick', 'select()');
-        row.appendChild(cell);
+        let elem = document.createElement('input');
+        elem.type = 'number';
+        elem.placeholder = '';
+        elem.setAttribute('onclick', 'select()');
+        tr.appendChild(elem);
       }
-      tbody.appendChild(row);
+      tbody.appendChild(tr);
     }
   }
   else alert(`Dimension not valid!\nTry again with a number between ${MIN_WIDTH} and ${MAX_WIDTH}`);
-});
-
-document.querySelector('.btns__restart').addEventListener('click', () => {
-  session_style(1);
-
-  [...document.querySelectorAll('.input__table input')]
-    .map(x => {
-      x.value = '';
-      x.placeholder = '';
-    });
 });
