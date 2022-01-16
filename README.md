@@ -14,6 +14,7 @@ Do you have an idea to solve a Logic game or an idea of an animation? Let me kno
 
 ## What I'm working on?
 - [X] Improve user experience with logic games
+- [ ] Add instructions and rules
 - [ ] Add a blog section to show and explain how my solvers work
 
 [Tree]: https://masterquiz.github.io/apl/logic_games/tree.html
