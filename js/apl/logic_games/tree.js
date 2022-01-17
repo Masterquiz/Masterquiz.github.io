@@ -2,15 +2,10 @@
 const MIN_WIDTH = 5;
 const MAX_WIDTH = 8;
 const EXAMPLES = {
-  7: [
-    ['1 1 1 1 1 2 2', '1 1 1 3 3 2 2', '5 5 4 3 3 3 2', '5 5 4 6 6 6 2', '5 5 6 6 6 6 6', '7 7 7 6 6 6 6', '7 7 7 6 6 6 6'],
-    ['1 2 2 5 3 3 3', '1 4 5 5 3 3 3', '4 4 5 5 5 3 3', '4 4 5 5 6 6 6', '4 4 7 7 6 6 6', '7 7 7 7 7 6 6', '7 7 7 7 7 7 7'],
-    ['1 1 2 2 2 2 7', '1 1 2 2 2 2 7', '3 3 4 5 5 7 7', '4 4 4 5 5 7 7', '6 6 6 5 5 7 7', '6 6 6 6 7 7 7', '6 6 6 6 7 7 7']
-  ],
   8: [
-    ['1 1 1 1 1 1 1 1', '2 2 2 2 2 2 2 8', '2 2 2 2 2 2 2 8', '3 3 2 2 2 2 8 8', '3 3 3 6 6 6 8 8', '4 4 5 6 6 6 8 8', '5 5 5 6 6 6 8 8', '7 7 7 7 7 8 8 8'],
-    ['1 1 1 1 2 2 2 2', '5 3 3 4 4 2 2 2', '5 5 4 4 4 4 2 2', '5 5 6 6 6 6 2 8', '5 6 6 6 6 6 6 8', '5 7 7 7 7 7 8 8', '7 7 7 7 7 7 8 8', '7 7 7 7 7 8 8 8'],
-    ['3 2 1 1 1 1 1 1', '3 2 2 1 1 1 1 4', '3 2 2 2 1 1 4 4', '3 3 3 6 1 4 4 4', '3 5 5 6 6 4 4 4', '5 5 5 6 6 6 4 4', '7 5 8 6 6 6 6 4', '7 8 8 8 8 8 8 4']
+    ["3 1 1 1 1 1 1 1", "3 1 1 1 1 1 1 3", "2 0 0 0 0 0 0 2", "3 1 2 0 0 0 3 0", "2 0 1 3 1 1 2 0", "3 1 3 2 0 0 2 0", "3 1 0 2 0 0 2 0", "3 1 1 1 1 3 0 0"],
+    ["3 1 1 1 3 1 1 1", "3 3 1 3 1 2 0 0", "2 1 3 0 0 1 2 0", "2 0 3 1 1 1 2 3", "2 3 0 0 0 0 1 2", "2 3 1 1 1 1 3 0", "3 0 0 0 0 0 2 0", "2 0 0 0 0 3 0 0"],
+    ["3 3 3 1 1 1 1 1", "2 2 1 2 0 0 0 3", "2 2 0 1 2 0 3 0", "2 1 1 3 2 3 0 0", "2 3 1 2 1 2 0 0", "3 0 0 2 0 1 2 0", "3 2 3 2 0 0 1 2", "2 3 0 1 1 1 1 2"]
   ],
 };
 
@@ -45,7 +40,7 @@ const EXAMPLES = {
     ∇ sol ← solver m
       n ← 1+8<≢m
       sol ← 1=⊃{⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,m)⊢(⊂0⍴⍨⍴)m
-      ∇`;
+    ∇`;
   code += `⋄
     ∇ mat ← createTree x
       mat ← x x⍴(⍳x)@(⍳⍤⍴∊x?⍴)⊢{0}¨⍳×⍨x
@@ -53,6 +48,18 @@ const EXAMPLES = {
     ∇`;
   code += `⋄
     creator ← {(createTree∘≢) {⍵⍵ ⍵:⍵ ⋄ ∇⍺⍺ ⍵} (((1=≢)∧(∧/1∘∊¨))∘{n←1+8<≢m←⍵ ⋄ {⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢(⊂0⍴⍨⍴)⍵}) ⊢0⍴⍨⍵ ⍵}`
+  code += `⋄
+    format ← {(1⍪2≠⌿⍵)+(2,2×2≠/⍵)}`;
+  code += `⋄
+    reverse_format ← {
+      (x y) ← ⍵
+      pos ← ⍳⍴x
+      x ← ⊃,/pos⊂¨⍨⍥↓x
+      y ← ⊃,/(⍉y)⊂¨⍥↓⌽¨pos
+      b ← ∪{⊃,/y/⍨⍵}¨↓∨/¨x∘.∊y
+      vec ← ∪{⊃⍵/⍨(⊢∊⌈/)≢¨⍵}¨b∘{⍺/⍨⍵}¨↓∨/¨∘.∊⍨b
+      ⊃(⍳≢vec)+.×vec∊⍨¨⊂pos
+    }`;
 
   const res = await fetch('https://tryapl.org/Exec', {
     'method': 'POST',
@@ -64,13 +71,48 @@ const EXAMPLES = {
   input_btns.map(elem => elem.disabled = false);
 })();
 
-document.querySelector('.btns__solve').addEventListener('click', async () => {
-  input_btns.map(elem => elem.disabled = true);
+function transpose(matrix) {
+  return matrix.reduce(
+    ($, row) => row.map((_, i) =>
+      [...($[i] || []), row[i]]
+    ), []
+  )
+}
 
-  const input = [...document.querySelectorAll('.input__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => +elem.value)
+// Change default td's setting
+document.querySelector('.dimension__button').addEventListener('click', () => {
+  [...document.querySelectorAll('.input__table tr')]
+    .map((tr, i) => [...tr.querySelectorAll('td')]
+      .map((td, j) => {
+        td.contentEditable = false;
+        td.addEventListener('click', e => {
+          if (e.offsetX < 2 && j > 0) {
+            if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
+            else td.style.borderLeft = "2px solid #000";
+          } else if (e.offsetY <= 2 && i > 0) {
+            if (td.style.borderTop === "2px solid rgb(0, 0, 0)") td.style.borderTop = "1px solid #20202055";
+            else td.style.borderTop = "2px solid #000";
+          }
+        });
+      })
     );
+});
+
+document.querySelector('.btns__solve').addEventListener('click', async () => {
+  input_btns.map(btn => btn.disabled = true);
+
+  const matrix = [...document.querySelectorAll('.input__table tr')]
+    .map(tr => [...tr.querySelectorAll('td')]
+    );
+
+  const rows = matrix.map(tr => tr
+    .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
+  );
+
+  const columns = transpose(
+    transpose(matrix)
+      .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
+  )
 
   const output_table = document.querySelector('.output__table');
   output_table.innerHTML = '';
@@ -80,37 +122,34 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
   table.appendChild(tbody);
   output_table.appendChild(table);
 
-  JSON.parse(await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`))
+  JSON.parse(await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(rows)}' '${JSON.stringify(columns)}'`))
     .map((item, i) => {
       const tr = document.createElement('tr');
       item.map((x, j) => {
-        const elem = document.createElement('input');
-        elem.readOnly = true;
-        if (x) {
-          elem.value = input[i][j];
-          elem.style.color = '#4169e1';
-        } else elem.placeholder = input[i][j];
-        tr.appendChild(elem);
+        const td = document.createElement('td');
+
+        if (columns[i][j]) td.style.borderTop = "2px solid #202020";
+        if (rows[i][j]) td.style.borderLeft = "2px solid #202020";
+        if (x) td.innerText = '🌳';
+
+        tr.appendChild(td);
       });
       tbody.appendChild(tr);
     });
 
-  input_btns.map(elem => elem.disabled = false);
+  input_btns.map(btn => btn.disabled = false);
   session_style(2);
 });
 
 document.querySelector('.btns__create').addEventListener('click', async () => {
-  // !Check if there's only one possible solution
-  input_btns.map(elem => elem.disabled = true);
+  input_btns.map(btn => btn.disabled = true);
   session_style(1);
 
   const input_table = document.querySelector('.input__table');
   const width = document.querySelector('.dimension__value').value || input_table.querySelector('tr').childElementCount;
 
-  if (width <= 6) matrix = await executeAPL(`creator ${width}`)
-  else if (width === 7 && confirm(`The creator may take up to 5s to create a Tree of this dimensions.\nDo you want to continue anyway (otherwise it'll be outputted a precreated Tree)?`)) matrix = await executeAPL(`creator ${width}`)
-  else matrix = EXAMPLES[width][EXAMPLES[width].length * Math.random() | 0]
-
+  if (width <= 7) matrix = await executeAPL(`format creator ${width}`);
+  else matrix = EXAMPLES[width][EXAMPLES[width].length * Math.random() | 0];
 
   input_table.innerHTML = '';
   const table = document.createElement('table');
@@ -118,26 +157,45 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
   table.appendChild(tbody);
   input_table.appendChild(table);
 
-  matrix.map(item => {
+  matrix.map((y, i) => {
     const tr = document.createElement('tr');
-    item.split` `.map(x => {
-      const elem = document.createElement('input');
-      elem.type = 'number';
-      elem.setAttribute('onclick', 'select()');
-      elem.value = x;
-      tr.appendChild(elem);
+    y.split` `.map((x, j) => {
+      const td = document.createElement('td');
+
+      if (x & 1) td.style.borderTop = "2px solid #000";
+      if (x & 2) td.style.borderLeft = "2px solid #000";
+
+      td.addEventListener('click', e => {
+        if (e.offsetX < 2 && j > 0) {
+          if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
+          else td.style.borderLeft = "2px solid #000";
+        } else if (e.offsetY <= 2 && i > 0) {
+          if (td.style.borderTop === "2px solid rgb(0, 0, 0)") td.style.borderTop = "1px solid #20202055";
+          else td.style.borderTop = "2px solid #000";
+        }
+      });
+
+      tr.appendChild(td);
     })
     tbody.appendChild(tr);
   });
 
-  input_btns.map(elem => elem.disabled = false);
+  input_btns.map(btn => btn.disabled = false);
 });
 
-document.querySelector('.btns__try').addEventListener('click', async () => {
-  const input = [...document.querySelectorAll('.input__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => +elem.value)
+document.querySelector('.btns__try').addEventListener('click', () => {
+  const matrix = [...document.querySelectorAll('.input__table tr')]
+    .map(td => [...td.querySelectorAll('td')]
     );
+
+  const rows = matrix.map(tr => tr
+    .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
+  );
+
+  const columns = transpose(
+    transpose(matrix)
+      .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
+  )
 
   // TODO Check if the puzzle has (one) solution
   const try_label = document.querySelector('.try h2');
@@ -152,75 +210,75 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
   table.appendChild(tbody);
   try_table.appendChild(table);
 
-  input.map(item => {
+  matrix.map((y, i) => {
     const tr = document.createElement('tr');
-    item.map(x => {
-      const elem = document.createElement('input');
+    y.map((x, j) => {
+      const td = document.createElement('td');
 
-      elem.placeholder = x;
-      elem.readOnly = true;
+      if (columns[i][j]) td.style.borderTop = "2px solid #000";
+      if (rows[i][j]) td.style.borderLeft = "2px solid #000";
 
-      elem.addEventListener('click', function f() {
-        const btn_mode = document.querySelector('.btns__mode').style.backgroundColor;
-        if (try_label.innerText === 'Correct!') elem.removeEventListener('click', f);
+      td.addEventListener('click', function f() {
+        const btn_mode = document.querySelector('.btns__mode').innerText;
+        if (try_label.innerText === 'Correct!') this.removeEventListener('click', f);
         else {
           if (try_label.innerText === 'Wrong!') {
             try_label.innerText = 'Try again!';
             try_label.style.color = '#4169e1';
           }
 
-          if (elem.style.color === btn_mode) {
-            elem.value = '';
-            elem.style.color = '';
-          } else {
-            elem.style.color = btn_mode;
-            elem.value = elem.placeholder;
-          }
+          if (this.innerText === btn_mode) this.innerText = '';
+          else this.innerText = btn_mode;
         }
       });
 
-      tr.appendChild(elem);
+      tr.appendChild(td);
     })
     tbody.appendChild(tr);
   });
 
   document.querySelector('.btns__verify').disabled = false;
-  document.querySelector('.btns__mode').style.border = 'none';
-  document.querySelector('.btns__mode').style.backgroundColor = '#4169e1';
+  document.querySelector('.btns__mode').innerText = '🌳';
 
   session_style(3);
 });
 
 document.querySelector('.btns__verify').addEventListener('click', async () => {
-  const input = [...document.querySelectorAll('.input__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => +elem.value)
+  const matrix = [...document.querySelectorAll('.input__table tr')]
+    .map(tr => [...tr.querySelectorAll('td')]
     );
 
+  const rows = matrix.map(tr => tr
+    .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
+  );
+
+  const columns = transpose(
+    transpose(matrix)
+      .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
+  )
+
   const solution = JSON.parse(
-    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`)
+    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(rows)}' '${JSON.stringify(columns)}'`)
   );
 
   const try_matrix = [...document.querySelectorAll('.try__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => +(elem.style.color === 'rgb(65, 105, 225)')));
+    .map(tr => [...tr.querySelectorAll('td')])
+    .map(y => y.map(x => +(x.innerText === '🌳')));
 
   const try_label = document.querySelector('.try h2');
-  const try_table_input = [...document.querySelectorAll('.try__table input')];
 
   if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {
     try_label.style.color = '#080';
     try_label.innerText = 'Correct!';
 
-    document.querySelector('.btns__verify').disabled = true;
+    this.disabled = true;
   } else {
     try_label.style.color = '#e62020';
     try_label.innerText = 'Wrong!';
   }
 });
 
-document.querySelector('.btns__mode').addEventListener('click', function f(elem) {
-  if (document.querySelector('.try h2').innerText === 'Correct!') elem.removeEventListener('click', f);
-  elem.target.style.backgroundColor =
-    (elem.target.style.backgroundColor === 'rgb(65, 105, 225)') ? '#ba55d3' : '#4169e1';
+document.querySelector('.btns__mode').addEventListener('click', function f() {
+  if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', f);
+  this.innerText = (this.innerText === '🌳') ? '❌' : '🌳';
 });

@@ -48,15 +48,15 @@ const EXAMPLES = {
   });
   [state, size, hash] = (await res.json()).slice(0, -1);
 
-  input_btns.map(elem => elem.disabled = false);
+  input_btns.map(btn => btn.disabled = false);
 })();
 
 document.querySelector('.btns__solve').addEventListener('click', async () => {
-  input_btns.map(elem => elem.disabled = true);
+  input_btns.map(btn => btn.disabled = true);
 
-  const input = [...document.querySelectorAll('.input__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => (elem.value === '') ? 9 : +elem.value)
+  const matrix = [...document.querySelectorAll('.input__table tr')]
+    .map(tr => [...tr.querySelectorAll('td')]
+      .map(td => (td.innerText.replace('\n', '') === '') ? 9 : +td.innerText)
     );
 
   const output_table = document.querySelector('.output__table');
@@ -68,29 +68,29 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
   output_table.appendChild(table);
 
   // Create .output__table from filled with the solution
-  (await executeAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`))
+  (await executeAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`))
     .map((item, i) => {
       const tr = document.createElement('tr');
       item.split``.map((x, j) => {
-        const elem = document.createElement('input');
-        elem.readOnly = true;
-        if (x === ' ') elem.placeholder = input[i][j];
+        const td = document.createElement('td');
+        td.contentEditable = false;
+        if (x === ' ') td.innerText = matrix[i][j];
         else {
-          elem.placeholder = x;
-          elem.style.color = '#4169e1';
+          td.style.color = '#4169e1';
+          td.innerText = x;
         }
-        tr.appendChild(elem);
+        tr.appendChild(td);
       })
       tbody.appendChild(tr);
     });
 
-  input_btns.map(elem => elem.disabled = false);
+  input_btns.map(btn => btn.disabled = false);
   session_style(2);
 });
 
 document.querySelector('.btns__create').addEventListener('click', async () => {
   session_style(1);
-  input_btns.map(elem => elem.disabled = true);
+  input_btns.map(btn => btn.disabled = true);
 
   const input_table = document.querySelector('.input__table');
   const width = document.querySelector('.dimension__value').value || input_table.querySelector('tr').childElementCount;
@@ -105,22 +105,24 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
   EXAMPLES[width][EXAMPLES[width].length * Math.random() | 0].map(item => {
     const tr = document.createElement('tr');
     item.split` `.map(x => {
-      const elem = document.createElement('input');
-      elem.type = 'number';
-      elem.setAttribute('onclick', 'select()');
-      elem.value = (x === '9') ? '' : x;
-      tr.appendChild(elem);
+      const td = document.createElement('td');
+
+      td.contentEditable = true;
+      td.innerText = (x === '9') ? '' : x;
+
+      td.appendChild(document.createElement('br'));
+      tr.appendChild(td);
     })
     tbody.appendChild(tr);
   });
 
-  input_btns.map(elem => elem.disabled = false);
+  input_btns.map(btn => btn.disabled = false);
 });
 
 document.querySelector('.btns__try').addEventListener('click', async () => {
-  const input = [...document.querySelectorAll('.input__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => (elem.value === '') ? 9 : +elem.value)
+  const matrix = [...document.querySelectorAll('.input__table tr')]
+    .map(tr => [...tr.querySelectorAll('td')]
+      .map(td => (td.innerText.replace('\n', '') === '') ? 9 : +td.innerText)
     );
 
   const try_label = document.querySelector('.try h2');
@@ -135,33 +137,33 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
   table.appendChild(tbody);
   try_table.appendChild(table);
 
-  input.map(item => {
+  matrix.map(item => {
     const tr = document.createElement('tr');
 
     item.map(x => {
-      const elem = document.createElement('input');
+      const td = document.createElement('td');
 
-      elem.readOnly = true;
-      if (x === 9) elem.style.color = '#4169e1';
+      td.contentEditable = false;
+      if (x === 9) td.style.color = '#4169e1';
       else {
-        elem.style.pointerEvents = 'none';
-        elem.placeholder = x
+        td.style.pointerEvents = 'none';
+        td.innerText = x;
       };
 
-      elem.addEventListener('click', function f() {
+      td.addEventListener('click', function f() {
         const btn_mode = document.querySelector('.btns__mode').innerText;
-        if (try_label.innerText === 'Correct!') elem.removeEventListener('click', f);
+        if (try_label.innerText === 'Correct!') td.removeEventListener('click', f);
         else {
           if (try_label.innerText === 'Wrong!') {
-            try_label.innerText = 'Try again!';
             try_label.style.color = '#4169e1';
+            try_label.innerText = 'Try again!';
           }
 
-          elem.value = (elem.value === btn_mode) ? '' : btn_mode;
+          td.innerText = (td.innerText === btn_mode) ? '' : btn_mode;
         }
       });
 
-      tr.appendChild(elem);
+      tr.appendChild(td);
     });
 
     tbody.appendChild(tr);
@@ -175,19 +177,18 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
 });
 
 document.querySelector('.btns__verify').addEventListener('click', async () => {
-  const input = [...document.querySelectorAll('.input__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => (elem.value === '') ? 9 : +elem.value)
+  const matrix = [...document.querySelectorAll('.input__table tr')]
+    .map(tr => [...tr.querySelectorAll('td')]
+      .map(td => (td.innerText.replace('\n', '') === '') ? 9 : +td.innerText)
     );
 
   const solution = JSON.parse(
-    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(input)}'`)
+    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`)
   );
 
-  // TODO: User can input +-
   const try_matrix = [...document.querySelectorAll('.try__table tr')]
-    .map(row => [...row.querySelectorAll('input')]
-      .map(elem => (elem.value === '') ? 0 : (elem.value === '+') ? 1 : -1)
+    .map(tr => [...tr.querySelectorAll('td')]
+      .map(td => (td.innerText !== '+' && td.innerText != '-') ? 0 : (td.innerText === '+') ? 1 : -1)
     )
 
   const try_label = document.querySelector('.try h2');
@@ -204,8 +205,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
   }
 });
 
-document.querySelector('.btns__mode').addEventListener('click', function f(elem) {
-  if (document.querySelector('.try h2').innerText === 'Correct!') elem.removeEventListener('click', f);
-  elem.target.innerText =
-    (elem.target.innerText === '+') ? '-' : '+';
+document.querySelector('.btns__mode').addEventListener('click', function f() {
+  if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', f);
+  this.innerText = (this.innerText === '+') ? '-' : '+';
 });

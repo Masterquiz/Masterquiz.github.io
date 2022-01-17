@@ -52,21 +52,30 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
     input_table.innerHTML = '';
 
     const table = document.createElement('table');
-    const tbody = document.createElement('tbody');
-    table.appendChild(tbody);
     input_table.appendChild(table);
 
     for (i = 0; i < width; ++i) {
       let tr = document.createElement('tr');
       for (j = 0; j < width; ++j) {
-        let elem = document.createElement('input');
-        elem.type = 'number';
-        elem.placeholder = '';
-        elem.setAttribute('onclick', 'select()');
-        tr.appendChild(elem);
+        const td = document.createElement('td');
+        td.contentEditable = true;
+        td.appendChild(document.createElement('br'));
+        tr.appendChild(td);
       }
-      tbody.appendChild(tr);
+      table.appendChild(tr);
     }
   }
   else alert(`Dimension not valid!\nTry again with a number between ${MIN_WIDTH} and ${MAX_WIDTH}`);
 });
+
+// [...document.querySelectorAll('td')].map(elem =>
+//   elem.addEventListener('click', e => {
+//     const selection = window.getSelection();
+//     selection.removeAllRanges();
+
+//     console.log(e.target)
+//     const range = document.createRange();
+//     range.selectNodeContents(e.target);
+//     selection.addRange(range);
+//   })
+// );
