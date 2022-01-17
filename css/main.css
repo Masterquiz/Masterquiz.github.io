@@ -1,31 +1,25 @@
 @font-face {
-  font-display: swap;
-  font-family: 'DejaVu Sans Mono';
-  font-style: normal;
-  font-weight: 400;
-  src:
-    local('DejaVu Sans Mono'),
-    url(/css/font/DejaVuSansMono.woff2) format('woff2'),
-    url(/css/font/DejaVuSansMono.woff) format('woff');
+  font-family: "APL";
+  src: local("APL"), url("/css/font/Apl385.ttf") format("truetype");
 }
 
 :root {
-  --clr-primary-000: #FFCFCE;
+  --clr-primary-000: #ffcfce;
   /* Baby Pink - (255, 207, 206) */
-  --clr-primary-100: #FFF275;
+  --clr-primary-100: #fff275;
   /* Corn - (255, 242, 117) */
-  --clr-primary-300: #FFC566;
+  --clr-primary-300: #ffc566;
   /* Maximum Yellow Red - (255, 197, 102) */
-  --clr-primary-500: #FF9757;
+  --clr-primary-500: #ff9757;
   /* Atomic Tangerine - (255, 151, 87) */
-  --clr-primary-700: #FF6A47;
+  --clr-primary-700: #ff6a47;
   /* Outrageous Orange - (255, 106, 71) */
-  --clr-primary-900: #FF3C38;
+  --clr-primary-900: #ff3c38;
   /* Tart Orange - (255, 60, 56)*/
 
-  --ff-accent: 'Oleo Script', serif;
+  --ff-accent: "Oleo Script", serif;
   --ff-primary: system-ui, sans-serif;
-  --ff-code-APL: 'DejaVu Sans Mono', monospace;
+  --ff-code-APL: "APL", monospace;
 }
 
 * {
@@ -77,7 +71,7 @@ p,
 a,
 li {
   font-weight: 400;
-  font-size: calc(1.02rem + .24vw);
+  font-size: calc(1.02rem + 0.24vw);
 }
 
 ul {

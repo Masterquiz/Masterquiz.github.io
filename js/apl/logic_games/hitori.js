@@ -92,7 +92,7 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
       });
 
     session_style(2);
-  } else alert(`There can't be 0s in the input`);
+  } else alert(`An error occurred solving the puzzle`);
 
   input_btns.map(btn => btn.disabled = false);
 });
@@ -134,6 +134,7 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
       .map(td => +td.innerText)
     )
 
+  // !Ugly
   if (-1 === matrix.map(x => x.indexOf(0) === -1).indexOf(false)) {
     const try_label = document.querySelector('.try h2');
     try_label.innerText = 'Solve';
@@ -182,7 +183,7 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
     document.querySelector('.btns__mode').style.border = 'none';
     document.querySelector('.btns__mode').style.backgroundColor = '#4169e1';
     session_style(3);
-  } else alert(`There can't be 0s in the input`);
+  } else alert(`An error occurred solving the puzzle`);
 
   document.querySelector('.btns__verify').disabled = false;
 });

@@ -74,7 +74,7 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
       item.split``.map((x, j) => {
         const td = document.createElement('td');
         td.contentEditable = false;
-        if (x === ' ') td.innerText = matrix[i][j];
+        if (x === ' ' && matrix[i][j] != 9) td.innerText = matrix[i][j];
         else {
           td.style.color = '#4169e1';
           td.innerText = x;
