@@ -187,10 +187,10 @@ document.querySelector('.btns__try').addEventListener('click', () => {
             try_label.style.color = '#4169e1';
           }
 
-          if (e.offsetX < 10 && j > 0) {
+          if (e.offsetX < 2 && j > 0) {
             if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
             else td.style.borderLeft = "2px solid #000";
-          } else if (e.offsetY <= 10 && i > 0) {
+          } else if (e.offsetY <= 2 && i > 0) {
             if (td.style.borderTop === "2px solid rgb(0, 0, 0)") td.style.borderTop = "1px solid #20202055";
             else td.style.borderTop = "2px solid #000";
           }
