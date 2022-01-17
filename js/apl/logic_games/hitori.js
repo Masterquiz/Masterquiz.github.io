@@ -81,7 +81,6 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
         item.map((x, j) => {
           const td = document.createElement('td');
           td.contentEditable = false;
-          td.style.opacity = 0.5;
           td.innerText = matrix[i][j];
           if (!x) {
             td.style.color = '#fff';
@@ -153,7 +152,6 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
       item.map(x => {
         const td = document.createElement('td');
 
-        td.style.opacity = 0.5;
         td.contentEditable = false;
         td.innerText = x;
 
@@ -220,6 +218,6 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
 
 document.querySelector('.btns__mode').addEventListener('click', function f(td) {
   if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', f);
-  this.style.backgroundColor =
+  else this.style.backgroundColor =
     (this.style.backgroundColor === 'rgb(65, 105, 225)') ? '#ba55d3' : '#4169e1';
 });

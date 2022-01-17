@@ -280,5 +280,5 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
 
 document.querySelector('.btns__mode').addEventListener('click', function f() {
   if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', f);
-  this.innerText = (this.innerText === '🌳') ? '❌' : '🌳';
+  else this.innerText = (this.innerText === '🌳') ? '❌' : '🌳';
 });

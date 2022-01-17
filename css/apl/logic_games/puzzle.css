@@ -68,7 +68,6 @@ h1 {
 table {
   background-color: #fff;
   border-collapse: collapse;
-  overflow: auto;
   white-space: nowrap;
 }
 
@@ -80,6 +79,7 @@ td {
   border-bottom: none;
   text-align: center;
   font-size: 1.1em;
+  outline: none;
 }
 
 table tr td:first-child {
