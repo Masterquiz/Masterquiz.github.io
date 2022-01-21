@@ -79,6 +79,8 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
           td.style.color = '#4169e1';
           td.innerText = x;
         }
+
+        td.appendChild(document.createElement('br'));
         tr.appendChild(td);
       })
       tbody.appendChild(tr);
@@ -163,6 +165,7 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
         }
       });
 
+      td.appendChild(document.createElement('br'));
       tr.appendChild(td);
     });
 

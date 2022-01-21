@@ -1,12 +1,15 @@
 // Game propriety
 const MIN_WIDTH = 5;
-const MAX_WIDTH = 8;
+const MAX_WIDTH = 15;
 const EXAMPLES = {
   8: [
-    ["3 1 1 1 1 1 1 1", "3 1 1 1 1 1 1 3", "2 0 0 0 0 0 0 2", "3 1 2 0 0 0 3 0", "2 0 1 3 1 1 2 0", "3 1 3 2 0 0 2 0", "3 1 0 2 0 0 2 0", "3 1 1 1 1 3 0 0"],
-    ["3 1 1 1 3 1 1 1", "3 3 1 3 1 2 0 0", "2 1 3 0 0 1 2 0", "2 0 3 1 1 1 2 3", "2 3 0 0 0 0 1 2", "2 3 1 1 1 1 3 0", "3 0 0 0 0 0 2 0", "2 0 0 0 0 3 0 0"],
-    ["3 3 3 1 1 1 1 1", "2 2 1 2 0 0 0 3", "2 2 0 1 2 0 3 0", "2 1 1 3 2 3 0 0", "2 3 1 2 1 2 0 0", "3 0 0 2 0 1 2 0", "3 2 3 2 0 0 1 2", "2 3 0 1 1 1 1 2"]
+    ["0 0 0 0 0 0 0 0", "1 1 1 1 1 1 1 3", "0 0 0 0 0 0 0 2", "1 1 2 0 0 0 3 0", "0 0 1 3 1 1 2 0", "1 1 3 2 0 0 2 0", "1 1 0 2 0 0 2 0", "1 1 1 1 1 3 0 0"],
+    ["1 0 0 0 2 0 0 0", "1 3 1 3 1 2 0 0", "0 1 3 0 0 1 2 0", "0 0 3 1 1 1 2 3", "0 3 0 0 0 0 1 2", "0 3 1 1 1 1 3 0", "1 0 0 0 0 0 2 0", "0 0 0 0 0 3 0 0"],
+    ["0 2 2 0 0 0 0 0", "0 2 1 2 0 0 0 3", "0 2 0 1 2 0 3 0", "0 1 1 3 2 3 0 0", "0 3 1 2 1 2 0 0", "1 0 0 2 0 1 2 0", "1 2 3 2 0 0 1 2", "0 3 0 1 1 1 1 2"],
   ],
+  10: [
+    ["0 0 0 2 0 0 0 0 0 0", "0 3 2 1 2 0 0 0 0 0", "1 0 1 1 3 1 2 0 0 0", "1 2 0 3 0 3 0 0 0 3", "0 1 2 2 0 1 3 1 1 0", "0 0 1 3 1 1 3 2 0 0", "0 0 3 0 0 0 2 2 0 0", "0 3 2 0 0 0 3 1 2 3", "1 0 1 1 2 0 2 0 3 0", "0 0 0 0 3 1 0 0 2 0"],
+  ]
 };
 
 (async () => {
@@ -36,20 +39,32 @@ const EXAMPLES = {
           ctrl >← (0 1)(1 1)(1 0)∊⍨|-/pos
       :EndIf
     ∇`;
+  // code += `⋄
+  //   ∇ sol ← solver m
+  //     n ← 1+8<≢m
+  //     sol ← 1=⊃{⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,m)⊢(⊂0⍴⍨⍴)m
+  //   ∇`;
+  // code += `⋄
+  //   ∇ mat ← createTree x
+  //     mat ← x x⍴(⍳x)@(⍳⍤⍴∊x?⍴)⊢0⍴⍨×⍨x
+  //     mat ← {⍵+(0=⍵)×⌈/¨(9⍴0 1)∘/¨3⍪⌿3,/0(,∘⌽∘⍉⍣4)⍵}⍣≡mat
+  //   ∇`;
+  // code += `⋄
+  //   creator ← {(createTree∘≢) {⍵⍵ ⍵:⍵ ⋄ ∇⍺⍺ ⍵} (((1=≢)∧(∧/1∘∊¨))∘{n←1+8<≢m←⍵ ⋄ {⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢(⊂0⍴⍨⍴)⍵}) ⊢0⍴⍨⍵ ⍵}`
   code += `⋄
-    ∇ sol ← solver m
-      n ← 1+8<≢m
-      sol ← 1=⊃{⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,m)⊢(⊂0⍴⍨⍴)m
-    ∇`;
+    solver ← {
+      n←1+8<≢m←⍵
+      1={⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢⊂{0}¨⍵
+    }`
   code += `⋄
-    ∇ mat ← createTree x
-      mat ← x x⍴(⍳x)@(⍳⍤⍴∊x?⍴)⊢{0}¨⍳×⍨x
-      mat ← {⍵+(⍵=0)×{⌈/⍵/⍨9⍴0 1}¨3⍪⌿3,/0⍪⍨0,⍨0⍪0,⍵}⍣≡mat
-    ∇`;
+    createTree ← {
+      mat ← {(1+⌈/,⍵)@(⊂(?∘⍴⊃⊢)∘⍸¨(~+/,⍥⊂+⌿)×⍵)⊢⍵}⍣(≢⍵)⊢{0}¨⍵
+      {⍵+(0=⍵)×¯1 ¯1↓1 1↓⊃⊃⌈/2 4 5 6 8⌷¨⊂,¯1 0 1∘.⊖¯1 0 1⌽¨⊂0(,∘⌽∘⍉⍣4)⍵}⍣≡mat
+    }`;
   code += `⋄
-    creator ← {(createTree∘≢) {⍵⍵ ⍵:⍵ ⋄ ∇⍺⍺ ⍵} (((1=≢)∧(∧/1∘∊¨))∘{n←1+8<≢m←⍵ ⋄ {⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢(⊂0⍴⍨⍴)⍵}) ⊢0⍴⍨⍵ ⍵}`
-  code += `⋄
-    format ← {(1⍪2≠⌿⍵)+(2,2×2≠/⍵)}`;
+    creator ← {{4::∇createTree ⍵ ⋄ n←1+8<≢m←⍵ ⋄ (1=≢∧(∧/1∘∊¨)) {⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢⊂{0}¨⍵:⍵ ⋄ ∇createTree ⍵} createTree 0⍴⍨⍵ ⍵}`;
+  code += `⋄format ← {(0⍪2≠⌿⍵)+(0,2×2≠/⍵)}`; // Border right and top managed with CSS by default
+  // !Doesn't work
   code += `⋄
     reverse_format ← {
       (x y) ← ⍵
@@ -86,7 +101,7 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
       .map((td, j) => {
         td.contentEditable = false;
         td.addEventListener('click', e => {
-          if (e.offsetX < 2 && j > 0) {
+          if (e.offsetX <= 2 && j > 0) {
             if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
             else td.style.borderLeft = "2px solid #000";
           } else if (e.offsetY <= 2 && i > 0) {
@@ -99,46 +114,51 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
 });
 
 document.querySelector('.btns__solve').addEventListener('click', async () => {
-  input_btns.map(btn => btn.disabled = true);
+  try {
+    input_btns.map(btn => btn.disabled = true);
 
-  const matrix = [...document.querySelectorAll('.input__table tr')]
-    .map(tr => [...tr.querySelectorAll('td')]
+    const matrix = [...document.querySelectorAll('.input__table tr')]
+      .map(tr => [...tr.querySelectorAll('td')]
+      );
+
+    const rows = matrix.map(tr => tr
+      .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
     );
 
-  const rows = matrix.map(tr => tr
-    .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
-  );
+    const columns = transpose(
+      transpose(matrix)
+        .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
+    )
 
-  const columns = transpose(
-    transpose(matrix)
-      .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
-  )
+    const output_table = document.querySelector('.output__table');
+    output_table.innerHTML = '';
 
-  const output_table = document.querySelector('.output__table');
-  output_table.innerHTML = '';
+    const table = document.createElement('table');
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    output_table.appendChild(table);
 
-  const table = document.createElement('table');
-  const tbody = document.createElement('tbody');
-  table.appendChild(tbody);
-  output_table.appendChild(table);
+    JSON.parse(await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) ⊃solver reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(rows)}' '${JSON.stringify(columns)}'`))
+      .map((item, i) => {
+        const tr = document.createElement('tr');
+        item.map((x, j) => {
+          const td = document.createElement('td');
 
-  JSON.parse(await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(rows)}' '${JSON.stringify(columns)}'`))
-    .map((item, i) => {
-      const tr = document.createElement('tr');
-      item.map((x, j) => {
-        const td = document.createElement('td');
+          if (columns[i][j]) td.style.borderTop = "2px solid #202020";
+          if (rows[i][j]) td.style.borderLeft = "2px solid #202020";
+          if (x) td.innerText = '🌳';
 
-        if (columns[i][j]) td.style.borderTop = "2px solid #202020";
-        if (rows[i][j]) td.style.borderLeft = "2px solid #202020";
-        if (x) td.innerText = '🌳';
+          td.appendChild(document.createElement('br'));
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
 
-        tr.appendChild(td);
+        session_style(2);
       });
-      tbody.appendChild(tr);
-    });
-
-  input_btns.map(btn => btn.disabled = false);
-  session_style(2);
+  } catch (error) {
+    session_style(1);
+    console.error(error);
+  } finally { input_btns.map(btn => btn.disabled = false) }
 });
 
 document.querySelector('.btns__create').addEventListener('click', async () => {
@@ -148,8 +168,11 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
   const input_table = document.querySelector('.input__table');
   const width = document.querySelector('.dimension__value').value || input_table.querySelector('tr').childElementCount;
 
-  if (width <= 7) matrix = await executeAPL(`format creator ${width}`);
-  else matrix = EXAMPLES[width][EXAMPLES[width].length * Math.random() | 0];
+  if (width <= 7 || width == 9) matrix = await executeAPL(`format creator ${width}`);
+  else {
+    try { matrix = EXAMPLES[width][EXAMPLES[width].length * Math.random() | 0] }
+    catch { alert(`Can't create a Tree with this width.\nBut you can still create one yourself!`) }
+  }
 
   input_table.innerHTML = '';
   const table = document.createElement('table');
@@ -166,7 +189,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
       if (x & 2) td.style.borderLeft = "2px solid #000";
 
       td.addEventListener('click', e => {
-        if (e.offsetX < 2 && j > 0) {
+        if (e.offsetX <= 2 && j > 0) {
           if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
           else td.style.borderLeft = "2px solid #000";
         } else if (e.offsetY <= 2 && i > 0) {
@@ -175,6 +198,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
         }
       });
 
+      td.appendChild(document.createElement('br'));
       tr.appendChild(td);
     })
     tbody.appendChild(tr);
@@ -232,6 +256,7 @@ document.querySelector('.btns__try').addEventListener('click', () => {
         }
       });
 
+      td.appendChild(document.createElement('br'));
       tr.appendChild(td);
     })
     tbody.appendChild(tr);
@@ -244,37 +269,39 @@ document.querySelector('.btns__try').addEventListener('click', () => {
 });
 
 document.querySelector('.btns__verify').addEventListener('click', async () => {
-  const matrix = [...document.querySelectorAll('.input__table tr')]
-    .map(tr => [...tr.querySelectorAll('td')]
+  try {
+    const matrix = [...document.querySelectorAll('.input__table tr')]
+      .map(tr => [...tr.querySelectorAll('td')]
+      );
+
+    const rows = matrix.map(tr => tr
+      .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
     );
 
-  const rows = matrix.map(tr => tr
-    .map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color')))
-  );
+    const columns = transpose(
+      transpose(matrix)
+        .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
+    )
 
-  const columns = transpose(
-    transpose(matrix)
-      .map(tr => tr.map(td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))))
-  )
+    const try_matrix = [...document.querySelectorAll('.try__table tr')]
+      .map(tr => [...tr.querySelectorAll('td')])
+      .map(y => y.map(x => +(x.innerText === '🌳')));
+    const try_label = document.querySelector('.try h2');
 
-  const solution = JSON.parse(
-    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(rows)}' '${JSON.stringify(columns)}'`)
-  );
+    if (+await executeAPL(`{((1+8≤≢⍵)/⍳≢⍵)≡{⍵[⍋⍵]}0~⍨,⍵}((↑⍣≡0∘⎕JSON) '${JSON.stringify(try_matrix)}') × reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(rows)}' '${JSON.stringify(columns)}'`)) {
+      try_label.style.color = '#080';
+      try_label.innerText = 'Correct!';
 
-  const try_matrix = [...document.querySelectorAll('.try__table tr')]
-    .map(tr => [...tr.querySelectorAll('td')])
-    .map(y => y.map(x => +(x.innerText === '🌳')));
-
-  const try_label = document.querySelector('.try h2');
-
-  if ((JSON.stringify(solution) === JSON.stringify(try_matrix))) {
-    try_label.style.color = '#080';
-    try_label.innerText = 'Correct!';
-
-    this.disabled = true;
-  } else {
-    try_label.style.color = '#e62020';
-    try_label.innerText = 'Wrong!';
+      this.disabled = true;
+    } else {
+      try_label.style.color = '#e62020';
+      try_label.innerText = 'Wrong!';
+    }
+  } catch (error) {
+    session_style(1);
+    console.error(error);
+  } finally {
+    input_btns.map(btn => btn.disabled = false);
   }
 });
 

@@ -109,6 +109,7 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
           td.style.color = '#4169e1'
         }
 
+        td.appendChild(document.createElement('br'));
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
@@ -141,6 +142,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
       td.addEventListener('click', () => td.innerText = (td.innerText) ? '' : '🐄')
       td.innerText = (+x) ? '🐄' : '';
 
+      td.appendChild(document.createElement('br'));
       tr.appendChild(td);
     })
     tbody.appendChild(tr);
@@ -187,7 +189,7 @@ document.querySelector('.btns__try').addEventListener('click', () => {
             try_label.style.color = '#4169e1';
           }
 
-          if (e.offsetX < 2 && j > 0) {
+          if (e.offsetX <= 2 && j > 0) {
             if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
             else td.style.borderLeft = "2px solid #000";
           } else if (e.offsetY <= 2 && i > 0) {
@@ -197,6 +199,7 @@ document.querySelector('.btns__try').addEventListener('click', () => {
         }
       });
 
+      td.appendChild(document.createElement('br'));
       tr.appendChild(td);
     })
     tbody.appendChild(tr);
