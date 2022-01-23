@@ -1,5 +1,5 @@
 // Game propriety
-const MIN_WIDTH = 5;
+const MIN_WIDTH = 4;
 const MAX_WIDTH = 12;
 const EXAMPLES = {
   8: [
@@ -32,10 +32,8 @@ const EXAMPLES = {
   ]
 };
 
-(async () => {
+(async function loadWS() {
   let code = `⎕RL ← ⍬2`;
-
-  // ! Max dimension: 12×12
   code += `⋄
     cmat ← {⊖⊃⍪/{k,¨⍪\\1+⍵}⍣⍺⊢(⊂⍉⍪⍬),d⍴⊂0 0⍴k←⌽⍳1+d←⍵-⍺}`;
   code += `⋄
@@ -54,12 +52,12 @@ const EXAMPLES = {
     ∇`;
   code += `⋄
     check ← {
-      n=1:  ∧/n≥(+/,+⌿)⍵>0
+      n=1: ∧/n≥(+/,+⌿)⍵>0
       (∧/n≥(+/,+⌿)⍵>0)>(0 1)(1 1)(1 0)∊⍨|-/⍺
     }`;
   code += `⋄
     solver ← {
-      n←1+8<≢m←⍵
+      n←4 9⍸≢m←⍵
       1={⊃,/f¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢⊂{0}¨⍵
     }`
   code += `⋄
@@ -97,22 +95,11 @@ const EXAMPLES = {
 document.querySelector('.dimension__button').addEventListener('click', () => {
   [...document.querySelectorAll('.input__table tr')]
     .map((tr, i) => [...tr.querySelectorAll('td')]
-      .map((td, j) => {
-        td.contentEditable = false;
-        td.addEventListener('click', e => {
-          if (e.offsetX <= 2 && j > 0) {
-            if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
-            else td.style.borderLeft = "2px solid #000";
-          } else if (e.offsetY <= 2 && i > 0) {
-            if (td.style.borderTop === "2px solid rgb(0, 0, 0)") td.style.borderTop = "1px solid #20202055";
-            else td.style.borderTop = "2px solid #000";
-          }
-        });
-      })
+      .map((td, j) => td.addEventListener('click', colorBorder))
     );
 });
 
-document.querySelector('.btns__solve').addEventListener('click', async () => {
+document.querySelector('.btns__solve').addEventListener('click', async function solve() {
   try {
     input_btns.map(btn => btn.disabled = true);
 
@@ -143,9 +130,9 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
         item.map((x, j) => {
           const td = document.createElement('td');
 
-          if (rows[i][j]) td.style.borderLeft = "2px solid #202020";
-          if (cols[i][j]) td.style.borderTop = "2px solid #202020";
-          if (x) td.innerText = '🌳';
+          if (rows[i][j]) td.style.borderLeft = "1px solid #000";
+          if (cols[i][j]) td.style.borderTop = "1px solid #000";
+          if (x) td.style.backgroundImage = 'url("/img/logic_games/tree.png")';
 
           td.appendChild(document.createElement('br'));
           tr.appendChild(td);
@@ -158,7 +145,7 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
   finally { input_btns.map(btn => btn.disabled = false) }
 });
 
-document.querySelector('.btns__create').addEventListener('click', async () => {
+document.querySelector('.btns__create').addEventListener('click', async function create() {
   try {
     input_btns.map(btn => btn.disabled = true);
     session_style(1);
@@ -180,18 +167,10 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
       y.split` `.map((x, j) => {
         const td = document.createElement('td');
 
-        if (x & 1) td.style.borderLeft = "2px solid #000";
-        if (x & 2) td.style.borderTop = "2px solid #000";
+        if (x & 1) td.style.borderLeft = "1px solid #000";
+        if (x & 2) td.style.borderTop = "1px solid #000";
 
-        td.addEventListener('click', e => {
-          if (e.offsetX <= 2 && j > 0) {
-            if (td.style.borderLeft === "2px solid rgb(0, 0, 0)") td.style.borderLeft = "1px solid #20202055";
-            else td.style.borderLeft = "2px solid #000";
-          } else if (e.offsetY <= 2 && i > 0) {
-            if (td.style.borderTop === "2px solid rgb(0, 0, 0)") td.style.borderTop = "1px solid #20202055";
-            else td.style.borderTop = "2px solid #000";
-          }
-        });
+        td.addEventListener('click', colorBorder);
 
         td.appendChild(document.createElement('br'));
         tr.appendChild(td);
@@ -203,7 +182,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
   input_btns.map(btn => btn.disabled = false);
 });
 
-document.querySelector('.btns__try').addEventListener('click', () => {
+document.querySelector('.btns__try').addEventListener('click', function try_solve() {
   const matrix = [...document.querySelectorAll('.input__table tr')]
     .map(td => [...td.querySelectorAll('td')]
     );
@@ -235,11 +214,11 @@ document.querySelector('.btns__try').addEventListener('click', () => {
     y.map((x, j) => {
       const td = document.createElement('td');
 
-      if (rows[i][j]) td.style.borderLeft = "2px solid #000";
-      if (cols[i][j]) td.style.borderTop = "2px solid #000";
+      if (rows[i][j]) td.style.borderLeft = "1px solid #000";
+      if (cols[i][j]) td.style.borderTop = "1px solid #000";
 
       td.addEventListener('click', function f() {
-        const btn_mode = document.querySelector('.btns__mode').innerText;
+        const btn_mode = document.querySelector('.btns__mode').style.backgroundImage;
         if (try_label.innerText === 'Correct!') this.removeEventListener('click', f);
         else {
           if (try_label.innerText === 'Wrong!') {
@@ -247,8 +226,8 @@ document.querySelector('.btns__try').addEventListener('click', () => {
             try_label.style.color = '#4169e1';
           }
 
-          if (this.innerText === btn_mode) this.innerText = '';
-          else this.innerText = btn_mode;
+          if (this.style.backgroundImage === btn_mode) this.style.backgroundImage = '';
+          else this.style.backgroundImage = btn_mode;
         }
       });
 
@@ -259,12 +238,12 @@ document.querySelector('.btns__try').addEventListener('click', () => {
   });
 
   document.querySelector('.btns__verify').disabled = false;
-  document.querySelector('.btns__mode').innerText = '🌳';
+  document.querySelector('.btns__mode').style.backgroundImage = 'url("/img/logic_games/tree.png")';
 
   session_style(3);
 });
 
-document.querySelector('.btns__verify').addEventListener('click', async () => {
+document.querySelector('.btns__verify').addEventListener('click', async function verify() {
   try {
     const matrix = [...document.querySelectorAll('.input__table tr')]
       .map(tr => [...tr.querySelectorAll('td')]
@@ -285,7 +264,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
 
     const try_matrix = [...document.querySelectorAll('.try__table tr')]
       .map(tr => [...tr.querySelectorAll('td')])
-      .map(y => y.map(x => +(x.innerText === '🌳')));
+      .map(y => y.map(x => +(x.style.backgroundImage === 'url("/img/logic_games/tree.png")')));
 
     const try_label = document.querySelector('.try h2');
 
@@ -302,7 +281,7 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
   finally { input_btns.map(btn => btn.disabled = false) }
 });
 
-document.querySelector('.btns__mode').addEventListener('click', function f() {
-  if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', f);
-  else this.innerText = (this.innerText === '🌳') ? '❌' : '🌳';
+document.querySelector('.btns__mode').addEventListener('click', function mode() {
+  if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', mode);
+  else this.style.backgroundImage = (this.style.backgroundImage === 'url("/img/logic_games/tree.png")') ? 'url("/img/logic_games/erase.png")' : 'url("/img/logic_games/tree.png")';
 });

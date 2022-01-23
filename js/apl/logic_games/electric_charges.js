@@ -21,7 +21,7 @@ const EXAMPLES = {
   ],
 };
 
-(async () => {
+(async function loadWS() {
   let code = `⎕RL←⍬2`;
   code += `⋄
     pmat ← {{,[⍳2]↑(⊂⊂⎕IO,1+⍵)⌷¨⍒¨↓∘.=⍨⍳1+1↓⍴⍵}⍣⍵⍉⍪⍬}`;
@@ -51,7 +51,12 @@ const EXAMPLES = {
   input_btns.map(btn => btn.disabled = false);
 })();
 
-document.querySelector('.btns__solve').addEventListener('click', async () => {
+document.querySelector('.dimension__button').addEventListener('click', () => {
+  [...document.querySelectorAll('.input__table td')]
+    .map(td => td.contentEditable = true);
+});
+
+document.querySelector('.btns__solve').addEventListener('click', async function solve() {
   input_btns.map(btn => btn.disabled = true);
 
   const matrix = [...document.querySelectorAll('.input__table tr')]
@@ -67,17 +72,17 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
   table.appendChild(tbody);
   output_table.appendChild(table);
 
-  // Create .output__table from filled with the solution
   (await executeAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`))
     .map((item, i) => {
       const tr = document.createElement('tr');
       item.split``.map((x, j) => {
         const td = document.createElement('td');
-        td.contentEditable = false;
+
         if (x === ' ' && matrix[i][j] != 9) td.innerText = matrix[i][j];
         else {
-          td.style.color = '#4169e1';
-          td.innerText = x;
+          td.style.backgroundSize = '50%';
+          if (x === '+') td.style.backgroundImage = 'url("/img/logic_games/plus.png")';
+          if (x === '-') td.style.backgroundImage = 'url("/img/logic_games/minus.png")';
         }
 
         td.appendChild(document.createElement('br'));
@@ -90,7 +95,7 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
   session_style(2);
 });
 
-document.querySelector('.btns__create').addEventListener('click', async () => {
+document.querySelector('.btns__create').addEventListener('click', async function create() {
   session_style(1);
   input_btns.map(btn => btn.disabled = true);
 
@@ -121,7 +126,7 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
   input_btns.map(btn => btn.disabled = false);
 });
 
-document.querySelector('.btns__try').addEventListener('click', async () => {
+document.querySelector('.btns__try').addEventListener('click', async function try_solve() {
   const matrix = [...document.querySelectorAll('.input__table tr')]
     .map(tr => [...tr.querySelectorAll('td')]
       .map(td => (td.innerText.replace('\n', '') === '') ? 9 : +td.innerText)
@@ -130,6 +135,8 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
   const try_label = document.querySelector('.try h2');
   try_label.innerText = 'Solve';
   try_label.style.color = '#4169e1';
+
+  document.querySelector('.btns__mode').style.backgroundSize = '50%';
 
   const try_table = document.querySelector('.try__table');
   try_table.innerHTML = '';
@@ -145,7 +152,6 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
     item.map(x => {
       const td = document.createElement('td');
 
-      td.contentEditable = false;
       if (x === 9) td.style.color = '#4169e1';
       else {
         td.style.pointerEvents = 'none';
@@ -153,7 +159,7 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
       };
 
       td.addEventListener('click', function f() {
-        const btn_mode = document.querySelector('.btns__mode').innerText;
+        const btn_mode = document.querySelector('.btns__mode').style.backgroundImage;
         if (try_label.innerText === 'Correct!') td.removeEventListener('click', f);
         else {
           if (try_label.innerText === 'Wrong!') {
@@ -161,7 +167,8 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
             try_label.innerText = 'Try again!';
           }
 
-          td.innerText = (td.innerText === btn_mode) ? '' : btn_mode;
+          td.style.backgroundSize = '50%';
+          td.style.backgroundImage = (td.style.backgroundImage === btn_mode) ? '' : btn_mode;
         }
       });
 
@@ -174,12 +181,12 @@ document.querySelector('.btns__try').addEventListener('click', async () => {
 
   document.querySelector('.btns__verify').disabled = false;
   document.querySelector('.btns__mode').style.color = '#4169e1';
-  document.querySelector('.btns__mode').innerText = '+';
+  document.querySelector('.btns__mode').style.backgroundImage = 'url("/img/logic_games/plus.png")';
 
   session_style(3);
 });
 
-document.querySelector('.btns__verify').addEventListener('click', async () => {
+document.querySelector('.btns__verify').addEventListener('click', async function verify() {
   const matrix = [...document.querySelectorAll('.input__table tr')]
     .map(tr => [...tr.querySelectorAll('td')]
       .map(td => (td.innerText.replace('\n', '') === '') ? 9 : +td.innerText)
@@ -191,8 +198,11 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
 
   const try_matrix = [...document.querySelectorAll('.try__table tr')]
     .map(tr => [...tr.querySelectorAll('td')]
-      .map(td => (td.innerText !== '+' && td.innerText != '-') ? 0 : (td.innerText === '+') ? 1 : -1)
-    )
+      .map(td =>
+        (td.style.backgroundImage === 'url("/img/logic_games/plus.png")') ? 1
+          : (td.style.backgroundImage === 'url("/img/logic_games/minus.png")') ? -1 : 0
+      )
+    );
 
   const try_label = document.querySelector('.try h2');
   const try_table_input = [...document.querySelectorAll('.try__table input')];
@@ -208,7 +218,10 @@ document.querySelector('.btns__verify').addEventListener('click', async () => {
   }
 });
 
-document.querySelector('.btns__mode').addEventListener('click', function f() {
-  if (document.querySelector('.try h2').innerText === 'Correct!') document.querySelector('.btns__mode').removeEventListener('click', f);
-  else this.innerText = (this.innerText === '+') ? '-' : '+';
+document.querySelector('.btns__mode').addEventListener('click', function mode() {
+  if (document.querySelector('.try h2').innerText === 'Correct!') document.querySelector('.btns__mode').removeEventListener('click', mode);
+  else {
+    this.style.backgroundSize = '50%';
+    this.style.backgroundImage = (this.style.backgroundImage === 'url("/img/logic_games/plus.png")') ? 'url("/img/logic_games/minus.png")' : 'url("/img/logic_games/plus.png")';
+  }
 });

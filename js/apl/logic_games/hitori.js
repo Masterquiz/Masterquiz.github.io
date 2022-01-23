@@ -6,7 +6,7 @@ const MIN_WIDTH = 5;
 const MAX_WIDTH = 8;
 const EXAMPLES = {
   5: [
-    ['1 4 3 2 5', '2 5 2 3 3', '5 3 1 4 5', '4 2 4 4 1', '2 1 5 3 4'],
+    ["1 4 3 2 5", "2 5 2 3 3", "5 3 1 4 5", "4 2 4 4 1", "2 1 5 3 4"],
   ],
   6: [
     ["1 1 2 4 3 5", "1 1 5 4 4 6", "4 6 6 2 1 1", "6 3 3 3 5 4", "2 3 4 1 6 5", "2 5 4 6 2 5"],
@@ -29,7 +29,7 @@ const EXAMPLES = {
   ]
 };
 
-(async () => {
+(async function loadWS() {
   let code = `⎕RL←⍬2`;
   code += `⋄
     ∇ res ← solver m;b;g;m1;m2;nbor;primes
@@ -58,7 +58,12 @@ const EXAMPLES = {
   input_btns.map(btn => btn.disabled = false);
 })();
 
-document.querySelector('.btns__solve').addEventListener('click', async () => {
+document.querySelector('.dimension__button').addEventListener('click', () => {
+  [...document.querySelectorAll('.input__table td')]
+    .map(td => td.contentEditable = true);
+});
+
+document.querySelector('.btns__solve').addEventListener('click', async function solve() {
   input_btns.map(btn => btn.disabled = false);
 
   const matrix = [...document.querySelectorAll('.input__table tr')]
@@ -80,11 +85,12 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
         const tr = document.createElement('tr');
         item.map((x, j) => {
           const td = document.createElement('td');
-          td.contentEditable = false;
+
           td.innerText = matrix[i][j];
           if (!x) {
             td.style.color = '#fff';
             td.style.backgroundColor = '#4169e1';
+            td.style.opacity = 0.5;
           }
 
           td.appendChild(document.createElement('br'));
@@ -99,7 +105,7 @@ document.querySelector('.btns__solve').addEventListener('click', async () => {
   input_btns.map(btn => btn.disabled = false);
 });
 
-document.querySelector('.btns__create').addEventListener('click', async () => {
+document.querySelector('.btns__create').addEventListener('click', async function create() {
   session_style(1);
   input_btns.map(btn => btn.disabled = true);
 
@@ -130,68 +136,67 @@ document.querySelector('.btns__create').addEventListener('click', async () => {
   input_btns.map(btn => btn.disabled = false);
 });
 
-document.querySelector('.btns__try').addEventListener('click', async () => {
+document.querySelector('.btns__try').addEventListener('click', async function try_solve() {
   const matrix = [...document.querySelectorAll('.input__table tr')]
     .map(tr => [...tr.querySelectorAll('td')]
       .map(td => +td.innerText)
     )
 
-  // !Ugly
-  if (-1 === matrix.map(x => x.indexOf(0) === -1).indexOf(false)) {
-    const try_label = document.querySelector('.try h2');
-    try_label.innerText = 'Solve';
-    try_label.style.color = '#4169e1';
+  const try_label = document.querySelector('.try h2');
+  try_label.innerText = 'Solve';
+  try_label.style.color = '#4169e1';
 
-    const try_table = document.querySelector('.try__table');
-    try_table.innerHTML = '';
+  const try_table = document.querySelector('.try__table');
+  try_table.innerHTML = '';
 
-    const table = document.createElement('table');
-    const tbody = document.createElement('tbody');
-    table.appendChild(tbody);
-    try_table.appendChild(table);
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+  try_table.appendChild(table);
 
-    matrix.map(item => {
-      const tr = document.createElement('tr');
-      item.map(x => {
-        const td = document.createElement('td');
+  matrix.map(item => {
+    const tr = document.createElement('tr');
+    item.map(x => {
+      const td = document.createElement('td');
 
-        td.contentEditable = false;
-        td.innerText = x;
+      td.innerText = (x) ? x : '';
 
-        td.addEventListener('click', function f() {
-          const btn_mode = document.querySelector('.btns__mode').style.backgroundColor;
-          if (try_label.innerText === 'Correct!') td.removeEventListener('click', f);
-          else {
-            if (try_label.innerText === 'Wrong!') {
-              try_label.innerText = 'Try again!';
-              try_label.style.color = '#4169e1';
-            }
-
-            if (td.style.backgroundColor === btn_mode) {
-              td.style.color = '';
-              td.style.backgroundColor = '';
-            } else {
-              td.style.color = '#fff';
-              td.style.backgroundColor = btn_mode;
-            }
+      td.addEventListener('click', function f() {
+        const btn_mode = document.querySelector('.btns__mode').style.backgroundColor;
+        if (try_label.innerText === 'Correct!') td.removeEventListener('click', f);
+        else {
+          if (try_label.innerText === 'Wrong!') {
+            try_label.innerText = 'Try again!';
+            try_label.style.color = '#4169e1';
           }
-        });
 
-        td.appendChild(document.createElement('br'));
-        tr.appendChild(td);
-      })
-      tbody.appendChild(tr);
-    });
+          if (td.style.backgroundColor === btn_mode) {
+            td.style.color = '';
+            td.style.backgroundColor = '';
+            td.style.opacity = 1;
+          } else {
+            td.style.color = '#fff';
+            td.style.backgroundColor = btn_mode;
+            td.style.opacity = 0.5;
+          }
+        }
+      });
 
-    document.querySelector('.btns__mode').style.border = 'none';
-    document.querySelector('.btns__mode').style.backgroundColor = '#4169e1';
-    session_style(3);
-  } else alert(`An error occurred solving the puzzle`);
+      td.appendChild(document.createElement('br'));
+      tr.appendChild(td);
+    })
+    tbody.appendChild(tr);
+  });
+
+  document.querySelector('.btns__mode').style.border = 'none';
+  document.querySelector('.btns__mode').style.backgroundColor = '#4169e1';
+  document.querySelector('.btns__mode').style.opacity = 0.5;
+  session_style(3);
 
   document.querySelector('.btns__verify').disabled = false;
 });
 
-document.querySelector('.btns__verify').addEventListener('click', async () => {
+document.querySelector('.btns__verify').addEventListener('click', async function verify() {
   const matrix = [...document.querySelectorAll('.input__table tr')]
     .map(tr => [...tr.querySelectorAll('td')]
       .map(td => +td.innerText)
@@ -224,4 +229,5 @@ document.querySelector('.btns__mode').addEventListener('click', function f(td) {
   if (document.querySelector('.try h2').innerText === 'Correct!') this.removeEventListener('click', f);
   else this.style.backgroundColor =
     (this.style.backgroundColor === 'rgb(65, 105, 225)') ? '#ba55d3' : '#4169e1';
+  this.style.border = `2px solid ${this.style.backgroundColor}`;
 });

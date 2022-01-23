@@ -66,7 +66,6 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
       const tr = document.createElement('tr');
       for (j = 0; j < width; ++j) {
         const td = document.createElement('td');
-        td.contentEditable = true;
         td.appendChild(document.createElement('br'));
         tr.appendChild(td);
       }
@@ -75,3 +74,13 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
   }
   else alert(`Dimension not valid!\nTry again with a number between ${MIN_WIDTH} and ${MAX_WIDTH}`);
 });
+
+function colorBorder(e) {
+  if (e.offsetX <= 10 && j > 0) {
+    if (this.style.borderLeft === "1px solid rgb(0, 0, 0)") this.style.borderLeft = "1px dashed #20202055";
+    else this.style.borderLeft = "1px solid #000";
+  } else if (e.offsetY <= 10 && i > 0) {
+    if (this.style.borderTop === "1px solid rgb(0, 0, 0)") this.style.borderTop = "1px dashed #20202055";
+    else this.style.borderTop = "1px solid #000";
+  }
+}
