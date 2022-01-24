@@ -92,8 +92,8 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
       item.map((x, j) => {
         const td = document.createElement('td');
 
-        if (x & 1) td.style.borderLeft = "1px solid #000";
-        if (x & 2) td.style.borderTop = "1px solid #000";
+        if (x & 1) td.style.borderLeft = "2px solid #000";
+        if (x & 2) td.style.borderTop = "2px solid #000";
 
         if (matrix[i][j]) td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
 
