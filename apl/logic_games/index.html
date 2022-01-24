@@ -68,6 +68,7 @@
       const tr = document.createElement('tr');
       item.map(x => {
         const td = document.createElement('td');
+        td.style.width = 100 / item.length + '%';
         if (x & 1) td.style.borderLeft = "2px solid #000";
         if (x & 2) td.style.borderTop = "2px solid #000";
         tr.appendChild(td);
@@ -262,6 +263,7 @@
       const tr = document.createElement('tr');
       item.map(x => {
         const td = document.createElement('td');
+        td.style.width = 100 / item.length + '%';
         td.style.backgroundImage = (+x) ? 'url("/img/logic_games/cow.png")' : '';
         tr.appendChild(td);
       })
