@@ -130,8 +130,8 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
         item.map((x, j) => {
           const td = document.createElement('td');
 
-          if (rows[i][j]) td.style.borderLeft = "1px solid #000";
-          if (cols[i][j]) td.style.borderTop = "1px solid #000";
+          if (rows[i][j]) td.style.borderLeft = "2px solid #000";
+          if (cols[i][j]) td.style.borderTop = "2px solid #000";
           if (x) td.style.backgroundImage = 'url("/img/logic_games/tree.png")';
 
           td.appendChild(document.createElement('br'));
@@ -167,8 +167,8 @@ document.querySelector('.btns__create').addEventListener('click', async function
       y.split` `.map((x, j) => {
         const td = document.createElement('td');
 
-        if (x & 1) td.style.borderLeft = "1px solid #000";
-        if (x & 2) td.style.borderTop = "1px solid #000";
+        if (x & 1) td.style.borderLeft = "2px solid #000";
+        if (x & 2) td.style.borderTop = "2px solid #000";
 
         td.addEventListener('click', colorBorder);
 
@@ -214,8 +214,8 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
     y.map((x, j) => {
       const td = document.createElement('td');
 
-      if (rows[i][j]) td.style.borderLeft = "1px solid #000";
-      if (cols[i][j]) td.style.borderTop = "1px solid #000";
+      if (rows[i][j]) td.style.borderLeft = "2px solid #000";
+      if (cols[i][j]) td.style.borderTop = "2px solid #000";
 
       td.addEventListener('click', function f() {
         const btn_mode = document.querySelector('.btns__mode').style.backgroundImage;
