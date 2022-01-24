@@ -76,6 +76,7 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
 });
 
 function colorBorder(e) {
+// ! Something wrong
   if (e.offsetX <= 4 && j > 0) {
     if (this.style.borderLeft === "2px solid rgb(0, 0, 0)") this.style.borderLeft = "1px dashed #20202055";
     else this.style.borderLeft = "2px solid #000";
