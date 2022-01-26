@@ -43,7 +43,7 @@ table {
 td {
   line-height: 40px;
   min-width: 40px;
-  border: 1px dashed #20202055;
+  border: 1px solid #20202055;
   border-right: none;
   border-bottom: none;
   text-align: center;
