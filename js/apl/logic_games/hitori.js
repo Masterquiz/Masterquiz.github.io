@@ -99,7 +99,7 @@ const EXAMPLES = {
 
   [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
 
-  const input_btns = [...document.querySelectorAll('.input__btns button')];
+  input_btns = [...document.querySelectorAll('.input__btns button')];
   input_btns.map(btn => (btn.disabled = false));
 })();
 
