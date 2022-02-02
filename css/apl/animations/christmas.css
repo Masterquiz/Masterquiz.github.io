@@ -43,7 +43,7 @@
 
 .input button,
 .input textarea {
-  border: 2px solid #4169e1;
+  border: 1px solid #4169e1;
 }
 
 .input button:hover {
@@ -52,7 +52,7 @@
 
 .output button,
 .output textarea {
-  border: 2px solid #e62020;
+  border: 1px solid #e62020;
 }
 
 .output button:hover {
