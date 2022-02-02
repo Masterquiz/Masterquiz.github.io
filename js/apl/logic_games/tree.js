@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Game propriety
 const MIN_WIDTH = 4;
 const MAX_WIDTH = 12;
