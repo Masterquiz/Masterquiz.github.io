@@ -8,7 +8,7 @@
 
 .pages li {
   display: inline-flex;
-  padding-inline: 1em;
+  padding: 0 1em;
   line-height: 2em;
   color: var(--clr-primary-900);
 }

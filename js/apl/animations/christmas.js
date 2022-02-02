@@ -1,5 +1,4 @@
-let picture = '';
-let pic = [
+const pic = [
   '                               ',
   '              ⍟                ',
   '             / \\               ',
@@ -19,75 +18,79 @@ let pic = [
   '             └─┘               ',
 ];
 
-[...document.querySelectorAll('.output textarea, .output button')]
-  .map(x => x.classList.toggle('hide'));
+/**
+ * Display an array in output section
+ *
+ * @param {Array} image
+ */
+
+function display(image) {
+  document.querySelector('.output textarea').value = image.join`\n`;
+}
 
 (async () => {
-  document.querySelector('.input textarea').value = '';
   document.querySelector('.input button').disabled = true;
+  document.querySelector('.input textarea').value = pic.join`\n`;
 
-  let code = `⎕RL←⍬2`;
-  code += `⋄
-    next ← {'*'@({⍵/⍨height≥⊃¨⍵}(safe/⍨safe∊⍸'*'=⍵),(safe~⍨1 0∘+¨safe~⍨⍸'*'=⍵),1,¨width?⍨?1)⊢↑'[*]'⎕R' '⊢↓⍵}`;
-  code += `⋄
-    finish ← {'*'@({⍵/⍨height≥⊃¨⍵}(safe/⍨safe∊⍸'*'=⍵),safe~⍨1 0∘+¨safe~⍨⍸'*'=⍵)⊢↑'[*]'⎕R' '⊢↓⍵}`;
-  const res = await fetch('https://tryapl.org/Exec', {
-    'method': 'POST',
-    'headers': { "Content-Type": "application/json; charset=utf-8" },
-    'body': JSON.stringify(['', 0, '', code]),
-  });
-  [state, size, hash] = (await res.json()).slice(0, -1);
+  const code = `
+    ⎕RL ← ⍬2
 
+    next ← {
+      (height width) ← ⍴⍵
+      snow ← ⍸'*'=⍵
+      inp ← ↑'*'⎕R' '⍠('Regex' 0)⊢↓⍵
+      pos ← 1,¨width?⍨?4
+      pos ,← {⍵/⍨height≥⊃¨⍵}safe~⍨1 0∘+¨⌈snow
+      pos ,← safe/⍨safe∊snow
+      '*'@pos⊢inp
+    }
+
+    finish ← {
+      (height width) ← ⍴⍵
+      snow ← ⍸'*'=⍵
+      inp ← ↑'*'⎕R' '⍠('Regex' 0)⊢↓⍵
+      pos  ← {⍵/⍨height≥⊃¨⍵} safe~⍨1 0∘+¨snow~safe
+      pos ,← safe/⍨safe∊snow
+      '*'@pos⊢inp
+    }`;
+  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
   document.querySelector('.input button').disabled = false;
 })();
 
-function visualise(picture) {
-  document.querySelector('.output textarea').value = picture.join`\n`;
-}
+document.querySelector('.input button').addEventListener('click', async e => {
+  e.target.disabled = true;
 
-let btnAnimate = document.querySelector('.input button');
+  const inputSection = document.querySelector('.input textarea');
+  if (!inputSection.value.replaceAll(' ', '').replaceAll('\n', '').length) {
+    image = pic;
+    inputSection.value = image.join`\n`;
+  } else image = inputSection.value.split`\n`;
+  display(image);
 
-btnAnimate.addEventListener("click", async () => {
-  btnAnimate.disabled = true;
+  document.querySelector('.output').classList.remove('hide');
 
-  let inputSection = document.querySelector('.input textarea');
-
-  let text = inputSection.value;
-
-  if (text.length) picture = text.split`\n`;
-  else {
-    picture = pic;
-    inputSection.value = picture.join`\n`;
-  }
-
-  visualise(picture);
-  [...document.querySelectorAll('.output textarea, .output button')]
-    .map(x => x.classList.toggle('hide'));
-
-  const res = await fetch('https://tryapl.org/Exec', {
-    'method': 'POST',
-    'headers': { "Content-Type": "application/json; charset=utf-8" },
-    'body': JSON.stringify([state, size, hash, `(height width safe) ← (⍴,∘⊂∘⍸=∘'*'∨<⍀⍤≠∘' ') (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`]),
-  });
-  [state, size, hash] = (await res.json()).slice(0, -1);
+  [state, size, hash] = (
+    await executeAPL(
+      ` mat ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(image)}'
+      safe ← (⍸=∘'*'∨<⍀⍤≠∘' ') mat`,
+      true
+    )
+  ).slice(0, -1);
 
   let finish = false;
-  document.querySelector('.output button').onclick = () => finish = true;
+  document.querySelector('.output button').addEventListener('click', () => (finish = true));
 
   for (let i = 0; i < 100 && !finish; ++i) {
-    picture = await executeAPL(`next (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
-    visualise(picture);
+    [state, size, hash, image] = await executeAPL(`⎕← mat ← next mat`, true);
+    display(image);
   }
 
-  for (let i = 0; i <= picture.length; ++i) {
-    visualise(picture);
-    picture = await executeAPL(`finish (↑⍣≡0∘⎕JSON) '${JSON.stringify(picture)}'`);
+  for (let i = 0; i <= image.length; ++i) {
+    [state, size, hash, image] = await executeAPL(`⎕← mat ← finish mat`, true);
+    display(image);
   }
 
-  setTimeout(() => {
-    [...document.querySelectorAll('.output textarea, .output button')]
-      .map(x => x.classList.toggle('hide'));
-  }, 2000);
+  setTimeout(() => document.querySelector('.output').classList.add('hide'), 1000);
 
-  btnAnimate.disabled = false;
+  e.target.disabled = false;
 });

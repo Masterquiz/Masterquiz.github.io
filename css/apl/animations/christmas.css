@@ -38,7 +38,7 @@
   font-size: 1.1rem;
   border-radius: 5px;
   background-color: #fff;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .input button,
@@ -46,8 +46,7 @@
   border: 2px solid #4169e1;
 }
 
-.input button:hover,
-.input button:focus {
+.input button:hover {
   background-color: #4169e1;
 }
 
@@ -56,29 +55,15 @@
   border: 2px solid #e62020;
 }
 
-.output button:hover,
-.output button:focus {
+.output button:hover {
   background-color: #e62020;
 }
-
-/* .input button,
-.output button {
-  color: #fff;
-  width: 10em;
-  border-radius: 15px;
-  border: none;
-  padding: .7em 1em;
-  font-size: 1em;
-} */
 
 textarea {
   white-space: pre;
   font-family: var(--ff-code-APL);
   resize: none;
-}
-
-output textarea {
-  pointer-events: none;
+  outline: none;
 }
 
 @media only screen and (min-width: 600px) {

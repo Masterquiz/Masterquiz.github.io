@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "APL";
-  src: local("APL"), url("/css/font/Apl385.ttf") format("truetype");
+  font-family: 'APL';
+  src: local('APL'), url('/css/font/Apl385.ttf') format('truetype');
 }
 
 :root {
@@ -17,9 +17,9 @@
   --clr-primary-900: #ff3c38;
   /* Tart Orange - (255, 60, 56)*/
 
-  --ff-accent: "Oleo Script", serif;
+  --ff-accent: 'Oleo Script', serif;
   --ff-primary: system-ui, sans-serif;
-  --ff-code-APL: "APL", monospace;
+  --ff-code-APL: 'APL', monospace;
 }
 
 * {

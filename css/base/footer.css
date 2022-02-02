@@ -35,10 +35,8 @@
     aspect-ratio: 1;
     background: transparent;
     border-radius: 57% 43% 37% 63% / 45% 52% 48% 55%;
-    box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.05),
-      15px 25px 10px rgba(0, 0, 0, 0.1),
-      15px 20px 20px rgba(0, 0, 0, 0.05),
-      inset -10px -10px 15px rgba(255, 255, 255, .2);
+    box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.05), 15px 25px 10px rgba(0, 0, 0, 0.1),
+      15px 20px 20px rgba(0, 0, 0, 0.05), inset -10px -10px 15px rgba(255, 255, 255, 0.2);
   }
 
   .drop:nth-child(2) img,
@@ -51,7 +49,7 @@
   }
 
   .drop:nth-child(2) img {
-    transform: scale(.8);
+    transform: scale(0.8);
   }
 
   .drop:nth-child(3) {
@@ -75,7 +73,7 @@
   .quick-links {
     display: flex;
     margin: auto;
-    padding-block: 1em;
+    padding: 1em 0;
   }
 
   .quick-links ul {
@@ -99,7 +97,7 @@
     background-color: var(--clr-primary-900);
     display: block;
     margin: auto;
-    transition: .5s;
+    transition: 0.5s;
   }
 
   .quick-items:hover::after,

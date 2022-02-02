@@ -1,12 +1,41 @@
-button {
+/*
+  Index:
+  - Table
+  - Input section
+    - .input__dimension
+    - .input__modify
+    - .input__btns
+    - Output section
+    - .output
+    - Try section
+    - .try
+    - .try__modify
+    - .try__btns
+*/
+
+button,
+td {
   outline: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+h1 {
+  width: fit-content;
+  margin: 0 auto 1em;
+}
+
+.material-icons {
+  vertical-align: middle;
 }
 
 .cards {
   margin: 0 auto;
-  max-width: 1200px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  display: flex;
+  flex-direction: column;
+  width: 600px;
   gap: 2em;
 }
 
@@ -15,15 +44,6 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 1em;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-h1 {
-  width: fit-content;
-  margin: 0 auto 1em;
 }
 
 /* Table */
@@ -35,7 +55,7 @@ h1 {
 }
 
 table {
-  margin-inline: auto;
+  margin: 0 auto;
   border-collapse: collapse;
   white-space: nowrap;
 }
@@ -43,16 +63,11 @@ table {
 td {
   line-height: 40px;
   min-width: 40px;
-  border: 1px dashed #20202055;
+  border: 1px solid #20202055;
   border-right: none;
   border-bottom: none;
   text-align: center;
   font-size: 1.1em;
-  outline: none;
-}
-
-td,
-.btns__mode {
   background-size: 72%;
   background-repeat: no-repeat;
   background-position: center;
@@ -76,34 +91,60 @@ table tr:last-child td {
 
 /* Input section */
 .input__dimension {
-  width: 100%;
   display: flex;
   justify-content: center;
-  padding-block: 0.625em;
   font-size: 1rem;
+  border: 1px solid var(--clr-primary-900);
+  border-radius: 5px;
+  outline: none;
+  overflow: hidden;
 }
 
 .dimension__value {
   padding: 0.5rem 0.75em;
-  border: 1px solid var(--clr-primary-900);
-  border-right: none;
-  border-radius: 5px 0 0 5px;
   outline: none;
+  border: none;
 }
 
 .dimension__button {
+  border-radius: 5px 0 0 5px;
   width: 2.5em;
   color: var(--clr-primary-900);
   font-weight: bold;
   background-color: var(--clr-primary-300);
-  border: 0.0625em solid var(--clr-primary-900);
-  border-left: none;
-  border-radius: 0 5px 5px 0;
+  border: none;
 }
 
-.dimension__button:hover,
-.dimension__button:focus {
-  background-color: var(--clr-primary-500);
+.dimension__button:hover {
+  color: var(--clr-primary-300);
+  background-color: var(--clr-primary-900);
+}
+
+.input__modify {
+  display: flex;
+  max-width: 15em;
+  width: 80%;
+  gap: 0.5em;
+}
+
+.input__modify button {
+  flex-grow: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: 0.3s;
+}
+
+.btns__redo,
+.btns__undo,
+.btns__restart {
+  border: 2px solid var(--clr-primary-300);
+}
+
+.btns__undo:hover,
+.btns__redo:hover,
+.btns__restart:hover {
+  background-color: var(--clr-primary-300);
 }
 
 .input__btns {
@@ -115,7 +156,6 @@ table tr:last-child td {
 }
 
 .input__btns button {
-  width: 100%;
   padding: 0.5rem 1rem;
   font-size: 1.1rem;
   border-radius: 5px;
@@ -127,8 +167,7 @@ table tr:last-child td {
   border: 2px solid var(--clr-primary-900);
 }
 
-.btns__solve:hover,
-.btns__solve:focus {
+.btns__solve:hover {
   background-color: var(--clr-primary-900);
 }
 
@@ -136,8 +175,7 @@ table tr:last-child td {
   border: 2px solid var(--clr-primary-700);
 }
 
-.btns__create:hover,
-.btns__create:focus {
+.btns__create:hover {
   background-color: var(--clr-primary-700);
 }
 
@@ -145,29 +183,37 @@ table tr:last-child td {
   border: 2px solid var(--clr-primary-500);
 }
 
-.btns__try:hover,
-.btns__try:focus {
+.btns__try:hover {
   background-color: var(--clr-primary-500);
 }
 
-.btns__restart {
-  border: 2px solid var(--clr-primary-300);
-}
-
-.btns__restart:hover,
-.btns__restart:focus {
-  background-color: var(--clr-primary-300);
-}
-
 /* Output Section */
-.output h2,
-.try h2 {
-  line-height: 2.25;
+.output h2 {
   color: #4169e1;
   font-size: 1.5em;
 }
 
 /* Try section */
+.try h2 {
+  color: #4169e1;
+  font-size: 1.5em;
+}
+
+.try__modify {
+  display: flex;
+  max-width: 15em;
+  width: 80%;
+  gap: 0.5em;
+}
+
+.try__modify button {
+  flex-grow: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: 0.3s;
+}
+
 .try__btns {
   display: flex;
   gap: 0.25em;
@@ -188,22 +234,13 @@ table tr:last-child td {
   flex-grow: 1;
 }
 
-.btns__verify:hover,
-.btns__verify:focus {
+.btns__verify:hover {
   background-color: #4169e1;
 }
 
 .btns__mode {
-  height: 100%;
   aspect-ratio: 1;
-}
-
-.try__btns input {
-  font-size: 1.1em;
-  width: 2em;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  outline: none;
+  background-size: 72%;
+  background-repeat: no-repeat;
+  background-position: center;
 }

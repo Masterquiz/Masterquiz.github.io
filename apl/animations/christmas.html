@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Quiz - Christmas animation</title>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Quiz - Christmas animation</title>
+    <link rel="stylesheet" href="/css/apl/animations/christmas.css" />
 
-  <link rel="stylesheet" href="/css/apl/animations/christmas.css">
+    <script src="/js/apl/apl.js"></script>
+    <script src="/js/apl/animations/christmas.js" defer></script>
 
-  <script src="/js/apl/apl.js"></script>
-  <script src="/js/apl/animations/christmas.js" defer></script>
+    <script src="/js/script.js"></script>
+    <script>
+      (async () => {
+        await fetch('/base/logic_games_nav.html')
+          .then(res => res.text())
+          .then(data => (document.querySelector('#nav').innerHTML = data));
+      })();
+    </script>
+  </head>
 
-  <script src="/js/script.js"></script>
-  <script>
-    (async () => {
-      let nav = await fetch('/base/logic_games_nav.html');
-      document.querySelector('#nav').innerHTML = await nav.text();
-    })();
-  </script>
-</head>
+  <body>
+    <div id="header"></div>
+    <div id="nav"></div>
 
-<body>
-  <section id="header"></section>
-
-  <section id="nav"></section>
-
-  <main>
-    <div class="intro">
-      <h1>A Christmas animation!</h1>
-      <p>Enter an image made with characters, or just press animate!</p>
-    </div>
-
-    <div class="section">
-      <div class="input">
-        <div><button>Animate</button></div>
-        <textarea cols="30" rows="18"></textarea>
+    <main>
+      <div class="intro">
+        <h1>A Christmas animation!</h1>
+        <p>Enter an image made with characters, or just press animate!</p>
       </div>
-      <div class="output">
-        <div><button>Finish</button></div>
-        <textarea cols="30" rows="18"></textarea>
+
+      <div class="section">
+        <div class="input">
+          <div><button>Animate</button></div>
+          <textarea cols="30" rows="18"></textarea>
+        </div>
+        <div class="output hide">
+          <div><button>Finish</button></div>
+          <textarea cols="30" rows="18" readonly></textarea>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <section id="footer"></section>
-</body>
-
+    <div id="footer"></div>
+  </body>
 </html>

@@ -6,14 +6,12 @@ header {
 }
 
 .logo {
-  filter: invert(90%) sepia(48%) saturate(5427%) hue-rotate(309deg)
-    brightness(101%) contrast(104%);
+  filter: invert(90%) sepia(48%) saturate(5427%) hue-rotate(309deg) brightness(101%) contrast(104%);
   z-index: 99;
 }
 
 .name {
   font-family: var(--ff-accent);
-  font-size: 2.5rem;
   text-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
   color: var(--clr-primary-300);
   z-index: 99;
@@ -89,8 +87,7 @@ header {
 }
 
 .changeMQ label {
-  animation: moveUpThenDown 0.8s ease 0.2s forwards,
-    shakeWhileMovingUp 0.8s ease 0.2s forwards,
+  animation: moveUpThenDown 0.8s ease 0.2s forwards, shakeWhileMovingUp 0.8s ease 0.2s forwards,
     shakeWhileMovingDown 0.2s ease 0.8s forwards;
 }
 
@@ -189,7 +186,7 @@ header {
 }
 
 .menu-change::before {
-  content: "";
+  content: '';
   position: absolute;
   background: inherit;
   z-index: -1;
@@ -199,14 +196,14 @@ header {
 }
 
 .menu li {
-  padding-inline: 0.3125em;
+  padding: 0 0.3125em;
   line-height: 2.5em;
   font-size: 1.125rem;
   color: var(--clr-primary-300);
 }
 
 .menu li a::after {
-  content: "";
+  content: '';
   width: 0;
   height: 0.125em;
   background-color: var(--clr-primary-300);

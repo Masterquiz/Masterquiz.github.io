@@ -5,7 +5,7 @@ let mat2021 = [
   '    *   *   *   *     *  ',
   '   *    *   *  *      *  ',
   '  *****  ***  ***** *****',
-]
+];
 
 let mat2022 = [
   '   ***   ***   ***   *** ',
@@ -14,67 +14,57 @@ let mat2022 = [
   '    *   *   *   *     *  ',
   '   *    *   *  *     *   ',
   '  *****  ***  ***** *****',
-]
+];
 
-const visualise = picture => document.querySelector('.input textarea').value = picture.join`\n`
-const counter = s => [...s].reduce((a, c) => (a[c] = a[c] + 1 || 1) && a, {})
+/**
+ * Display an array in output section
+ *
+ * @param {Array} image
+ */
 
-visualise(mat2021);
+const display = image => (document.querySelector('.input textarea').value = image.join`\n`);
 
-async function loadWS() {
-  let code = `⎕RL←⍬2`;
-  code += `⋄
-    mat2021 ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(mat2021)}'`;
-  code += `⋄
-    mat2022 ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(mat2022)}'`;
-  code += `⋄
-    (vec2021 vec2022) ← (0 0) 0,¨{⍵[?⍨⍴⍵]}¨(⍸=∘'*')¨ mat2021 mat2022`;
-  code += `⋄
-    mat2022 ←' '⍴⍨⍴mat2022`;
-  const res = await fetch('https://tryapl.org/Exec', {
-    'method': 'POST',
-    'headers': { "Content-Type": "application/json; charset=utf-8" },
-    'body': JSON.stringify(['', 0, '', code]),
-  });
-  return (await res.json()).slice(0, -1);
-};
+display(mat2021);
 
-document.querySelector('.input button').addEventListener("click", async elem => {
-  elem.target.disabled = true;
+document.querySelector('.input button').addEventListener('click', async e => {
+  e.target.disabled = true;
 
-  if (document.querySelector('.input textarea').value[23] === '*') {
+  // If "2022" in textarea, reset
+  if (document.querySelector('.input textarea').value[23] === '*')
     document.querySelector('.input textarea').value = '';
-  };
-  [state, size, hash] = await loadWS();
 
-  visualise(mat2021)
+  const code = `
+    ⎕RL←⍬2
 
-  let len2021 = counter(mat2021.join``)['*'];
-  let len2022 = counter(mat2022.join``)['*'];
+    mat2021 ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(mat2021)}'
+    mat2022 ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(mat2022)}'
+
+    (vec2021 vec2022) ← ((⊂⍤?⍨∘≢⌷⊢)∘⍸=∘'*')¨ mat2021 mat2022
+    mat2022 ←' '⍴⍨⍴mat2022`;
+
+  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
+
+  display(mat2021);
+
+  const [len2021, len2022] = [mat2021, mat2022].map(
+    x => x.join``.match(new RegExp('[*]', 'g')).length
+  );
 
   for (i = 0; i < len2021 / 2; ++i) {
-    let code = `vec2021 ← 2↓vec2021 ⋄ ⊢mat2021 ← ' '@(2↑vec2021) ⊢mat2021`;
-    const res = await fetch('https://tryapl.org/Exec', {
-      'method': 'POST',
-      'headers': { "Content-Type": "application/json; charset=utf-8" },
-      'body': JSON.stringify([state, size, hash, code]),
-    });
-    [state, size, hash, mat] = await res.json();
-    visualise(mat);
+    [state, size, hash, image] = await executeAPL(
+      `⎕← mat2021 ← ' '@(2↑vec2021) ⊢mat2021 ⋄ vec2021 ← 2↓vec2021`,
+      true
+    );
+    display(image);
   }
 
   for (i = 0; i < len2022; ++i) {
-    let code = `vec2022 ← 1↓vec2022 ⋄ ⊢mat2022 ← '*'@(1↑vec2022) ⊢mat2022`;
-    const res = await fetch('https://tryapl.org/Exec', {
-      'method': 'POST',
-      'headers': { "Content-Type": "application/json; charset=utf-8" },
-      'body': JSON.stringify([state, size, hash, code]),
-    });
-    [state, size, hash, mat] = await res.json();
-    visualise(mat);
+    [state, size, hash, image] = await executeAPL(
+      `⎕← mat2022 ← '*'@(1↑vec2022) ⊢mat2022 ⋄ vec2022 ← 1↓vec2022`,
+      true
+    );
+    display(image);
   }
 
-  elem.target.disabled = false;
+  e.target.disabled = false;
 });
-
-

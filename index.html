@@ -1,131 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Quiz</title>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Quiz</title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/dyalog-apl.css" />
+    <link rel="stylesheet" href="/css/contact_me.css" />
 
-  <link rel="stylesheet" href="/css/index.css">
-  <link rel="stylesheet" href="/css/dyalog-apl.css">
-  <link rel="stylesheet" href="/css/contact_me.css">
+    <script src="/js/script.js"></script>
+    <script>
+      // Reset animation
+      setInterval(() => {
+        const leftName = document.querySelector('.name-animation h1:first-child');
+        const rightName = document.querySelector('.name-animation h1:last-child');
+        leftName.parentNode.replaceChild(leftName, leftName);
+        rightName.parentNode.replaceChild(rightName, rightName);
+      }, 13000);
+    </script>
+  </head>
 
-  <script src="/js/script.js"></script>
-  <script defer>
-    // Reset animation
-    setInterval(() => {
-      let leftName = document.querySelector('.name-animation h1:first-child');
-      let rightName = document.querySelector('.name-animation h1:last-child');
-      leftName.parentNode.replaceChild(leftName, leftName);
-      rightName.parentNode.replaceChild(rightName, rightName);
-    }, 13000);
-  </script>
-</head>
+  <body>
+    <div id="header"></div>
 
-<body>
-  <section id="header"></section>
-
-  <section class="name-animation">
-    <h1 data-text="Master">Master</h1>
-    <h1 data-text="Quiz...">Quiz...</h1>
-  </section>
-
-  <main>
-    <section id="dyalog-apl">
-      <h1>Dyalog APL</h1>
-      <section class="text-block">
-        <h2>What is APL?</h2>
-        <div class="center-quote">
-          <blockquote>
-            <p>APL is an <u>array-oriented</u> programming language.</p>
-            <p>
-              Its natural, concise syntax lets you develop <u>shorter programs</u> while <u>thinking more</u>
-              about the problem you're trying to solve than how to express it to a computer.
-            </p>
-          </blockquote>
-        </div>
-        <a href="https://aplwiki.com" target="_">~APL wiki</a>
-      </section>
-      <section class="text-block">
-        <h2>What can you find in this section?</h2>
-        <div class="cards">
-          <a class="card" href="/apl/logic_games/">
-            <h2>Logic game</h2>
-            <p>In this section you'll find logic game solvers of several ones</p>
-            <ol>
-              <li>Tree</li>
-              <li>Electric charges</li>
-              <li>Hitori</li>
-              <li>Save the cow</li>
-            </ol>
-            <p>Try them!</p>
-          </a>
-
-          <a class="card" href="/apl/animations/">
-            <h2>Animations</h2>
-            <p>Have you ever wanted to animate an image made with characters?</p>
-            <p>Now you can, add a <u>Christmas animation</u> to whatever you want!</p>
-            <p>Otherwise check the <u>Happy New Year</u> animation.</p>
-          </a>
-        </div>
-      </section>
+    <section class="name-animation">
+      <h1 data-text="Master">Master</h1>
+      <h1 data-text="Quiz...">Quiz...</h1>
     </section>
 
-    <section id="contact-me">
-      <div class="contact-box">
-        <section>
-          <h2>Contact Me</h2>
-          <p>Noticed a <u>bug</u>,</p>
-          <p>or have anything to <u>suggest</u>?</p>
-          <p>Please, <u>let me know</u> with an email.</p>
+    <main>
+      <section id="dyalog-apl" class="dyalog-apl">
+        <h1>Dyalog APL</h1>
+        <section class="text-block">
+          <h2>What is APL?</h2>
+          <div class="center-quote">
+            <blockquote>
+              <p>APL is an <u>array-oriented</u> programming language.</p>
+              <p>
+                Its natural, concise syntax lets you develop
+                <u>shorter programs</u> while <u>thinking more</u>
+                about the problem you're trying to solve than how to express it to a computer.
+              </p>
+            </blockquote>
+          </div>
+          <a href="https://aplwiki.com" target="blank">~APL wiki</a>
         </section>
-        <form action="https://formsubmit.co/67f2dabb477f56ac1c41d324c50c6677" method="POST">
-          <input name="name" placeholder="Your Name" maxlength="32" pattern="\S+.*" required>
-          <input type="email" name="email" placeholder="Your email adress" maxlength="32" pattern="\S+.*" required>
-          <textarea id="message" name="message" spellcheck="false" placeholder="Your message" maxlength="1024"
-            pattern="\S+.*" required></textarea>
-          <!-- /[\r\n]+/ -->
-          <section class="file__input">
-            <label>
-              <input class="uploadBtn" type="file" name="attachment" accept="image/png, image/jpeg">
-              <span>Upload a file</span>
-            </label>
-            <p class="optional">Optional</p>
-            <p class="file__name"></p>
+        <section class="text-block">
+          <h2>What can you find in this section?</h2>
+          <div class="cards">
+            <a class="card" href="/apl/logic_games/">
+              <h2>Logic game</h2>
+              <p>In this section you'll find logic game solvers of several ones</p>
+              <ol>
+                <li>Tree</li>
+                <li>Electric charges</li>
+                <li>Hitori</li>
+                <li>Save the cow</li>
+              </ol>
+              <p>Try them!</p>
+            </a>
+
+            <a class="card" href="/apl/animations/">
+              <h2>Animations</h2>
+              <p>Have you ever wanted to animate an image made with characters?</p>
+              <p>Now you can, add a <u>Christmas animation</u> to whatever you want!</p>
+              <p>Otherwise check the <u>Happy New Year</u> animation.</p>
+            </a>
+          </div>
+        </section>
+      </section>
+
+      <div id="contact-me">
+        <div class="contact-box">
+          <section>
+            <h2>Contact Me</h2>
+            <p>Noticed a <u>bug</u>,</p>
+            <p>or have anything to <u>suggest</u>?</p>
+            <p>Please, <u>let me know</u> with an email.</p>
           </section>
-          <input type="hidden" name="_next" value="https://masterquiz.github.io/">
-          <input type="hidden" name="_subject" value="New submission!">
-          <input type="text" name="_honey" style="display:none">
-          <input type="hidden" name="_autoresponse"
-            value="Thank you for contacting me.&#10;I will reply as soon as possible!">
-          <input type="hidden" name="_template" value="table">
-          <button type="submit">Submit Form</button>
-        </form>
+          <form action="https://formsubmit.co/67f2dabb477f56ac1c41d324c50c6677" method="POST">
+            <input name="name" placeholder="Your Name" maxlength="32" pattern="\S+.*" required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email adress"
+              maxlength="32"
+              pattern="\S+.*"
+              required />
+            <textarea
+              id="message"
+              name="message"
+              spellcheck="false"
+              placeholder="Your message"
+              maxlength="1024"
+              required></textarea>
+            <div class="file__input">
+              <label>
+                <input
+                  class="uploadBtn"
+                  type="file"
+                  name="attachment"
+                  accept="image/png, image/jpeg" />
+                <span>Upload a file</span>
+              </label>
+              <p class="optional">Optional</p>
+              <p class="file__name"></p>
+            </div>
+            <input type="hidden" name="_next" value="https://masterquiz.github.io/" />
+            <input type="hidden" name="_subject" value="New submission!" />
+            <input type="text" name="_honey" style="display: none" />
+            <input
+              type="hidden"
+              name="_autoresponse"
+              value="Thank you for contacting me.&#10;I will reply as soon as possible!" />
+            <input type="hidden" name="_template" value="table" />
+            <button type="submit">Submit Form</button>
+          </form>
+
+          <script>
+            // Check validity of textarea
+            ['input', 'change', 'propertychange'].forEach(event => {
+              document.getElementById('message').addEventListener(event, () => {
+                const textarea = document.getElementById('message');
+
+                const patternRegex = new RegExp(`^\\S+.*$`, 'm');
+
+                if (textarea.value.match(patternRegex)) textarea.style.backgroundColor = '#FFF275';
+                else textarea.style.backgroundColor = '#FFC566';
+              });
+            });
+
+            // Display file path, when uploaded
+            document.querySelector('.uploadBtn').onchange = () => {
+              document.querySelector('.optional').style.display = 'none';
+              document.querySelector('.file__name').innerText = `Uploaded: "${document
+                .querySelector('.uploadBtn')
+                .value.slice(12, -4)}"`;
+            };
+          </script>
+        </div>
       </div>
-    </section>
-  </main>
+    </main>
 
-  <section id="footer"></section>
-
-  <script>
-    // Check validity of textarea
-    ['input', 'change', 'propertychange'].forEach(event => {
-      document.getElementById('message').addEventListener(event, () => {
-        let textarea = document.getElementById('message');
-        let pattern = textarea.getAttribute('pattern');
-
-        let patternRegex = new RegExp(`^${pattern.replace(/^\^|\$$/g, '')}$`, 'm');
-
-        if (textarea.value.match(patternRegex)) textarea.style.backgroundColor = '#FFF275';
-        else textarea.style.backgroundColor = '#FFC566';
-      });
-    });
-
-    // Display file path, when uploaded
-    document.querySelector('.uploadBtn').onchange = () => {
-      document.querySelector('.optional').style.display = 'none';
-      document.querySelector('.file__name').innerText = `Uploaded: "${document.querySelector('.uploadBtn').value.slice(12, -4)}"`;
-    };
-  </script>
-</body>
-
+    <div id="footer"></div>
+  </body>
 </html>

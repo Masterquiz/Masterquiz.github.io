@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Quiz - Logic games</title>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Quiz - Logic games</title>
+    <link rel="stylesheet" href="/css/apl/animations/index.css" />
 
-  <link rel="stylesheet" href="/css/apl/animations/index.css">
+    <script src="/js/script.js"></script>
+    <script>
+      (async () => {
+        await fetch('/base/logic_games_nav.html')
+          .then(res => res.text())
+          .then(data => (document.querySelector('#nav').innerHTML = data));
+      })();
+    </script>
+  </head>
 
-  <script src="/js/script.js"></script>
-  <script>
-    (async () => {
-      let nav = await fetch('/base/logic_games_nav.html');
-      document.querySelector('#nav').innerHTML = await nav.text();
-    })();
-  </script>
-</head>
+  <body>
+    <div id="header"></div>
+    <div id="nav"></div>
 
-<body>
-  <section id="header"></section>
+    <main>
+      <div class="cards">
+        <a class="card" href="/apl/animations/christmas.html">
+          <h2>Christmas</h2>
+          <img class="card__img" src="/img/animations/christmas.jpg" alt="" />
+        </a>
 
-  <section id="nav"></section>
+        <a class="card" href="/apl/animations/happy_new_year.html">
+          <h2>Happy new Year</h2>
+          <img class="card__img" src="/img/animations/happy_new_year.jpg" alt="" />
+        </a>
+      </div>
+    </main>
 
-  <main>
-    <div class="cards">
-      <a class="card" href="/apl/animations/christmas.html">
-        <h2>Christmas</h2>
-        <img class="card__img" src="/img/animations/christmas.jpg" alt="">
-      </a>
-
-      <a class="card" href="/apl/animations/happy_new_year.html">
-        <h2>Happy new Year</h2>
-        <img class="card__img" src="/img/animations/happy_new_year.jpg" alt="">
-      </a>
-    </div>
-  </main>
-
-  <section id="footer"></section>
-</body>
-
+    <div id="footer"></div>
+  </body>
 </html>

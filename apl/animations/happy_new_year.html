@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Quiz - Christmas animation</title>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Quiz - Christmas animation</title>
+    <link rel="stylesheet" href="/css/apl/animations/happy_new_year.css" />
 
-  <link rel="stylesheet" href="/css/apl/animations/happy_new_year.css">
+    <script src="/js/apl/apl.js"></script>
+    <script src="/js/apl/animations/happy_new_year.js" defer></script>
 
-  <script src="/js/apl/apl.js"></script>
-  <script src="/js/apl/animations/happy_new_year.js" defer></script>
+    <script src="/js/script.js"></script>
+    <script>
+      (async () => {
+        await fetch('/base/logic_games_nav.html')
+          .then(res => res.text())
+          .then(data => (document.querySelector('#nav').innerHTML = data));
+      })();
+    </script>
+  </head>
 
-  <script src="/js/script.js"></script>
-  <script>
-    (async () => {
-      let nav = await fetch('/base/logic_games_nav.html');
-      document.querySelector('#nav').innerHTML = await nav.text();
-    })();
-  </script>
-</head>
+  <body>
+    <div id="header"></div>
+    <div id="nav"></div>
 
-<body>
-  <section id="header"></section>
+    <main>
+      <div class="intro">
+        <h1>Happy new Year!</h1>
+        <p>Enjoy the following animation!</p>
+      </div>
+      <div class="input">
+        <div><button>Start</button></div>
+        <textarea cols="27" rows="6"></textarea>
+      </div>
+    </main>
 
-  <section id="nav"></section>
-
-  <main>
-    <div class="intro">
-      <h1>Happy new Year!</h1>
-      <p>Enjoy the following animation!</p>
-    </div>
-    <div class="input">
-      <div><button>Start</button></div>
-      <textarea cols="27" rows="6"></textarea>
-    </div>
-  </main>
-
-  <section id="footer"></section>
-</body>
-
+    <div id="footer"></div>
+  </body>
 </html>

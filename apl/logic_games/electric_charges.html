@@ -1,67 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Quiz - Electric charges</title>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Quiz - Electric charges</title>
+    <link rel="stylesheet" href="/css/apl/logic_games/puzzle.css" />
 
-  <link rel="stylesheet" href="/css/apl/logic_games/puzzle.css">
+    <script src="/js/apl/apl.js" defer></script>
+    <script src="/js/apl/logic_games/puzzle_utils.js" defer></script>
+    <script src="/js/apl/logic_games/electric_charges.js" defer></script>
 
-  <script src="/js/apl/apl.js" defer></script>
-  <script src="/js/apl/logic_games/puzzle_utils.js" defer></script>
-  <script src="/js/apl/logic_games/electric_charges.js" defer></script>
+    <script src="/js/script.js"></script>
+    <script>
+      (async () => {
+        await fetch('/base/logic_games_nav.html')
+          .then(res => res.text())
+          .then(data => (document.querySelector('#nav').innerHTML = data));
+      })();
+    </script>
+  </head>
 
-  <script src="/js/script.js"></script>
-  <script>
-    (async () => {
-      let nav = await fetch('/base/logic_games_nav.html');
-      document.querySelector('#nav').innerHTML = await nav.text();
-    })();
-  </script>
-</head>
+  <body>
+    <div id="header"></div>
+    <div id="nav"></div>
 
-<body>
-  <section id="header"></section>
+    <main>
+      <h1>Electric charges solver</h1>
 
-  <section id="nav"></section>
+      <div class="cards">
+        <section class="input">
+          <div class="input__dimension">
+            <input class="dimension__value" type="number" placeholder="Dimension" />
+            <button class="dimension__button">✓</button>
+          </div>
 
-  <main>
-    <h1>Electric charges solver</h1>
+          <div class="input__table"></div>
 
-    <div class="cards">
-      <section class="input">
-        <div class="input__dimension">
-          <input class="dimension__value" type="number" placeholder="Dimension">
-          <button class="dimension__button">✓</button>
-        </div>
+          <div class="input__modify">
+            <button class="btns__undo">
+              <span class="material-icons"> undo </span>
+            </button>
+            <button class="btns__restart">
+              <span class="material-icons"> restart_alt </span>
+            </button>
+            <button class="btns__redo">
+              <span class="material-icons"> redo </span>
+            </button>
+          </div>
 
-        <div class="input__table"></div>
+          <div class="input__btns">
+            <button class="btns__solve">Solve</button>
+            <button class="btns__create">Create</button>
+            <button class="btns__try">Try</button>
+          </div>
+        </section>
 
-        <div class="input__btns">
-          <button class="btns__solve">Solve</button>
-          <button class="btns__create">Create</button>
-          <button class="btns__try">Try</button>
-          <button class="btns__restart">Restart</button>
-        </div>
-      </section>
+        <section class="output">
+          <h2>Solution</h2>
+          <div class="output__table"></div>
+        </section>
 
-      <section class="output">
-        <h2>Solution</h2>
-        <div class="output__table"></div>
-      </section>
+        <section class="try">
+          <h2>Solve</h2>
 
-      <section class="try">
-        <h2>Solve</h2>
-        <table class="try__table"></table>
-        <div class="try__btns">
-          <button class="btns__verify">Verify</button>
-          <button class="btns__mode"></button>
-        </div>
-      </section>
-    </div>
-  </main>
+          <table class="try__table"></table>
 
-  <section id="footer"></section>
-</body>
+          <div class="try__modify">
+            <button class="btns__undo">
+              <span class="material-icons"> undo </span>
+            </button>
+            <button class="btns__restart">
+              <span class="material-icons"> restart_alt </span>
+            </button>
+            <button class="btns__redo">
+              <span class="material-icons"> redo </span>
+            </button>
+          </div>
 
+          <div class="try__btns">
+            <button class="btns__verify">Verify</button>
+            <button class="btns__mode"></button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </body>
 </html>
