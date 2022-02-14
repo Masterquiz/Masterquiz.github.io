@@ -13,11 +13,6 @@
     height: 250px;
   }
 
-  .drop img {
-    width: 128px;
-    aspect-ratio: 1;
-  }
-
   .drops {
     position: relative;
     display: flex;
@@ -37,6 +32,11 @@
     border-radius: 57% 43% 37% 63% / 45% 52% 48% 55%;
     box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.05), 15px 25px 10px rgba(0, 0, 0, 0.1),
       15px 20px 20px rgba(0, 0, 0, 0.05), inset -10px -10px 15px rgba(255, 255, 255, 0.2);
+  }
+
+  .drop img {
+    width: 128px;
+    aspect-ratio: 1;
   }
 
   .drop:nth-child(2) img,
@@ -73,15 +73,14 @@
   .quick-links {
     display: flex;
     margin: auto;
-    padding: 1em 0;
+    padding: 1.5em 0;
   }
 
   .quick-links ul {
     display: flex;
-    flex-direction: column;
-    gap: 1em;
+    flex-direction: row;
     margin: auto;
-    text-align: center;
+    gap: 0.5em;
   }
 
   .quick-items a {
@@ -96,34 +95,12 @@
     height: 0.125em;
     background-color: var(--clr-primary-900);
     display: block;
-    margin: auto;
+    margin: 0.25em auto;
     transition: 0.5s;
   }
 
   .quick-items:hover::after,
   .quick-items:focus::after {
     width: 60%;
-  }
-}
-
-.outer-footer {
-  padding: 15px;
-  text-align: center;
-  color: var(--clr-primary-700);
-  background-color: var(--clr-primary-100);
-  position: relative;
-  z-index: 99;
-}
-
-@media only screen and (min-width: 600px) {
-  .quick-links {
-    height: 5em;
-  }
-
-  .quick-links ul {
-    display: flex;
-    flex-direction: row;
-    gap: 0;
-    margin: auto;
   }
 }

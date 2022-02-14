@@ -17,12 +17,16 @@
   --clr-primary-900: #ff3c38;
   /* Tart Orange - (255, 60, 56)*/
 
+  --clr-text-dark: #4a4a4a;
+
   --ff-accent: 'Oleo Script', serif;
-  --ff-primary: system-ui, sans-serif;
+  --ff-primary: Georgia, system-ui, sans-serif;
   --ff-code-APL: 'APL', monospace;
 }
 
-* {
+body,
+ul,
+li {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -99,6 +103,5 @@ input::-webkit-inner-spin-button {
   height: 1px;
   width: 1px;
   margin: -1px;
-  padding: 0;
   border: 0;
 }

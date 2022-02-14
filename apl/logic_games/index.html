@@ -275,7 +275,7 @@
 
         await new Promise(resolve => setTimeout(resolve, 1000));
         [...hitori_tds].map(td => {
-          if (td.style.backgroundColor !== 'rgb(65, 105, 225)') {
+          if (td.style.backgroundColor === 'rgb(186, 85, 211)') {
             td.style.color = '';
             td.style.backgroundColor = '';
             td.style.opacity = 1;
@@ -359,7 +359,7 @@
         [[88, 98], []],
       ];
 
-      (async function animateTree() {
+      (async function animateSaveTheCow() {
         for (const i in save_the_cow_solution) {
           await new Promise(resolve => setTimeout(resolve, 1000));
           save_the_cow_solution[i][0].map(
@@ -372,7 +372,7 @@
 
         await new Promise(resolve => setTimeout(resolve, 8000));
         [...save_the_cow_tds].map(td => (td.style.border = '1px solid #20202050'));
-        animateTree();
+        animateSaveTheCow();
       })();
     </script>
   </body>

@@ -87,7 +87,7 @@ document.querySelector('.dimension__button').addEventListener('click', function 
     [...tr.querySelectorAll('.input__table td')].map((td, j) => {
       td.contentEditable = true;
 
-      td.addEventListener('blur', () => {
+      td.addEventListener('input', () => {
         UNDO.push([[i, j], td.innerText.replace('\n', '')]);
         document.querySelector('.input__modify .btns__undo').disabled = false;
 
@@ -192,13 +192,21 @@ document.querySelector('.btns__create').addEventListener('click', async function
   table.appendChild(tbody);
   input_table.appendChild(table);
 
-  EXAMPLES[width][(EXAMPLES[width].length * Math.random()) | 0].map(item => {
+  EXAMPLES[width][(EXAMPLES[width].length * Math.random()) | 0].map((item, i) => {
     const tr = document.createElement('tr');
-    item.split` `.map(x => {
+    item.split` `.map((x, j) => {
       const td = document.createElement('td');
 
       td.contentEditable = true;
       td.innerText = x === '9' ? '' : x;
+
+      td.addEventListener('input', () => {
+        UNDO.push([[i, j], td.innerText.replace('\n', '')]);
+        document.querySelector('.input__modify .btns__undo').disabled = false;
+
+        REDO = [];
+        document.querySelector('.input__modify .btns__redo').disabled = true;
+      });
 
       td.appendChild(document.createElement('br'));
       tr.appendChild(td);

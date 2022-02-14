@@ -1,16 +1,33 @@
+/*
+  Index:
+  - Hamburger icon
+  - Menu and animation
+*/
+
 header {
   display: flex;
   align-items: center;
-  height: 12vh;
+  min-height: 12vh;
   background: var(--clr-primary-900);
 }
 
 .logo {
-  filter: invert(90%) sepia(48%) saturate(5427%) hue-rotate(309deg) brightness(101%) contrast(104%);
+  height: 12vh;
   z-index: 99;
 }
 
+/* ?Are there these screens */
+@media only screen and (max-width: 366px) {
+  .logo {
+    display: none;
+  }
+}
+
 .name {
+  font-size: 5vh;
+  flex-grow: 1;
+  text-align: initial;
+  padding-right: 0.5em;
   font-family: var(--ff-accent);
   text-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
   color: var(--clr-primary-300);
@@ -18,26 +35,23 @@ header {
 }
 
 .navbar {
-  flex-grow: 1;
+  padding-right: 1em;
   -webkit-box-pack: end;
   display: -webkit-box;
-  padding-right: 1em;
 }
 
-.ham,
-.hamMQ {
+.ham {
   position: relative;
   z-index: 99;
 }
 
-.change,
-.changeMQ {
+.change {
   position: fixed;
   top: 1.8em;
   right: 1em;
 }
 
-/* Menu ham */
+/* Menu */
 .ham span {
   display: block;
   width: 1.7em;
@@ -48,35 +62,12 @@ header {
   transition: 0.4s;
 }
 
-.change .bar1 {
-  transform: rotate(45deg) translate(8px, 3px);
-}
-
+.change .bar1,
 .change .bar2 {
   opacity: 0;
 }
 
-.change .bar3 {
-  transform: rotate(-45deg) translate(8px, -3px);
-}
-
-/* Menu MQ */
-.hamMQ span {
-  display: block;
-  width: 1.7em;
-  height: 0.1875em;
-  margin: 0.3125em auto;
-  background-color: var(--clr-primary-300);
-  box-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
-  transition: 0.4s;
-}
-
-.changeMQ .bar1MQ,
-.changeMQ .bar2MQ {
-  opacity: 0;
-}
-
-.hamMQ label {
+.ham label {
   position: absolute;
   top: 25px;
   color: var(--clr-primary-300);
@@ -86,11 +77,12 @@ header {
   pointer-events: none;
 }
 
-.changeMQ label {
+.change label {
   animation: moveUpThenDown 0.8s ease 0.2s forwards, shakeWhileMovingUp 0.8s ease 0.2s forwards,
     shakeWhileMovingDown 0.2s ease 0.8s forwards;
 }
 
+/* Menu animation */
 @keyframes moveUpThenDown {
   0%,
   100% {
@@ -166,19 +158,20 @@ header {
   }
 }
 
+/* Menu and animation */
 .menu {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background-color: rgba(255, 60, 56, 0.75);
-  z-index: 98;
+  padding: 12vh 0;
   position: fixed;
   top: 0;
   right: 0;
-  padding: 6.25em 1em 0 1em;
-  transition: transform 0s ease-in;
-  transform: translate(100%);
+  min-height: 100%;
   min-width: 50%;
+  background-color: rgba(255, 60, 56, 0.75);
+  transition: transform 0.3s ease-in;
+  transform: translate(100%);
+  z-index: 98;
 }
 
 .menu-change {
@@ -195,14 +188,14 @@ header {
   filter: blur(10px);
 }
 
-.menu li {
-  padding: 0 0.3125em;
-  line-height: 2.5em;
-  font-size: 1.125rem;
+.item {
+  padding: 0 0.8em;
+  line-height: 5vh;
+  font-size: 1em;
   color: var(--clr-primary-300);
 }
 
-.menu li a::after {
+.item::after {
   content: '';
   width: 0;
   height: 0.125em;
@@ -211,14 +204,22 @@ header {
   transition: 0.5s;
 }
 
-.menu li a:hover::after,
-.menu li a:focus::after {
+.item:hover::after,
+.item:focus::after {
   width: 50%;
 }
 
-@media only screen and (min-width: 600px) {
+.sub-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 0.5em 1.5em;
+  color: var(--clr-primary-300);
+}
+
+@media only screen and (min-width: 681px) {
   .name {
-    font-size: 2.8rem;
+    text-align: unset;
   }
 
   .menu {
@@ -227,28 +228,29 @@ header {
     padding: 0;
     flex-direction: unset;
     transform: unset;
+    background-color: unset;
   }
 
   .menu::before {
     all: unset;
   }
 
-  .menu li {
+  .item {
     flex-direction: column;
     padding-left: 1em;
   }
 
-  .menu li a::after {
+  .item::after {
     margin: auto;
   }
 
-  .menu li a:hover::after,
-  .menu li a:focus::after {
+  .item:hover::after,
+  .item:focus::after {
     width: 80%;
   }
 
-  .ham,
-  .hamMQ {
+  .sub-menu,
+  .ham {
     display: none;
   }
 }

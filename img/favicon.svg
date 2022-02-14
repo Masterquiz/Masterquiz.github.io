@@ -1,0 +1,12 @@
+<svg
+  fill="none"
+  stroke="#ff3c38"
+  stroke-width="40"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 600 600">
+  <path d="M100 550m0-300v300m0-300a100 100 0 01400 0m0 0v300" />
+  <circle cx="220" cy="250" r="120" />
+  <path
+    d="M70 470a35 35 0 010-70M70 400h25M70 470h25M400 470a35 35 0 010-70M400 400h25M400 470h25" />
+  <path d="M89 131a30 30 45 0142-42M489 89a30 30 135 0142 42" />
+</svg>
