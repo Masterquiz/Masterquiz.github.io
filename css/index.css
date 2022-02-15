@@ -11,8 +11,10 @@ blockquote {
   color: var(--clr-text-dark);
 }
 
+// FIXME: replace u
 u {
   color: var(--clr-primary-900);
+  underline: none;
 }
 
 .center {
