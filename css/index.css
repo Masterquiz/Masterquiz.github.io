@@ -14,7 +14,7 @@ blockquote {
 // FIXME: replace u
 u {
   color: var(--clr-primary-900);
-  underline: none;
+  text-decoration: none;
 }
 
 .center {
