@@ -7,13 +7,6 @@
     <link rel="stylesheet" href="/css/apl/animations/index.css" />
 
     <script src="/js/script.js"></script>
-    <script>
-      (async () => {
-        await fetch('/base/logic_games_nav.html')
-          .then(res => res.text())
-          .then(data => (document.querySelector('#nav').innerHTML = data));
-      })();
-    </script>
   </head>
 
   <body>

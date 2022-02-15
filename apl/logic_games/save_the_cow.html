@@ -7,13 +7,6 @@
     <link rel="stylesheet" href="/css/apl/logic_games/puzzle.css" />
 
     <script src="/js/script.js"></script>
-    <script>
-      (async () => {
-        await fetch('/base/logic_games_nav.html')
-          .then(res => res.text())
-          .then(data => (document.querySelector('#nav').innerHTML = data));
-      })();
-    </script>
 
     <script src="/js/apl/apl.js" defer></script>
     <script src="/js/apl/logic_games/puzzle_utils.js" defer></script>
