@@ -239,7 +239,7 @@ table tr:last-child td {
 }
 
 .btns__mode {
-  width: 2.2727272727272725em;
+  width: calc(225em / 99);
   background-size: 72%;
   background-repeat: no-repeat;
   background-position: center;
