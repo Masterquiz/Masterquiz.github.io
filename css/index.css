@@ -11,10 +11,8 @@ blockquote {
   color: var(--clr-text-dark);
 }
 
-// FIXME: replace u
-u {
+.text-block span {
   color: var(--clr-primary-900);
-  text-decoration: none;
 }
 
 .center {
@@ -179,9 +177,12 @@ h2 a {
     padding: 0 1em;
   }
 
-  .dyalog-apl .container > :nth-of-type(2) {
-    border-left: 1px solid var(--clr-primary-700);
+  .dyalog-apl .container div {
     border-right: 1px solid var(--clr-primary-700);
+  }
+
+  .dyalog-apl .container div:last-child {
+    border-right: none;
   }
 }
 

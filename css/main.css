@@ -88,6 +88,10 @@ a {
   cursor: pointer;
 }
 
+td {
+  font-family: system-ui, sans-serif;
+}
+
 button {
   cursor: pointer;
 }

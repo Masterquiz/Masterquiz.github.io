@@ -186,7 +186,7 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
         td.innerText = matrix[i][j];
         if (!x) {
           td.style.color = '#fff';
-          td.style.backgroundColor = '#000';
+          td.style.backgroundColor = '#4169e1';
           td.style.opacity = 0.5;
         }
 
@@ -228,7 +228,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
 
       td.addEventListener('blur', function UpdateUNDO() {
         UNDO.push([[i, j], +this.innerText.replace('\n', '')]);
-        [UNDO, REDO] = [[], []];
+        [TRY_UNDO, TRY_REDO] = [[], []];
       });
 
       td.appendChild(document.createElement('br'));
@@ -266,15 +266,19 @@ document.querySelector('.btns__try').addEventListener('click', async function tr
 
       td.addEventListener('click', function f() {
         const btn_mode = document.querySelector('.btns__mode').style.backgroundColor;
-        if (try_label.innerText === 'Correct!') td.removeEventListener('click', f);
-        else {
+        if (try_label.innerText === 'Correct!') {
+          td.removeEventListener('click', f);
+          document.querySelector('.input__modify .btns__undo').disabled = true;
+          document.querySelector('.input__modify .btns__redo').disabled = true;
+          [REDO, UNDO] = [[], []];
+        } else {
           if (try_label.innerText === 'Wrong!') {
             try_label.innerText = 'Try again!';
             try_label.style.color = '#4169e1';
           }
 
           value =
-            td.style.backgroundColor === 'rgb(0, 0, 0)'
+            td.style.backgroundColor === 'rgb(65, 105, 225)'
               ? 1
               : td.style.backgroundColor === 'rgb(186, 85, 211)'
               ? -1
@@ -305,7 +309,7 @@ document.querySelector('.btns__try').addEventListener('click', async function tr
   });
 
   document.querySelector('.btns__mode').style.border = 'none';
-  document.querySelector('.btns__mode').style.backgroundColor = '#000';
+  document.querySelector('.btns__mode').style.backgroundColor = '#4169e1';
   document.querySelector('.btns__mode').style.opacity = 0.5;
   session_style(3);
 
@@ -320,7 +324,7 @@ document.querySelector('.try__modify .btns__undo').addEventListener('click', fun
       tr.querySelectorAll('td')
     )[i][j];
 
-    if (td.style.backgroundColor === 'rgb(0, 0, 0)') TRY_REDO.push([[i, j], 1]);
+    if (td.style.backgroundColor === 'rgb(65, 105, 225)') TRY_REDO.push([[i, j], 1]);
     else if (td.style.backgroundColor === 'rgb(186, 85, 211)') TRY_REDO.push([[i, j], -1]);
     else TRY_REDO.push([[i, j], 0]);
 
@@ -330,7 +334,7 @@ document.querySelector('.try__modify .btns__undo').addEventListener('click', fun
 
     TRY_UNDO.pop();
 
-    if (new_value === 1) td.style.backgroundColor = 'rgb(0, 0, 0)';
+    if (new_value === 1) td.style.backgroundColor = 'rgb(65, 105, 225)';
     else if (new_value === -1) td.style.backgroundColor = 'rgb(186, 85, 211)';
     else td.style.backgroundColor = '';
   }
@@ -348,7 +352,7 @@ document.querySelector('.try__modify .btns__redo').addEventListener('click', fun
       tr.querySelectorAll('td')
     )[i][j];
 
-    if (td.style.backgroundColor === 'rgb(0, 0, 0)') TRY_UNDO.push([[i, j], 1]);
+    if (td.style.backgroundColor === 'rgb(65, 105, 225)') TRY_UNDO.push([[i, j], 1]);
     else if (td.style.backgroundColor === 'rgb(186, 85, 211)') TRY_UNDO.push([[i, j], -1]);
     else TRY_UNDO.push([[i, j], 0]);
 
@@ -358,7 +362,7 @@ document.querySelector('.try__modify .btns__redo').addEventListener('click', fun
 
     TRY_REDO.pop();
 
-    if (new_value === 1) td.style.backgroundColor = 'rgb(0, 0, 0)';
+    if (new_value === 1) td.style.backgroundColor = 'rgb(65, 105, 225)';
     else if (new_value === -1) td.style.backgroundColor = 'rgb(186, 85, 211)';
     else td.style.backgroundColor = '';
   }
@@ -378,7 +382,7 @@ document.querySelector('.btns__verify').addEventListener('click', async function
 
   const try_matrix = [...document.querySelectorAll('.try__table tr')].map((item, i) =>
     [...item.querySelectorAll('td')].map((x, j) =>
-      x.style.backgroundColor === 'rgb(0, 0, 0)' ? 0 : matrix[i][j]
+      x.style.backgroundColor === 'rgb(65, 105, 225)' ? 0 : matrix[i][j]
     )
   );
 
@@ -400,5 +404,6 @@ document.querySelector('.btns__mode').addEventListener('click', function changeM
   if (document.querySelector('.try h2').innerText === 'Correct!')
     this.removeEventListener('click', changeMode);
   else
-    this.style.backgroundColor = this.style.backgroundColor === 'rgb(0, 0, 0)' ? '#ba55d3' : '#000';
+    this.style.backgroundColor =
+      this.style.backgroundColor === 'rgb(65, 105, 225)' ? '#ba55d3' : '#4169e1';
 });

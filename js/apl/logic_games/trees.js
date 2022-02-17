@@ -227,7 +227,7 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
 
         if (rows[i][j]) td.style.borderLeft = '1px solid #000';
         if (cols[i][j]) td.style.borderTop = '1px solid #000';
-        if (x) td.style.backgroundImage = 'url("/img/logic_games/tree.png")';
+        if (x) td.style.backgroundImage = 'url("/img/logic_games/trees.png")';
 
         td.appendChild(document.createElement('br'));
         tr.appendChild(td);
@@ -306,7 +306,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
       tbody.appendChild(tr);
     });
   } catch {
-    alert(`Can't create a Tree with this width.\nBut you can still create one yourself!`);
+    alert(`Can't create a Trees with this width.\nBut you can still create one yourself!`);
   }
 
   input_btns.map(btn => (btn.disabled = false));
@@ -362,7 +362,7 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
           }
 
           value =
-            td.style.backgroundImage === 'url("/img/logic_games/tree.png")'
+            td.style.backgroundImage === 'url("/img/logic_games/trees.png")'
               ? 1
               : td.style.backgroundImage === 'url("/img/logic_games/erase.png")'
               ? -1
@@ -385,7 +385,7 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
   }
 
   document.querySelector('.btns__verify').disabled = false;
-  document.querySelector('.btns__mode').style.backgroundImage = 'url("/img/logic_games/tree.png")';
+  document.querySelector('.btns__mode').style.backgroundImage = 'url("/img/logic_games/trees.png")';
 
   session_style(3);
 });
@@ -398,7 +398,8 @@ document.querySelector('.try__modify .btns__undo').addEventListener('click', fun
       tr.querySelectorAll('td')
     )[i][j];
 
-    if (td.style.backgroundImage === 'url("/img/logic_games/tree.png")') TRY_REDO.push([[i, j], 1]);
+    if (td.style.backgroundImage === 'url("/img/logic_games/trees.png")')
+      TRY_REDO.push([[i, j], 1]);
     else if (td.style.backgroundImage === 'url("/img/logic_games/erase.png")')
       TRY_REDO.push([[i, j], -1]);
     else TRY_REDO.push([[i, j], 0]);
@@ -409,7 +410,7 @@ document.querySelector('.try__modify .btns__undo').addEventListener('click', fun
 
     TRY_UNDO.pop();
 
-    if (new_value === 1) td.style.backgroundImage = 'url("/img/logic_games/tree.png")';
+    if (new_value === 1) td.style.backgroundImage = 'url("/img/logic_games/trees.png")';
     else if (new_value === -1) td.style.backgroundImage = 'url("/img/logic_games/erase.png")';
     else td.style.backgroundImage = '';
   }
@@ -427,7 +428,8 @@ document.querySelector('.try__modify .btns__redo').addEventListener('click', fun
       tr.querySelectorAll('td')
     )[i][j];
 
-    if (td.style.backgroundImage === 'url("/img/logic_games/tree.png")') TRY_UNDO.push([[i, j], 1]);
+    if (td.style.backgroundImage === 'url("/img/logic_games/trees.png")')
+      TRY_UNDO.push([[i, j], 1]);
     else if (td.style.backgroundImage === 'url("/img/logic_games/erase.png")')
       TRY_UNDO.push([[i, j], -1]);
     else TRY_UNDO.push([[i, j], 0]);
@@ -438,7 +440,7 @@ document.querySelector('.try__modify .btns__redo').addEventListener('click', fun
 
     TRY_REDO.pop();
 
-    if (new_value === 1) td.style.backgroundImage = 'url("/img/logic_games/tree.png")';
+    if (new_value === 1) td.style.backgroundImage = 'url("/img/logic_games/trees.png")';
     else if (new_value === -1) td.style.backgroundImage = 'url("/img/logic_games/erase.png")';
     else td.style.backgroundImage = '';
   }
@@ -480,7 +482,7 @@ document.querySelector('.btns__verify').addEventListener('click', async function
 
     const try_matrix = [...document.querySelectorAll('.try__table tr')]
       .map(tr => [...tr.querySelectorAll('td')])
-      .map(y => y.map(x => +(x.style.backgroundImage === 'url("/img/logic_games/tree.png")')));
+      .map(y => y.map(x => +(x.style.backgroundImage === 'url("/img/logic_games/trees.png")')));
 
     const try_label = document.querySelector('.try h2');
 
@@ -505,7 +507,7 @@ document.querySelector('.btns__mode').addEventListener('click', function mode() 
     this.removeEventListener('click', mode);
   else
     this.style.backgroundImage =
-      this.style.backgroundImage === 'url("/img/logic_games/tree.png")'
+      this.style.backgroundImage === 'url("/img/logic_games/trees.png")'
         ? 'url("/img/logic_games/erase.png")'
-        : 'url("/img/logic_games/tree.png")';
+        : 'url("/img/logic_games/trees.png")';
 });

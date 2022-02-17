@@ -3,7 +3,7 @@
 This website hosts different project written in APL.
 Actually you can find:
 
-- [ ] Logic game solvers ([Tree], [Electric charges] and [Hitori] puzzles), which I use to:
+- [ ] Logic game solvers ([Trees], [Electric charges] and [Hitori] puzzles), which I use to:
   - [x] Solve a puzzle
   - [x] Create a puzzle
   - [x] Verify whether the user solution is correct or not
@@ -19,6 +19,6 @@ Do you have an idea to solve a Logic game or an idea of an animation? Let me kno
 - [ ] Add instructions and rules
 - [ ] Add a blog section to show and explain how my solvers work
 
-[tree]: https://masterquiz.github.io/apl/logic_games/tree.html
+[trees]: https://masterquiz.github.io/apl/logic_games/trees.html
 [electric charges]: https://masterquiz.github.io/apl/logic_games/electric_charges.html
 [hitori]: https://masterquiz.github.io/apl/logic_games/hitori.html
