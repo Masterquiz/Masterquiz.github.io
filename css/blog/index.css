@@ -1,0 +1,41 @@
+@media only screen and (min-width: 600px) {
+  main {
+    margin: 0 7em;
+  }
+}
+
+h1 {
+  color: var(--clr-primary-900);
+  margin-left: 0;
+}
+
+h2 a {
+  font-family: var(--ff-heading);
+  color: var(--clr-primary-700);
+  font-size: 1.7rem;
+  position: relative;
+}
+
+h2 a::after {
+  content: '.';
+  position: absolute;
+  color: transparent;
+  top: 0;
+  left: 0;
+  width: 60vw;
+  overflow: hidden;
+  padding-bottom: 0.3em;
+  border-bottom: 3px solid red;
+}
+
+.infos {
+  display: flex;
+  justify-content: space-between;
+  color: var(--clr-dracula-grey);
+  margin-bottom: 3em;
+  width: 60vw;
+}
+
+.author::before {
+  content: '@';
+}

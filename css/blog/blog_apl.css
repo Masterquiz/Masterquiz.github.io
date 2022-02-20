@@ -1,0 +1,111 @@
+main {
+  background-color: var(--clr-dracula-black);
+}
+
+h1 {
+  color: var(--clr-dracula-pink);
+  text-decoration: underline;
+  margin: 0;
+}
+
+h2 {
+  font-family: var(--ff-heading);
+  color: var(--clr-dracula-pink);
+  text-decoration: underline;
+  margin: 2em auto 1em;
+  text-align: center;
+}
+
+p,
+main li {
+  color: var(--clr-dracula-cyan);
+}
+
+p a {
+  color: var(--clr-dracula-red);
+  text-decoration: underline;
+}
+
+main li {
+  padding-left: 2em;
+}
+
+/* Table */
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 10em;
+  aspect-ratio: 1;
+}
+
+td {
+  border: 1px solid var(--clr-dracula-red);
+  border-right: none;
+  border-bottom: none;
+  text-align: center;
+  outline: none;
+  font-size: 0.8em;
+  background-size: 72%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+table tr td:last-child {
+  border-right: 2px solid var(--clr-dracula-yellow);
+}
+
+table tr:last-child td {
+  border-bottom: 2px solid var(--clr-dracula-yellow);
+}
+
+/* Executable cells */
+pre {
+  position: relative;
+  overflow-x: scroll;
+  margin: 2em 0 0;
+  padding-bottom: 4.5em;
+  color: var(--clr-dracula-green);
+  border: 1px solid var(--clr-dracula-green);
+  scrollbar-color: var(--clr-dracula-green) var(--clr-dracula-black);
+  scrollbar-width: thin;
+  display: flex;
+}
+
+.pre_output {
+  flex-direction: column;
+  position: relative;
+  overflow: scroll;
+  max-height: 80vh;
+  bottom: 1em;
+  margin: 0 0 1em;
+  padding: 4.5em 1em 2em;
+  color: var(--clr-dracula-purple);
+  border: 1px solid var(--clr-dracula-purple);
+  scrollbar-color: var(--clr-dracula-purple) var(--clr-dracula-black);
+  scrollbar-width: thin;
+}
+
+code {
+  font-family: var(--ff-code-APL);
+}
+
+.code__btns {
+  display: flex;
+  justify-content: end;
+  gap: 0.5em;
+  color: var(--clr-dracula-pink);
+  width: max-content;
+  position: relative;
+  bottom: 3em;
+  margin: 0 1em 0 auto;
+}
+
+.btn__close {
+  color: var(--clr-dracula-purple);
+  background-color: var(--clr-dracula-black);
+  width: max-content;
+  position: relative;
+  top: 2em;
+  margin: 0 1em 0 auto;
+  z-index: 2;
+}

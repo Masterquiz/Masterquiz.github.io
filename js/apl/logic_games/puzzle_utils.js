@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.dimension__value').setAttribute('onclick', 'select()');
 
   document.querySelector('.dimension__value').value = '';
@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.querySelector('.btns__solve').disabled = true;
   document.querySelector('.btns__create').disabled = true;
-  document.querySelector('.btns__try').disabled = true;
+  document.querySelector('.try__modify .btns__undo').disabled = true;
+  document.querySelector('.try__modify .btns__redo').disabled = true;
 });
 
 function session_style(mode) {
@@ -32,12 +33,17 @@ document.querySelector('.dimension__value').addEventListener('keyup', e => {
   if (e.keyCode === 13) document.querySelector('.dimension__button').click();
 });
 
-document.querySelector('.input .btns__restart').addEventListener('click', () => {
+document.querySelector('.input__modify .btns__restart').addEventListener('click', () => {
   document.querySelector('.dimension__button').click();
+  document.querySelector('.input__modify .btns__undo').disabled = true;
+  document.querySelector('.input__modify .btns__redo').disabled = true;
+  [UNDO, REDO] = [[], []];
 });
 
-document.querySelector('.try .btns__restart').addEventListener('click', () => {
-  document.querySelector('.btns__try').click();
+document.querySelector('.try__modify .btns__restart').addEventListener('click', () => {
+  document.querySelector('.try__modify .btns__undo').disabled = true;
+  document.querySelector('.try__modify .btns__redo').disabled = true;
+  [TRY_UNDO, TRY_REDO] = [[], []];
 });
 
 document.querySelector('.dimension__button').addEventListener('click', () => {
@@ -69,8 +75,9 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
 
   document.querySelector('.input__modify .btns__undo').disabled = true;
   document.querySelector('.input__modify .btns__redo').disabled = true;
-  UNDO = [];
-  REDO = [];
-  TRY_UNDO = [];
-  TRY_REDO = [];
+  [UNDO, REDO] = [[], []];
+});
+
+document.querySelector('.btns__create').addEventListener('click', () => {
+  [TRY_UNDO, TRY_REDO] = [[], []];
 });

@@ -19,6 +19,18 @@
 
   --clr-text-dark: #4a4a4a;
 
+  --clr-dracula-black: #282a36; /* 40 42 54 */
+  --clr-dracula-white: #f8f8f2; /* 68 71 90 */
+  --clr-dracula-grey: #44475a; /* 248 248 242 */
+  --clr-dracula-blue: #6272a4; /*98 114 164 */
+  --clr-dracula-cyan: #8be9fd; /*139 233 253 */
+  --clr-dracula-green: #50fa7b; /*80 250 123 */
+  --clr-dracula-orange: #ffb86c; /*255 184 108 */
+  --clr-dracula-pink: #ff79c6; /*255 121 198 */
+  --clr-dracula-purple: #bd93f9; /*189 147 249 */
+  --clr-dracula-red: #ff5555; /*255 85 85 */
+  --clr-dracula-yellow: #f1fa8c; /*241 250 140 */
+
   --ff-accent: 'Oleo Script', serif;
   --ff-primary: Georgia, system-ui, sans-serif;
   --ff-code-APL: 'APL', monospace;
@@ -39,7 +51,7 @@ html {
   scrollbar-width: none;
 }
 
-html::-webkit-scrollbar {
+body::-webkit-scrollbar {
   display: none;
 }
 
