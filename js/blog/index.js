@@ -80,8 +80,8 @@ pre_list.map(async pre => {
     [state, size, hash, res] = await executeAPL(code, true);
 
     if (btn.parentElement.nextSibling.className === 'btn__close') {
-      var pre_output = btn.parentElement.nextElementSibling;
-      var code_output = pre_output.querySelector('.code_output');
+      var pre_output = btn.parentElement.nextSibling.nextSibling;
+      var code_output = pre_output.querySelector('code');
     } else {
       var pre_output = document.createElement('pre');
       var code_output = document.createElement('code');
@@ -90,6 +90,22 @@ pre_list.map(async pre => {
       code_output.classList.add('code_output');
 
       pre.parentNode.insertBefore(code_btns, pre.nextSibling);
+
+      // Close button
+      const btn_close = document.createElement('div');
+      btn_close.classList.add('btn__close');
+      const close_icon = document.createElement('close_icon');
+      close_icon.innerHTML = 'close';
+      close_icon.classList.add('material-icons');
+      btn_close.appendChild(close_icon);
+
+      close_icon.addEventListener('click', () => {
+        pre_output.previousSibling.remove();
+        pre_output.remove();
+      });
+
+      code_btns.parentNode.insertBefore(btn_close, code_btns.nextSibling);
+      btn_close.parentNode.insertBefore(pre_output, btn_close.nextSibling);
     }
 
     code_output.innerHTML = '';
@@ -116,21 +132,21 @@ pre_list.map(async pre => {
     for (let i = 0; i < res.length; ++i) code_output.innerHTML += res[i] + '\n';
     pre_output.appendChild(code_output);
 
-    // Close button
-    const btn_close = document.createElement('div');
-    btn_close.classList.add('btn__close');
-    const close_icon = document.createElement('close_icon');
-    close_icon.innerHTML = 'close';
-    close_icon.classList.add('material-icons');
-    btn_close.appendChild(close_icon);
+    // // Close button
+    // const btn_close = document.createElement('div');
+    // btn_close.classList.add('btn__close');
+    // const close_icon = document.createElement('close_icon');
+    // close_icon.innerHTML = 'close';
+    // close_icon.classList.add('material-icons');
+    // btn_close.appendChild(close_icon);
 
-    close_icon.addEventListener('click', e => {
-      e.target.remove();
-      pre_output.remove();
-    });
+    // close_icon.addEventListener('click', () => {
+    //   document.querySelector('.btn__close').remove();
+    //   pre_output.remove();
+    // });
 
-    code_btns.parentNode.insertBefore(btn_close, code_btns.nextSibling);
-    btn_close.parentNode.insertBefore(pre_output, btn_close.nextSibling);
+    // code_btns.parentNode.insertBefore(btn_close, code_btns.nextSibling);
+    // btn_close.parentNode.insertBefore(pre_output, btn_close.nextSibling);
 
     btn.style.color = '#ff79c6';
   });
