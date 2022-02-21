@@ -92,7 +92,7 @@ pre_list.map(async pre => {
       pre.parentNode.insertBefore(code_btns, pre.nextSibling);
 
       // Close button
-      const btn_close = document.createElement('div');
+      var btn_close = document.createElement('div');
       btn_close.classList.add('btn__close');
       const close_icon = document.createElement('close_icon');
       close_icon.innerHTML = 'close';
@@ -103,16 +103,13 @@ pre_list.map(async pre => {
         pre_output.previousSibling.remove();
         pre_output.remove();
       });
-
-      code_btns.parentNode.insertBefore(btn_close, code_btns.nextSibling);
-      btn_close.parentNode.insertBefore(pre_output, btn_close.nextSibling);
     }
 
     code_output.innerHTML = '';
     if (!res.length) res = ['Variable(s)/Function(s) saved'];
 
     // If there's a value error execute previous codeblocks
-    for (const line in res)
+    for (const line in res) {
       if (res[line].slice(0, 11) === 'VALUE ERROR') {
         for (i in pre_list) {
           if (pre_list[i].nextSibling.nextElementSibling.className !== 'btn__close') {
@@ -128,25 +125,13 @@ pre_list.map(async pre => {
         }
         break;
       }
+    }
 
     for (let i = 0; i < res.length; ++i) code_output.innerHTML += res[i] + '\n';
     pre_output.appendChild(code_output);
 
-    // // Close button
-    // const btn_close = document.createElement('div');
-    // btn_close.classList.add('btn__close');
-    // const close_icon = document.createElement('close_icon');
-    // close_icon.innerHTML = 'close';
-    // close_icon.classList.add('material-icons');
-    // btn_close.appendChild(close_icon);
-
-    // close_icon.addEventListener('click', () => {
-    //   document.querySelector('.btn__close').remove();
-    //   pre_output.remove();
-    // });
-
-    // code_btns.parentNode.insertBefore(btn_close, code_btns.nextSibling);
-    // btn_close.parentNode.insertBefore(pre_output, btn_close.nextSibling);
+    code_btns.parentNode.insertBefore(btn_close, code_btns.nextSibling);
+    btn_close.parentNode.insertBefore(pre_output, btn_close.nextSibling);
 
     btn.style.color = '#ff79c6';
   });
