@@ -2,17 +2,99 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Master Quiz - Blog</title>
+    <title>Master Quiz - Blog | Electric charges</title>
+
+    <link rel="stylesheet" href="/css/blog/blog_apl.css" />
 
     <script src="/js/script.js"></script>
-    <link rel="stylesheet" href="/css/blog/index.css" />
+    <script src="/js/apl/apl.js"></script>
+    <script src="/js/blog/index.js" defer></script>
   </head>
 
   <body>
     <div id="header"></div>
 
-    <main></main>
+    <main>
+      <h1>Electric charges</h1>
+
+      <ol>
+        <li>The aim is to fill the grid with a plus or a minus in every cell.</li>
+        <li>Numbers indicate how much have the adjacent plus and minus add up to.</li>
+      </ol>
+
+      <h2>Solver</h2>
+      <div class="example"></div>
+
+      <h2>Code</h2>
+      <pre>
+<code>
+  mat ← 4 4⍴3 9 ¯1 9 9 9 9 9 0 9 9 0 ¯2 9 0 9
+
+  pmat ← {{,[⍳2]↑(⊂⊂⎕IO,1+⍵)⌷¨⍒¨↓∘.=⍨⍳1+1↓⍴⍵}⍣⍵⍉⍪⍬}
+
+  f ← {
+    y←⍺ ⋄ x←⍵
+    n ← ≢near ← ({1↓↓⍵⌿⍨∧/⍵∊⍳≢mat}y+⍤1⊢↑,∘.,⍨0 1 ¯1)~⍸0≠x+9≠mat
+    s ← y⌷mat-{+/,⍵}⌺3 3⊢x
+    ((0=n)∧0≠s)∨(≠/2|n s)∨n<|s: ⍬
+    sum ← {1 ¯1/⍨⍵⊃⍨⍸s=-/¨⍵}(⌽,¨⊢)0,⍳n
+    {⍵@near⊢x}¨↓∪sum[pmat n]
+  }
+
+  solver ← {⊃⊃{⊃,/⍺∘f¨⍵}/(⍸9≠⍵),(⊂∘⊂0⍴⍨⍴)⍵⊣mat←⍵}
+</code>
+      </pre>
+
+      <script
+        src="https://utteranc.es/client.js"
+        repo="Masterquiz/masterquiz.github.io"
+        issue-term="pathname"
+        theme="preferred-color-scheme"
+        crossorigin="anonymous"
+        async></script>
+    </main>
 
     <div id="footer"></div>
   </body>
+
+  <script defer>
+    (async () => {
+      [state, size, hash] = (
+        await executeAPL('mat ← 4 4⍴3 9 ¯1 9 9 9 9 9 0 9 9 0 ¯2 9 0 9', true)
+      ).splice(0, 3);
+    })();
+
+    const output_example = document.querySelector('.output_example');
+
+    table = document.createElement('table');
+    tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    document.querySelector('.example').appendChild(table);
+
+    [
+      [3, '+', -1, '-'],
+      ['+', '+', '-', '-'],
+      [2, '-', '+', 0],
+      [0, '-', 0, '+'],
+    ].map(item => {
+      const tr = document.createElement('tr');
+      item.map(x => {
+        const td = document.createElement('td');
+
+        td.style.color = 'var(--clr-dracula-cyan)';
+        td.style.fontWeight = 'bold';
+        td.style.fontSize = '1.1rem';
+        if (isNaN(x)) {
+          td.style.backgroundImage =
+            x === '+'
+              ? 'url(/img/logic_games/plus.png)'
+              : (td.style.backgroundImage = 'url(/img/logic_games/minus.png)');
+          td.style.backgroundSize = '50%';
+          td.innerText = '\n';
+        } else td.innerText = x;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  </script>
 </html>

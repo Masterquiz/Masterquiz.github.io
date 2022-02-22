@@ -31,7 +31,12 @@ main li {
 }
 
 /* Table */
+.example {
+  margin-top: 2em;
+}
+
 table {
+  margin: auto;
   table-layout: fixed;
   border-collapse: collapse;
   width: 10em;
@@ -39,6 +44,8 @@ table {
 }
 
 td {
+  width: 2em;
+  height: 2em;
   border: 1px solid var(--clr-dracula-red);
   border-right: none;
   border-bottom: none;
@@ -48,6 +55,14 @@ td {
   background-size: 72%;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+table tr td:first-child {
+  border-left: 2px solid var(--clr-dracula-yellow);
+}
+
+table tr:first-child td {
+  border-top: 2px solid var(--clr-dracula-yellow);
 }
 
 table tr td:last-child {
@@ -74,8 +89,7 @@ pre {
 .pre_output {
   flex-direction: column;
   position: relative;
-  overflow: scroll;
-  max-height: 80vh;
+  overflow-x: scroll;
   bottom: 1em;
   margin: 0 0 1em;
   padding: 4.5em 1em 2em;

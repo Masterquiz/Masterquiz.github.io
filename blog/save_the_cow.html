@@ -2,17 +2,94 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Master Quiz - Blog</title>
+    <title>Master Quiz - Blog | Save the cow</title>
+
+    <link rel="stylesheet" href="/css/blog/blog_apl.css" />
 
     <script src="/js/script.js"></script>
-    <link rel="stylesheet" href="/css/blog/index.css" />
+    <script src="/js/apl/apl.js"></script>
+    <script src="/js/blog/index.js" defer></script>
   </head>
 
   <body>
     <div id="header"></div>
 
-    <main></main>
+    <main>
+      <h1>Save the cow</h1>
+
+      <div class="example"></div>
+
+      <h2>Code</h2>
+      <pre>
+<code>
+  mat ← 10 10⍴0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 0 1 1 1 0 1 0 0 1 1 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
+
+  ∇ z ← y f m;l;pi;pl;na;ok;ls
+    pl ← ⍸0=m
+    pi ← 1↑pl
+    ls ← {⍵/⍨~1∊¨×⍵}pi-cows,⊂1+,⍨dim
+    :If 0≠≢ls
+        l ← {(⊃⍵)+⍳|-/⍵}{⍵[2⍴⍋⍵]}⌈/¨|ls
+        l ← {⍵/⍨∧/¨dim≥¯1+pi+⍵}l
+        na ← {pi+¯1+⍳,⍨⍵}¨l
+        ok ← {⍵/⍨~1∊¨(⊂0≠m)∧⍵}{⍵∊⍨⍳,⍨dim}¨na
+        z ← (⊂m)+y×ok
+    :EndIf
+  ∇
+
+  solver ← {⊃{⍵/⍨~0∊¨⍵}⊃{⊃,/⍺ f¨⍵}/(⌽⍳⍴cows←⍸⍵),⊂⊂(0⍴⍨⍴)⍵⊣dim←≢⍵}
+</code>
+      </pre>
+
+      <script
+        src="https://utteranc.es/client.js"
+        repo="Masterquiz/masterquiz.github.io"
+        issue-term="pathname"
+        theme="preferred-color-scheme"
+        crossorigin="anonymous"
+        async></script>
+    </main>
 
     <div id="footer"></div>
   </body>
+
+  <script defer>
+    (async () => {
+      [state, size, hash] = (
+        await executeAPL(
+          'mat ← 10 10⍴0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 0 1 1 1 0 1 0 0 1 1 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0',
+          true
+        )
+      ).splice(0, 3);
+    })();
+
+    const output_example = document.querySelector('.output_example');
+
+    table = document.createElement('table');
+    tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    document.querySelector('.example').appendChild(table);
+
+    [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+      [1, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+      [1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+      [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    ].map(item => {
+      const tr = document.createElement('tr');
+      item.map(x => {
+        const td = document.createElement('td');
+
+        if (x) td.style.backgroundImage = 'url(/img/logic_games/cow.png';
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  </script>
 </html>

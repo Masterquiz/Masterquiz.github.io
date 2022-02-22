@@ -78,6 +78,6 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
   [UNDO, REDO] = [[], []];
 });
 
-document.querySelector('.btns__create').addEventListener('click', () => {
+document.querySelector('.btns__try').addEventListener('click', () => {
   [TRY_UNDO, TRY_REDO] = [[], []];
 });

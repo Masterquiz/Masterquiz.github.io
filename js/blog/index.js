@@ -1,40 +1,3 @@
-const output_example = document.querySelector('.output_example');
-
-table = document.createElement('table');
-tbody = document.createElement('tbody');
-table.appendChild(tbody);
-document.querySelector('.input_example').appendChild(table);
-
-[
-  [3, 2, 3, 3, 3],
-  [1, 0, 1, 2, 1],
-  [3, 1, 1, 3, 0],
-  [1, 2, 2, 1, 0],
-  [1, 0, 0, 2, 2],
-].map((item, i) => {
-  const tr = document.createElement('tr');
-  item.map((x, j) => {
-    const td = document.createElement('td');
-    if (x & 1) td.style.borderLeft = '2px solid #f1fa8c';
-    if (x & 2) td.style.borderTop = '2px solid #f1fa8c';
-
-    if ([3, 0, 2, 4, 1][i] === j) {
-      td.style.background = 'url(/img/logic_games/trees.png)';
-      td.style.backgroundSize = '69%';
-      td.style.backgroundRepeat = 'no-repeat';
-      td.style.backgroundPosition = 'center';
-    }
-    tr.appendChild(td);
-  });
-  tbody.appendChild(tr);
-});
-
-(async () => {
-  [state, size, hash] = (
-    await executeAPL('mat ← 5 5⍴1 1 2 3 4 1 1 2 2 4 5 1 2 4 4 5 5 5 4 4 5 5 5 5 5', true)
-  ).splice(0, 3);
-})();
-
 const pre_list = [...document.querySelectorAll('pre')];
 
 pre_list.map(async pre => {
@@ -59,7 +22,7 @@ pre_list.map(async pre => {
 
     await new Promise(resolve => setTimeout(resolve, 270));
     resolve => setTimeout(resolve, 270);
-    btn.style.color = '#8be9fd';
+    btn.style.color = '#ff79c6';
   });
 
   const btns__execute = document.createElement('span');
