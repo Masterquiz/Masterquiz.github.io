@@ -21,7 +21,9 @@ const EXAMPLES = {
 
 (async function loadWS() {
   const code = `
-    ⎕RL ← ⍬2 ⋄
+    ⎕RL ← ⍬2
+    fromJSON ← (↑⍣≡0∘⎕JSON)
+    toJSON ← (1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) ⋄
 
     ∇ z ← y f m;l;pi;pl;na;ok;ls
       pl ← ⍸0=m
@@ -60,6 +62,21 @@ const EXAMPLES = {
   input_btns = [...document.querySelectorAll('.input__btns button')];
   input_btns.map(btn => (btn.disabled = false));
 })();
+
+/**
+ * Check if in td's background there's a cow.
+ *
+ * @param {element} td
+ */
+const isActiveBackground = td => td.style.backgroundImage === 'url("/img/logic_games/cow.png")';
+
+/**
+ * Check if a td's border color is black or not.
+ *
+ * @param {element} td
+ * @param {string}  border  'border-left-color' | 'border-top-color'
+ */
+const isActiveBorder = (td, border) => 'rgb(0, 0, 0)' === window.getComputedStyle(td)[border];
 
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
   [...document.querySelectorAll('.input__table tr')].map((tr, i) =>
@@ -150,25 +167,23 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
   table.appendChild(tbody);
   output_table.appendChild(table);
 
-  JSON.parse(
-    await executeAPL(
-      `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`
-    )
-  ).map((item, i) => {
-    const tr = document.createElement('tr');
-    item.map((x, j) => {
-      const td = document.createElement('td');
+  JSON.parse(await executeAPL(`toJSON format solver fromJSON '${JSON.stringify(matrix)}'`)).map(
+    (item, i) => {
+      const tr = document.createElement('tr');
+      item.map((x, j) => {
+        const td = document.createElement('td');
 
-      if (x & 1) td.style.borderLeft = '1px solid #000';
-      if (x & 2) td.style.borderTop = '1px solid #000';
+        if (x & 1) td.style.borderLeft = '1px solid #000';
+        if (x & 2) td.style.borderTop = '1px solid #000';
 
-      if (matrix[i][j]) td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
+        if (matrix[i][j]) td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
 
-      td.appendChild(document.createElement('br'));
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
+        td.appendChild(document.createElement('br'));
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    }
+  );
 
   input_btns.map(btn => (btn.disabled = false));
   session_style(2);
@@ -243,12 +258,6 @@ document.querySelector('.btns__create').addEventListener('click', function creat
 });
 
 document.querySelector('.btns__try').addEventListener('click', function try_solve() {
-  const matrix = [...document.querySelectorAll('.input__table tr')].map(tr =>
-    [...tr.querySelectorAll('td')].map(
-      td => +(td.style.backgroundImage === 'url("/img/logic_games/cow.png")')
-    )
-  );
-
   // TODO Check if the puzzle has (one) solution
   const try_label = document.querySelector('.try h2');
   try_label.innerText = 'Solve';
@@ -262,15 +271,15 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
   table.appendChild(tbody);
   try_table.appendChild(table);
 
-  matrix.map((y, i) => {
-    const tr = document.createElement('tr');
-    y.map((x, j) => {
-      const td = document.createElement('td');
+  [...document.querySelectorAll('.input__table tr')].map(tr => {
+    const try_tr = document.createElement('tr');
+    [...tr.querySelectorAll('td')].map(td => {
+      const try_td = document.createElement('td');
 
-      if (x) td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
+      if (isActiveBackground(td)) try_td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
 
-      td.addEventListener('click', function f() {
-        if (try_label.innerText === 'Correct!') td.removeEventListener('click', f);
+      try_td.addEventListener('click', function f() {
+        if (try_label.innerText === 'Correct!') try_td.removeEventListener('click', f);
         else {
           if (try_label.innerText === 'Wrong!') {
             try_label.innerText = 'Try again!';
@@ -279,13 +288,39 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
         }
       });
 
+      try_td.appendChild(document.createElement('br'));
+      try_tr.appendChild(try_td);
+    });
+    tbody.appendChild(try_tr);
+  });
+
+  const try_matrix = [...document.querySelectorAll('.try__table tr')].map(tr => [
+    ...tr.querySelectorAll('td'),
+  ]);
+
+  try_matrix.map((tr, i) =>
+    tr.map((td, j) => {
       td.addEventListener('click', e => {
+        let value = 0;
+        let pos = [i, j];
+
         if (e.offsetY <= 10 && i > 0) {
+          console.log(pos);
           if (td.style.borderTop === '1px solid rgb(0, 0, 0)') {
             td.style.borderTop = '1px solid #20202055';
             value = -2;
           } else {
             td.style.borderTop = '1px solid #000';
+            value = 2;
+          }
+        } else if (e.offsetY >= 30 && i < try_matrix.length) {
+          console.log(pos);
+          pos = [i + 1, j];
+          if (try_matrix[i + 1][j].style.borderTop === '1px solid rgb(0, 0, 0)') {
+            try_matrix[i + 1][j].style.borderTop = '1px solid #20202055';
+            value = -2;
+          } else {
+            try_matrix[i + 1][j].style.borderTop = '1px solid #000';
             value = 2;
           }
         } else if (e.offsetX <= 10 && j > 0) {
@@ -296,22 +331,27 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
             td.style.borderLeft = '1px solid #000';
             value = 1;
           }
+        } else if (e.offsetX >= 30 && j < try_matrix[0].length) {
+          pos = [i, j + 1];
+          if (try_matrix[i][j + 1].style.borderLeft === '1px solid rgb(0, 0, 0)') {
+            try_matrix[i][j + 1].style.borderLeft = '1px solid #20202055';
+            value = -1;
+          } else {
+            try_matrix[i][j + 1].style.borderLeft = '1px solid #000';
+            value = 1;
+          }
         }
 
-        if ((e.offsetY <= 10 && i > 0) || (e.offsetX <= 10 && j > 0)) {
-          TRY_UNDO.push([[i, j], value]);
+        if (value) {
+          TRY_UNDO.push([pos, value]);
           document.querySelector('.try__modify .btns__undo').disabled = false;
 
           TRY_REDO = [];
           document.querySelector('.try__modify .btns__redo').disabled = true;
         }
       });
-
-      td.appendChild(document.createElement('br'));
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
+    })
+  );
 
   document.querySelector('.btns__verify').disabled = false;
 
@@ -375,46 +415,30 @@ document.querySelector('.try__modify .btns__redo').addEventListener('click', fun
 
 document.querySelector('.btns__verify').addEventListener('click', async function verify() {
   const matrix = [...document.querySelectorAll('.input__table tr')].map(tr =>
-    [...tr.querySelectorAll('td')].map(
-      td => +(td.style.backgroundImage === 'url("/img/logic_games/cow.png")')
-    )
+    [...tr.querySelectorAll('td')].map(td => +isActiveBackground(td))
   );
 
-  const solution = JSON.parse(
-    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`)
-  );
+  const solution = await executeAPL(`toJSON solver fromJSON '${JSON.stringify(matrix)}'`);
+  let try_matrix = [...document.querySelectorAll('.try__table tr')].map(tr => [
+    ...tr.querySelectorAll('td'),
+  ]);
 
-  const try_rows = [...document.querySelectorAll('.try__table tr')].map(tr =>
-    [...tr.querySelectorAll('td')].map(
-      td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color'))
-    )
-  );
+  const try_rows = try_matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-left-color')));
+  const try_cols = try_matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-top-color')));
 
-  const try_cols = transpose(
-    transpose(
-      [...document.querySelectorAll('.try__table tr')].map(tr => [...tr.querySelectorAll('td')])
-    ).map(tr =>
-      tr.map(
-        td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))
-      )
-    )
-  );
-
-  const try_matrix = JSON.parse(
-    await executeAPL(
-      `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) reverse_format (↑⍣≡0∘⎕JSON)¨ '${JSON.stringify(
-        try_rows
-      )}' '${JSON.stringify(try_cols)}'`
-    )
+  try_matrix = await executeAPL(
+    `toJSON reverse_format fromJSON¨ '${JSON.stringify(try_rows)}' '${JSON.stringify(try_cols)}'`
   );
 
   const try_label = document.querySelector('.try h2');
 
-  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) {
+  if (solution[0] === try_matrix[0]) {
     try_label.style.color = '#080';
     try_label.innerText = 'Correct!';
 
     this.disabled = true;
+    document.querySelector('.try__modify .btns__undo').disabled = true;
+    document.querySelector('.try__modify .btns__redo').disabled = true;
   } else {
     try_label.style.color = '#e62020';
     try_label.innerText = 'Wrong!';

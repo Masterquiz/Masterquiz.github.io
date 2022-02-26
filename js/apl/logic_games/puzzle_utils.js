@@ -29,23 +29,6 @@ function session_style(mode) {
   }
 }
 
-document.querySelector('.dimension__value').addEventListener('keyup', e => {
-  if (e.keyCode === 13) document.querySelector('.dimension__button').click();
-});
-
-document.querySelector('.input__modify .btns__restart').addEventListener('click', () => {
-  document.querySelector('.dimension__button').click();
-  document.querySelector('.input__modify .btns__undo').disabled = true;
-  document.querySelector('.input__modify .btns__redo').disabled = true;
-  [UNDO, REDO] = [[], []];
-});
-
-document.querySelector('.try__modify .btns__restart').addEventListener('click', () => {
-  document.querySelector('.try__modify .btns__undo').disabled = true;
-  document.querySelector('.try__modify .btns__redo').disabled = true;
-  [TRY_UNDO, TRY_REDO] = [[], []];
-});
-
 document.querySelector('.dimension__button').addEventListener('click', () => {
   session_style(1);
 
@@ -78,6 +61,20 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
   [UNDO, REDO] = [[], []];
 });
 
+document.querySelector('.dimension__value').addEventListener('keyup', e => {
+  if (e.keyCode === 13) document.querySelector('.dimension__button').click();
+});
+
+document.querySelector('.input__modify .btns__restart').addEventListener('click', () => {
+  document.querySelector('.dimension__button').click();
+});
+
 document.querySelector('.btns__try').addEventListener('click', () => {
+  document.querySelector('.try__modify .btns__undo').disabled = true;
+  document.querySelector('.try__modify .btns__redo').disabled = true;
   [TRY_UNDO, TRY_REDO] = [[], []];
+});
+
+document.querySelector('.try__modify .btns__restart').addEventListener('click', () => {
+  document.querySelector('.btns__try').click();
 });

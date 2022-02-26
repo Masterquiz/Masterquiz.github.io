@@ -60,10 +60,11 @@ const EXAMPLES = {
 (async function loadWS() {
   const code = `
     ⎕RL←⍬2
-    pmat ← {{,[⍳2]↑(⊂⊂⎕IO,1+⍵)⌷¨⍒¨↓∘.=⍨⍳1+1↓⍴⍵}⍣⍵⍉⍪⍬}⋄
+
+    pmat ← {{,[⍳2]↑(⊂⊂⎕IO,1+⍵)⌷¨⍒¨↓∘.=⍨⍳1+1↓⍴⍵}⍣⍵⍉⍪⍬}
 
     f ← {
-      y←⍺ ⋄ x←⍵
+      y←⍺ ⋄ x←⍵ ⋄ mat←⍺⍺
       n ← ≢near ← ({1↓↓⍵⌿⍨∧/⍵∊⍳≢mat}y+⍤1⊢↑,∘.,⍨0 1 ¯1)~⍸0≠x+9≠mat
       s ← y⌷mat-{+/,⍵}⌺3 3⊢x
       ((0=n)∧0≠s)∨(≠/2|n s)∨n<|s:⍬
@@ -71,7 +72,7 @@ const EXAMPLES = {
       {⍵@near⊢x}¨↓∪sum[pmat n]
     }
 
-    solver ← {⊃⊃{⊃,/⍺∘f¨⍵}/(⍸9≠⍵),(⊂∘⊂0⍴⍨⍴)⍵⊣mat←⍵}
+    solver ← {⊃⊃{⊃,/⍺∘(mat f)¨⍵}/(⍸9≠⍵),(⊂∘⊂0⍴⍨⍴)⍵⊣mat←⍵}
     format ← '- +'⌷⍨∘⊂2∘+`;
 
   [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
@@ -353,28 +354,31 @@ document.querySelector('.btns__verify').addEventListener('click', async function
     )
   );
 
-  const solution = JSON.parse(
-    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`)
+  const solution = await executeAPL(
+    `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`
   );
 
-  const try_matrix = [...document.querySelectorAll('.try__table tr')].map(tr =>
-    [...tr.querySelectorAll('td')].map(td =>
-      td.style.backgroundImage === 'url("/img/logic_games/plus.png")'
-        ? 1
-        : td.style.backgroundImage === 'url("/img/logic_games/minus.png")'
-        ? -1
-        : 0
+  const try_matrix = JSON.stringify(
+    [...document.querySelectorAll('.try__table tr')].map(tr =>
+      [...tr.querySelectorAll('td')].map(td =>
+        td.style.backgroundImage === 'url("/img/logic_games/plus.png")'
+          ? 1
+          : td.style.backgroundImage === 'url("/img/logic_games/minus.png")'
+          ? -1
+          : 0
+      )
     )
   );
 
   const try_label = document.querySelector('.try h2');
-  const try_table_input = [...document.querySelectorAll('.try__table input')];
 
-  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) {
+  if (solution[0] === try_matrix) {
     try_label.style.color = '#080';
     try_label.innerText = 'Correct!';
 
-    document.querySelector('.btns__verify').disabled = true;
+    this.disabled = true;
+    document.querySelector('.try__modify .btns__undo').disabled = true;
+    document.querySelector('.try__modify .btns__redo').disabled = true;
   } else {
     try_label.style.color = '#e62020';
     try_label.innerText = 'Wrong!';

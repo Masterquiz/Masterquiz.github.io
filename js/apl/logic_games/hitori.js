@@ -376,24 +376,27 @@ document.querySelector('.btns__verify').addEventListener('click', async function
     [...tr.querySelectorAll('td')].map(td => +td.innerText)
   );
 
-  const solution = JSON.parse(
-    await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`)
+  const solution = await executeAPL(
+    `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`
   );
 
-  const try_matrix = [...document.querySelectorAll('.try__table tr')].map((item, i) =>
-    [...item.querySelectorAll('td')].map((x, j) =>
-      x.style.backgroundColor === 'rgb(65, 105, 225)' ? 0 : matrix[i][j]
+  const try_matrix = JSON.stringify(
+    [...document.querySelectorAll('.try__table tr')].map((item, i) =>
+      [...item.querySelectorAll('td')].map((x, j) =>
+        x.style.backgroundColor === 'rgb(65, 105, 225)' ? 0 : matrix[i][j]
+      )
     )
   );
 
   const try_label = document.querySelector('.try h2');
-  const try_table_input = [...document.querySelectorAll('.try__table td')];
 
-  if (JSON.stringify(solution) === JSON.stringify(try_matrix)) {
+  if (solution[0] === try_matrix) {
     try_label.style.color = '#080';
     try_label.innerText = 'Correct!';
-    try_table_input.map(td => (td.style.pointerEvents = 'none'));
-    document.querySelector('.btns__verify').disabled = true;
+
+    this.disabled = true;
+    document.querySelector('.try__modify .btns__undo').disabled = true;
+    document.querySelector('.try__modify .btns__redo').disabled = true;
   } else {
     try_label.style.color = '#e62020';
     try_label.innerText = 'Wrong!';

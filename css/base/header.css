@@ -184,7 +184,6 @@ header {
   background: inherit;
   z-index: -1;
   inset: 0;
-  box-shadow: var(inset 0 0 2000px rgba(255, 60, 56, 0.75));
   filter: blur(10px);
 }
 

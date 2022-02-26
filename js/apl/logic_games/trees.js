@@ -96,9 +96,33 @@ const EXAMPLES = {
   input_btns.map(elem => (elem.disabled = false));
 })();
 
+/**
+ * Check if a td's border color is black or not.
+ *
+ * @param {element} td
+ * @param {string}  border  'border-left-color' | 'border-top-color'
+ */
+const isActiveBorder = (td, border) => 'rgb(0, 0, 0)' === window.getComputedStyle(td)[border];
+
+/**
+ * Check if in td's background there's a cow.
+ *
+ * @param {element} td
+ */
+const isActiveBackground = td =>
+  window.getComputedStyle(td)['background-image'] ===
+  'url("' + window.location.origin + '/img/logic_games/trees.png")';
+
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
+  const input_matrix = [...document.querySelectorAll('.input__table tr')].map(tr => [
+    ...tr.querySelectorAll('td'),
+  ]);
+
   [...document.querySelectorAll('.input__table tr')].map((tr, i) =>
     [...tr.querySelectorAll('td')].map((td, j) => {
+      let pos = [i, j];
+      let value = 0;
+
       td.addEventListener('click', e => {
         if (e.offsetY <= 10 && i > 0) {
           if (td.style.borderTop === '1px solid rgb(0, 0, 0)') {
@@ -106,6 +130,15 @@ document.querySelector('.dimension__button').addEventListener('click', function 
             value = -2;
           } else {
             td.style.borderTop = '1px solid #000';
+            value = 2;
+          }
+        } else if (e.offsetY >= 30 && i < input_matrix.length) {
+          pos = [i + 1, j];
+          if (input_matrix[i + 1][j].style.borderTop === '1px solid rgb(0, 0, 0)') {
+            input_matrix[i + 1][j].style.borderTop = '1px solid #20202055';
+            value = -2;
+          } else {
+            input_matrix[i + 1][j].style.borderTop = '1px solid #000';
             value = 2;
           }
         } else if (e.offsetX <= 10 && j > 0) {
@@ -116,10 +149,19 @@ document.querySelector('.dimension__button').addEventListener('click', function 
             td.style.borderLeft = '1px solid #000';
             value = 1;
           }
+        } else if (e.offsetX >= 30 && j < input_matrix[0].length) {
+          pos = [i, j + 1];
+          if (input_matrix[i][j + 1].style.borderLeft === '1px solid rgb(0, 0, 0)') {
+            input_matrix[i][j + 1].style.borderLeft = '1px solid #20202055';
+            value = -1;
+          } else {
+            input_matrix[i][j + 1].style.borderLeft = '1px solid #000';
+            value = 1;
+          }
         }
 
-        if ((e.offsetY <= 10 && i > 0) || (e.offsetX <= 10 && j > 0)) {
-          UNDO.push([[i, j], value]);
+        if (value) {
+          UNDO.push([pos, value]);
           document.querySelector('.input__modify .btns__undo').disabled = false;
 
           REDO = [];
@@ -194,21 +236,8 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
       ...tr.querySelectorAll('td'),
     ]);
 
-    const rows = matrix.map(tr =>
-      tr.map(
-        td =>
-          +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color'))
-      )
-    );
-
-    const cols = transpose(
-      transpose(matrix).map(tr =>
-        tr.map(
-          td =>
-            +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))
-        )
-      )
-    );
+    const rows = matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-left-color')));
+    const cols = matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-top-color')));
 
     const output_table = document.querySelector('.output__table');
     output_table.innerHTML = '';
@@ -317,24 +346,6 @@ document.querySelector('.btns__create').addEventListener('click', async function
 });
 
 document.querySelector('.btns__try').addEventListener('click', function try_solve() {
-  const matrix = [...document.querySelectorAll('.input__table tr')].map(td => [
-    ...td.querySelectorAll('td'),
-  ]);
-
-  const rows = matrix.map(tr =>
-    tr.map(
-      td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color'))
-    )
-  );
-
-  const cols = transpose(
-    transpose(matrix).map(tr =>
-      tr.map(
-        td => +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))
-      )
-    )
-  );
-
   // TODO Check if the puzzle has (one) solution
   const try_label = document.querySelector('.try h2');
   try_label.innerText = 'Solve';
@@ -348,15 +359,15 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
   table.appendChild(tbody);
   try_table.appendChild(table);
 
-  for (let i = 0; i < matrix.length; ++i) {
-    const tr = document.createElement('tr');
-    for (let j = 0; j < matrix[0].length; ++j) {
-      const td = document.createElement('td');
+  [...document.querySelectorAll('.input__table tr')].map((tr, i) => {
+    const try_tr = document.createElement('tr');
+    [...tr.querySelectorAll('td')].map((td, j) => {
+      const try_td = document.createElement('td');
 
-      if (rows[i][j]) td.style.borderLeft = '1px solid #000';
-      if (cols[i][j]) td.style.borderTop = '1px solid #000';
+      if (isActiveBorder(td, 'border-left-color')) try_td.style.borderLeft = '1px solid #000';
+      if (isActiveBorder(td, 'border-top-color')) try_td.style.borderTop = '1px solid #000';
 
-      td.addEventListener('click', function f() {
+      try_td.addEventListener('click', function f() {
         const btn_mode = document.querySelector('.btns__mode').style.backgroundImage;
         if (try_label.innerText === 'Correct!') this.removeEventListener('click', f);
         else {
@@ -366,9 +377,9 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
           }
 
           value =
-            td.style.backgroundImage === 'url("/img/logic_games/trees.png")'
+            try_td.style.backgroundImage === 'url("/img/logic_games/trees.png")'
               ? 1
-              : td.style.backgroundImage === 'url("/img/logic_games/erase.png")'
+              : try_td.style.backgroundImage === 'url("/img/logic_games/erase.png")'
               ? -1
               : 0;
 
@@ -378,15 +389,15 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
           TRY_REDO = [];
           document.querySelector('.try__modify .btns__redo').disabled = true;
 
-          td.style.backgroundImage = td.style.backgroundImage === btn_mode ? '' : btn_mode;
+          try_td.style.backgroundImage = try_td.style.backgroundImage === btn_mode ? '' : btn_mode;
         }
       });
 
-      td.appendChild(document.createElement('br'));
-      tr.appendChild(td);
-    }
-    tbody.appendChild(tr);
-  }
+      try_td.appendChild(document.createElement('br'));
+      try_tr.appendChild(try_td);
+    });
+    tbody.appendChild(try_tr);
+  });
 
   document.querySelector('.btns__verify').disabled = false;
   document.querySelector('.btns__mode').style.backgroundImage = 'url("/img/logic_games/trees.png")';
@@ -460,41 +471,28 @@ document.querySelector('.btns__verify').addEventListener('click', async function
       ...tr.querySelectorAll('td'),
     ]);
 
-    const rows = matrix.map(tr =>
-      tr.map(
-        td =>
-          +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-left-color'))
-      )
+    const rows = matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-left-color')));
+    const cols = matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-top-color')));
+
+    const solution = await executeAPL(
+      `toJSON ⊃solver reverse_format fromJSON¨ '${JSON.stringify(rows)}' '${JSON.stringify(cols)}'`
     );
 
-    const cols = transpose(
-      transpose(matrix).map(tr =>
-        tr.map(
-          td =>
-            +('rgb(0, 0, 0)' === window.getComputedStyle(td).getPropertyValue('border-top-color'))
-        )
-      )
+    const try_matrix = JSON.stringify(
+      [...document.querySelectorAll('.try__table tr')]
+        .map(tr => [...tr.querySelectorAll('td')])
+        .map(td => td.map(x => +isActiveBackground(x)))
     );
-
-    const solution = JSON.parse(
-      await executeAPL(
-        `toJSON ⊃solver reverse_format fromJSON¨ '${JSON.stringify(rows)}' '${JSON.stringify(
-          cols
-        )}'`
-      )
-    );
-
-    const try_matrix = [...document.querySelectorAll('.try__table tr')]
-      .map(tr => [...tr.querySelectorAll('td')])
-      .map(y => y.map(x => +(x.style.backgroundImage === 'url("/img/logic_games/trees.png")')));
 
     const try_label = document.querySelector('.try h2');
 
-    if (JSON.stringify(solution) === JSON.stringify(try_matrix)) {
+    if (solution[0] === try_matrix) {
       try_label.style.color = '#080';
       try_label.innerText = 'Correct!';
 
       this.disabled = true;
+      document.querySelector('.try__modify .btns__undo').disabled = true;
+      document.querySelector('.try__modify .btns__redo').disabled = true;
     } else {
       try_label.style.color = '#e62020';
       try_label.innerText = 'Wrong!';

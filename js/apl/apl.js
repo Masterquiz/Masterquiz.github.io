@@ -20,13 +20,3 @@ async function executeAPL(code, preserve = false) {
       return preserve ? data : data[3];
     });
 }
-
-/**
- * APL's monadic transpose.
- *
- * @param {number[]}  matrix
- */
-
-function transpose(matrix) {
-  return matrix.reduce(($, row) => row.map((_, i) => [...($[i] || []), row[i]]), []);
-}

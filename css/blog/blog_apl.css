@@ -114,6 +114,10 @@ code {
   margin: 0 1em 0 auto;
 }
 
+.code__btns span {
+  cursor: pointer;
+}
+
 .btn__close {
   color: var(--clr-dracula-purple);
   background-color: var(--clr-dracula-black);
