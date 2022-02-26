@@ -305,7 +305,6 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
         let pos = [i, j];
 
         if (e.offsetY <= 10 && i > 0) {
-          console.log(pos);
           if (td.style.borderTop === '1px solid rgb(0, 0, 0)') {
             td.style.borderTop = '1px solid #20202055';
             value = -2;
@@ -314,7 +313,6 @@ document.querySelector('.btns__try').addEventListener('click', function try_solv
             value = 2;
           }
         } else if (e.offsetY >= 30 && i < try_matrix.length) {
-          console.log(pos);
           pos = [i + 1, j];
           if (try_matrix[i + 1][j].style.borderTop === '1px solid rgb(0, 0, 0)') {
             try_matrix[i + 1][j].style.borderTop = '1px solid #20202055';
