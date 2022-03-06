@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="/css/blog/blog_apl.css" />
 
     <script src="/js/script.js"></script>
-    <script src="/js/apl/apl.js" defer></script>
     <script src="/js/blog/index.js" defer></script>
+    <script src="/js/apl/syntaxHighlight.js" defer></script>
+
+    <script src="/js/apl/apl.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"
+      integrity="sha512-EAKzSKex+PXC0U9OG13r1059ysjrjkJEpZoONCnZa0mBROY28iBOOxZSErUVw1LzLr2+U5PhR7zPCPKidUVJqg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
   </head>
 
   <body>
@@ -34,7 +41,7 @@
 
       <div class="example"></div>
 
-      <pre>
+      <pre class="code">
 <code>
   ⎕← mat ← 5 5⍴1 1 2 3 4 1 1 2 2 4 5 1 2 4 4 5 5 5 4 4 5 5 5 5 5
   ⎕← sol ← 5 5⍴0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1 0 0 0
@@ -51,7 +58,7 @@
         up having the solution(s)
       </p>
       <p>First of all let's create a matrix to fill</p>
-      <pre>
+      <pre class="code">
 <code>
   ⎕← x ← {0}¨mat
 </code>
@@ -60,7 +67,7 @@
         Let's for example fill the Area 1. Every area should have one tree, so let's put a 1 in
         every cell.
       </p>
-      <pre>
+      <pre class="code">
 <code>
   ⎕← area ← 1=mat
   ⎕← vec  ← ⍸area
@@ -72,7 +79,7 @@
         skip the second step for now.
       </p>
       <p>To mark a cell where we can't place a tree we use a ¯1</p>
-      <pre>
+      <pre class="code">
 <code>
   ⎕← adj ← {×⍵-¯1 ¯1↓1 1↓⊃∨/⊃,/4 ¯4↑¨⊂,¯1 0 1∘.⊖¯1 0 1⌽¨⊂0(,∘⌽∘⍉⍣4)1=⍵}¨res
   ⎕← cr  ← {(⊢-⊢<(1≤+/)∘.∨1≤+⌿)1=⍵}¨res
@@ -89,7 +96,7 @@
         cells
       </p>
 
-      <pre>
+      <pre class="code">
 <code>
   f ← {
     x ← ⍵ ⋄ (m y) ← ⍺
@@ -107,7 +114,7 @@
         We can use this function to view all possible configurations for the Area 1. And executing
         it multiple time we can calculate the solution
       </p>
-      <pre>
+      <pre class="code">
 <code>
   ⎕← ⊃,/ (mat 1)∘f ¨⊂{0}¨mat
   ⎕← ⊃,/(mat 3)∘f¨⊃,/(mat 2)∘f¨⊃,/(mat 1)∘f¨⊂{0}¨mat
@@ -128,7 +135,7 @@
         first row, so it becomes an invalid matrix.
       </p>
 
-      <pre>
+      <pre class="code">
 <code>
   ⎕← 9 9⍴1 1 1 0 0 2 2 2 0 1 1 1 0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
   ⎕← 9 9⍴1 ¯1 ¯1 ¯1 0 0 0 0 0 ¯1 ¯1 1 ¯1 0 0 0 0 0 0 ¯1 ¯1 ¯1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -145,7 +152,7 @@
         <li>- There can't be more than n trees in the same row</li>
         <li>- There can't be more than n trees in the same column</li>
       </ul>
-      <pre>
+      <pre class="code">
 <code>
   check ← {
     ⍺⍺=1: ∧/⍺⍺≥(+/,+⌿)⍵>0
@@ -159,7 +166,7 @@
         the number of possible configuration. We can now pass to f, instead of the area to fill, the
         number of tree per row/column/area
       </p>
-      <pre>
+      <pre class="code">
 <code>
   ⎕← ({⊃⍤⍋⊢∘≢⌸⍵}⌷∪)0~⍨,mat×0=x
 </code>
@@ -169,7 +176,7 @@
         Now we just have to check if there are at least n+1 cells free in an area and to take the
         configuration of position with length next
       </p>
-      <pre>
+      <pre class="code">
 <code>
   cmat ← {⊖⊃⍪/{k,¨⍪\1+⍵}⍣⍺⊢(⊂⍉⍪⍬),d⍴⊂0 0⍴k←⌽⍳1+d←⍵-⍺}
 
@@ -179,7 +186,7 @@
       </pre>
 
       <p>The ending functions would be these</p>
-      <pre>
+      <pre class="code">
 <code>
   f ← {
     x ← ⍵
@@ -202,7 +209,7 @@
 </code>
       </pre>
 
-      <pre>
+      <pre class="code">
 <code>
   mat5x5 ← 5 5⍴1 1 2 3 4 1 1 2 2 4 5 1 2 4 4 5 5 5 4 4 5 5 5 5 5
   mat9x9 ← 9 9⍴1 1 1 1 2 3 3 3 3 1 1 1 1 2 2 3 3 3 1 1 1 2 2 2 4 3 5 1 1 1 6 2 4 4 4 5 7 7 6 6 6 6 4 5 5 7 7 7 6 6 8 5 5 5 7 7 7 7 8 8 8 5 5 9 7 7 8 8 8 8 8 5 9 9 9 9 8 8 8 8 5
@@ -213,7 +220,7 @@
       </pre>
 
       <h2>Creator</h2>
-      <pre>
+      <pre class="code">
 <code>
   createTree ← {
     mat ← {(1+⌈/,⍵)@(⊂(?∘⍴⊃⊢)∘⍸¨(~+/,⍥⊂+⌿)×⍵)⊢⍵}⍣⍵⊢⍵ ⍵⍴0
@@ -224,7 +231,7 @@
 </code>
       </pre>
 
-      <pre>
+      <pre class="code">
 <code>
   creator ← {
     4:: ∇⍵
@@ -238,7 +245,7 @@
       </pre>
 
       <h2>Code</h2>
-      <pre>
+      <pre class="code">
 <code>
   mat ← 9 9⍴1 1 1 1 2 3 3 3 3 1 1 1 1 2 2 3 3 3 1 1 1 2 2 2 4 3 5 1 1 1 6 2 4 4 4 5 7 7 6 6 6 6 4 5 5 7 7 7 6 6 8 5 5 5 7 7 7 7 8 8 8 5 5 9 7 7 8 8 8 8 8 5 9 9 9 9 8 8 8 8 5
 

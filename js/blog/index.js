@@ -1,14 +1,14 @@
-const pre_list = [...document.querySelectorAll('pre')];
+const pre_list = [...document.querySelectorAll('.code')];
 
-pre_list.map(async pre => {
+pre_list.map(async div_code => {
   const div = document.createElement('div');
   div.innerText = '   ';
-  const code = pre.querySelector('code');
+  const code = div_code.querySelector('code');
   code.parentNode.insertBefore(div, code.nextSibling);
 
   const code_btns = document.createElement('div');
   code_btns.classList.add('code__btns');
-  pre.parentNode.insertBefore(code_btns, pre.nextSibling);
+  div_code.parentNode.insertBefore(code_btns, div_code.nextSibling);
 
   const btns__copy = document.createElement('span');
   btns__copy.innerHTML = 'content_copy';
@@ -18,7 +18,7 @@ pre_list.map(async pre => {
     const btn = e.target;
     btn.style.color = '#ff0090';
 
-    navigator.clipboard.writeText(pre.querySelector('code').textContent);
+    navigator.clipboard.writeText(div_code.querySelector('code').textContent);
 
     await new Promise(resolve => setTimeout(resolve, 270));
     resolve => setTimeout(resolve, 270);
@@ -34,7 +34,7 @@ pre_list.map(async pre => {
     btn.disabled = true;
     btn.style.color = '#ff0090';
 
-    let code = pre
+    let code = div_code
       .querySelector('code')
       .textContent.replaceAll('\n', '⋄')
       .replaceAll('⎕←', `⋄''⋄⎕←`)
@@ -52,7 +52,7 @@ pre_list.map(async pre => {
       pre_output.classList.add('pre_output');
       code_output.classList.add('code_output');
 
-      pre.parentNode.insertBefore(code_btns, pre.nextSibling);
+      div_code.parentNode.insertBefore(code_btns, div_code.nextSibling);
 
       // Close button
       var btn_close = document.createElement('div');
@@ -83,7 +83,7 @@ pre_list.map(async pre => {
               .replace(`⋄''⋄⎕←`, '⎕←')
               .replaceAll('\\', '\\');
             [state, size, hash, res] = await executeAPL(code, true);
-            if (pre_list[i] === pre) break;
+            if (pre_list[i] === div_code) break;
           }
         }
         break;

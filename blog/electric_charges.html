@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="/css/blog/blog_apl.css" />
 
     <script src="/js/script.js"></script>
-    <script src="/js/apl/apl.js"></script>
     <script src="/js/blog/index.js" defer></script>
+    <script src="/js/apl/syntaxHighlight.js" defer></script>
+
+    <script src="/js/apl/apl.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"
+      integrity="sha512-EAKzSKex+PXC0U9OG13r1059ysjrjkJEpZoONCnZa0mBROY28iBOOxZSErUVw1LzLr2+U5PhR7zPCPKidUVJqg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
   </head>
 
   <body>
@@ -20,7 +27,7 @@
       <div class="example"></div>
 
       <h2>Code</h2>
-      <pre>
+      <pre class="code">
 <code>
   mat ← 4 4⍴3 9 ¯1 9 9 9 9 9 0 9 9 0 ¯2 9 0 9
 

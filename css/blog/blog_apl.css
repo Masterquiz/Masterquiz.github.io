@@ -1,3 +1,10 @@
+/*
+  Index:
+  - Table
+  - Executable cells
+  - Syntax highlight
+*/
+
 main {
   background-color: var(--clr-dracula-black);
 }
@@ -74,16 +81,17 @@ table tr:last-child td {
 }
 
 /* Executable cells */
-pre {
+.code {
+  display: flex;
   position: relative;
-  overflow-x: scroll;
   margin: 2em 0 0;
   padding-bottom: 4.5em;
   color: var(--clr-dracula-green);
+  line-height: 1.5em;
+  overflow-x: scroll;
   border: 1px solid var(--clr-dracula-green);
   scrollbar-color: var(--clr-dracula-green) var(--clr-dracula-black);
   scrollbar-width: thin;
-  display: flex;
 }
 
 .pre_output {
@@ -97,6 +105,22 @@ pre {
   border: 1px solid var(--clr-dracula-purple);
   scrollbar-color: var(--clr-dracula-purple) var(--clr-dracula-black);
   scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  height: 1em;
+  width: 1em;
+  background: var(--clr-dracula-black);
+}
+
+.code::-webkit-scrollbar-thumb {
+  background: var(--clr-dracula-green);
+  border-radius: 1ex;
+}
+
+.pre_output::-webkit-scrollbar-thumb {
+  background: var(--clr-dracula-purple);
+  border-radius: 1ex;
 }
 
 code {
@@ -126,4 +150,64 @@ code {
   top: 2em;
   margin: 0 1em 0 auto;
   z-index: 2;
+}
+
+/* Syntax highlight */
+span {
+  white-space: pre;
+}
+
+/* reg */
+.A0 {
+  color: #d2d2d2;
+}
+
+/* fns */
+.A1 {
+  color: var(--clr-dracula-green);
+}
+
+/* mop */
+.A2 {
+  color: var(--clr-dracula-pink);
+}
+
+/* dop */
+.A3 {
+  color: var(--clr-dracula-pink);
+}
+
+/* nam */
+.A4 {
+  color: var(--clr-dracula-orange);
+}
+
+/* dig */
+.A5 {
+  color: var(--clr-dracula-purple);
+}
+
+/* arr */
+.A6 {
+  color: var(--clr-dracula-purple);
+}
+
+/* dfn */
+.A7 {
+  color: var(--clr-dracula-cyan);
+}
+
+/* str */
+.A8 {
+  color: var(--clr-dracula-pink);
+}
+
+/* dmd */
+.AD {
+  color: var(--clr-dracula-red);
+}
+
+/* com */
+.AC {
+  color: var(--clr-dracula-blue);
 }
