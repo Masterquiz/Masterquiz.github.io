@@ -62,14 +62,14 @@ const tree_solution = [
 ];
 
 (async function animateTree() {
-  for (const i in tree_solution) {
+  for (const step of tree_solution) {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    if (tree_solution[i][0])
-      tree_solution[i][1].map(
+    if (step[0])
+      step[1].map(
         pos => (tree_tds[pos].style.backgroundImage = 'url("/img/logic_games/trees.png")')
       );
     else
-      tree_solution[i][1].map(
+      step[1].map(
         pos => (tree_tds[pos].style.backgroundImage = 'url("/img/logic_games/erase.png")')
       );
   }
@@ -145,16 +145,16 @@ const electric_charges_solution = [
 ];
 
 (async function animateElectricCharges() {
-  for (const list in electric_charges_solution) {
+  for (const list of electric_charges_solution) {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    for (const i in electric_charges_solution[list]) {
-      if (electric_charges_solution[list][i][0] === 1)
-        electric_charges_solution[list][i][1].map(
+    for (const step of list) {
+      if (step[0] === 1)
+        step[1].map(
           pos =>
             (electric_charges_tds[pos].style.backgroundImage = 'url("/img/logic_games/plus.png")')
         );
-      else if (electric_charges_solution[list][i][0] === -1)
-        electric_charges_solution[list][i][1].map(
+      else if (step[0] === -1)
+        step[1].map(
           pos =>
             (electric_charges_tds[pos].style.backgroundImage = 'url("/img/logic_games/minus.png")')
         );
@@ -217,16 +217,16 @@ const hitori_solution = [
 ];
 
 (async function animateHitori() {
-  for (const i in hitori_solution) {
+  for (const step of hitori_solution) {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    hitori_solution[i][0].map(pos => {
+    step[0].map(pos => {
       const td = hitori_tds[pos];
       td.style.color = '#fff';
       td.style.backgroundColor = '#4169e1';
       td.style.opacity = 0.5;
     });
     await new Promise(resolve => setTimeout(resolve, 1000));
-    hitori_solution[i][1].map(pos => {
+    step[1].map(pos => {
       const td = hitori_tds[pos];
       td.style.color = '#fff';
       td.style.backgroundColor = '#ba55d3';
@@ -319,14 +319,10 @@ const save_the_cow_solution = [
 ];
 
 (async function animateSaveTheCow() {
-  for (const i in save_the_cow_solution) {
+  for (const step of save_the_cow_solution) {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    save_the_cow_solution[i][0].map(
-      pos => (save_the_cow_tds[pos].style.borderLeft = '1px solid #000')
-    );
-    save_the_cow_solution[i][1].map(
-      pos => (save_the_cow_tds[pos].style.borderTop = '1px solid #000')
-    );
+    step[0].map(pos => (save_the_cow_tds[pos].style.borderLeft = '1px solid #000'));
+    step[1].map(pos => (save_the_cow_tds[pos].style.borderTop = '1px solid #000'));
   }
 
   await new Promise(resolve => setTimeout(resolve, 8000));

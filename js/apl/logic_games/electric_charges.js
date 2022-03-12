@@ -57,29 +57,20 @@ const EXAMPLES = {
   ],
 };
 
-(async function loadWS() {
-  const code = `
-    ⎕RL←⍬2
+const CODE = `
+  'pmat' ⎕CY 'dfns'
 
-    pmat ← {{,[⍳2]↑(⊂⊂⎕IO,1+⍵)⌷¨⍒¨↓∘.=⍨⍳1+1↓⍴⍵}⍣⍵⍉⍪⍬}
+  f ← {
+    y←⍺ ⋄ x←⍵ ⋄ mat←⍺⍺
+    n ← ≢near ← ({1↓↓⍵⌿⍨∧/⍵∊⍳≢mat}y+⍤1⊢↑,∘.,⍨0 1 ¯1)~⍸0≠x+9≠mat
+    s ← y⌷mat-{+/,⍵}⌺3 3⊢x
+    ((0=n)∧0≠s)∨(≠/2|n s)∨n<|s:⍬
+    sum ← {1 ¯1/⍨⍵⊃⍨⍸s=-/¨⍵}(⌽,¨⊢)0,⍳n
+    {⍵@near⊢x}¨↓∪sum[pmat n]
+  }
 
-    f ← {
-      y←⍺ ⋄ x←⍵ ⋄ mat←⍺⍺
-      n ← ≢near ← ({1↓↓⍵⌿⍨∧/⍵∊⍳≢mat}y+⍤1⊢↑,∘.,⍨0 1 ¯1)~⍸0≠x+9≠mat
-      s ← y⌷mat-{+/,⍵}⌺3 3⊢x
-      ((0=n)∧0≠s)∨(≠/2|n s)∨n<|s:⍬
-      sum ← {1 ¯1/⍨⍵⊃⍨⍸s=-/¨⍵}(⌽,¨⊢)0,⍳n
-      {⍵@near⊢x}¨↓∪sum[pmat n]
-    }
-
-    solver ← {⊃⊃{⊃,/⍺∘(mat f)¨⍵}/(⍸9≠⍵),(⊂∘⊂0⍴⍨⍴)⍵⊣mat←⍵}
-    format ← '- +'⌷⍨∘⊂2∘+`;
-
-  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
-
-  input_btns = [...document.querySelectorAll('.input__btns button')];
-  input_btns.map(btn => (btn.disabled = false));
-})();
+  solver ← {⊃⊃{⊃,/⍺∘(mat f)¨⍵}/(⍸9≠⍵),(⊂∘⊂0⍴⍨⍴)⍵⊣mat←⍵}
+  format ← '- +'⌷⍨∘⊂2∘+`;
 
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
   [...document.querySelectorAll('.input__table tr')].map((tr, i) =>
@@ -137,7 +128,7 @@ document.querySelector('.input__modify .btns__redo').addEventListener('click', f
 });
 
 document.querySelector('.btns__solve').addEventListener('click', async function solve() {
-  input_btns.map(btn => (btn.disabled = true));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
   const matrix = [...document.querySelectorAll('.input__table tr')].map(tr =>
     [...tr.querySelectorAll('td')].map(td =>
@@ -153,7 +144,7 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
   table.appendChild(tbody);
   output_table.appendChild(table);
 
-  (await executeAPL(`format solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`)).map((item, i) => {
+  (await executeAPL(CODE, `format solver fromJSON '${JSON.stringify(matrix)}'`)).map((item, i) => {
     const tr = document.createElement('tr');
     item.split``.map((x, j) => {
       const td = document.createElement('td');
@@ -171,13 +162,13 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
     tbody.appendChild(tr);
   });
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
   session_style(2);
 });
 
 document.querySelector('.btns__create').addEventListener('click', async function create() {
   session_style(1);
-  input_btns.map(btn => (btn.disabled = true));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
   const input_table = document.querySelector('.input__table');
   const width =
@@ -213,7 +204,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
     tbody.appendChild(tr);
   });
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
 });
 
 document.querySelector('.btns__try').addEventListener('click', async function try_solve() {
@@ -354,9 +345,7 @@ document.querySelector('.btns__verify').addEventListener('click', async function
     )
   );
 
-  const solution = await executeAPL(
-    `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`
-  );
+  const solution = await executeAPL(CODE, `toJSON solver fromJSON '${JSON.stringify(matrix)}'`);
 
   const try_matrix = JSON.stringify(
     [...document.querySelectorAll('.try__table tr')].map(tr =>

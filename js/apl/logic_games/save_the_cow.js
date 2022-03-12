@@ -19,49 +19,37 @@ const EXAMPLES = {
   ]
 };
 
-(async function loadWS() {
-  const code = `
-    ⎕RL ← ⍬2
-    fromJSON ← (↑⍣≡0∘⎕JSON)
-    toJSON ← (1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) ⋄
+const CODE = `
+  ∇ z ← y f m;l;pi;pl;na;ok;ls
+    pl ← ⍸0=m
+    pi ← 1↑pl
+    ls ← {⍵/⍨~1∊¨×⍵}pi-cows,⊂1+,⍨dim
+    :If 0≠≢ls
+        l ← {(⊃⍵)+⍳|-/⍵}{⍵[2⍴⍋⍵]}⌈/¨|ls
+        l ← {⍵/⍨∧/¨dim≥¯1+pi+⍵}l
+        na ← {pi+¯1+⍳,⍨⍵}¨l
+        ok ← {⍵/⍨~1∊¨(⊂0≠m)∧⍵}{⍵∊⍨⍳,⍨dim}¨na
+        z ← (⊂m)+y×ok
+    :EndIf
+  ∇
 
-    ∇ z ← y f m;l;pi;pl;na;ok;ls
-      pl ← ⍸0=m
-      pi ← 1↑pl
-      ls ← {⍵/⍨~1∊¨×⍵}pi-cows,⊂1+,⍨dim
-      :If 0≠≢ls
-          l ← {(⊃⍵)+⍳|-/⍵}{⍵[2⍴⍋⍵]}⌈/¨|ls
-          l ← {⍵/⍨∧/¨dim≥¯1+pi+⍵}l
-          na ← {pi+¯1+⍳,⍨⍵}¨l
-          ok ← {⍵/⍨~1∊¨(⊂0≠m)∧⍵}{⍵∊⍨⍳,⍨dim}¨na
-          z ← (⊂m)+y×ok
-      :EndIf
-    ∇ ⋄
+  ∇ sol ← solver mat;cows;dim
+    dim ← ≢mat
+    sol ← ⊃{⍵/⍨~0∊¨⍵}⊃{⊃,/⍺ f¨⍵}/(⌽⍳⍴cows←⍸mat),⊂⊂(0⍴⍨⍴)mat
+  ∇
 
-    ∇ sol ← solver mat;cows;dim
-      dim ← ≢mat
-      sol ← ⊃{⍵/⍨~0∊¨⍵}⊃{⊃,/⍺ f¨⍵}/(⌽⍳⍴cows←⍸mat),⊂⊂(0⍴⍨⍴)mat
-    ∇ ⋄
+  format ← {(1,2≠/⍵)+(2⍪2×2≠⌿⍵)}
 
-    format ← {(1,2≠/⍵)+(2⍪2×2≠⌿⍵)}
-
-    reverse_format ← {
-      (x y) ← ⍵
-      flat ← {⊃,/⍵}
-      pos ← ⍳⍴x
-      x ← ⊃,/pos⊂¨⍨⍥↓x
-      y ← ⊃,/pos⊂¨⍨⍥↓⍥⍉y
-      vec ← {∪¨x,∘flat¨(↓∨/¨x∘.∊⍵)/¨⊂⍵}y/⍨1≠≢¨y
-      vec ← {flat¨(⊂⍵)⌷⍨¨⊂¨{∪{⍵[⍋⍵]}¨∪¨⍵,∘flat¨(↓∨/¨∘.∊⍨⍵)/¨⊂⍵}⍸¨↓∨/¨∘.∊⍨⍵}vec
-      ⊃(⍳≢vec)+.×vec∊⍨¨⊂pos
-    }
-  `;
-
-  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
-
-  input_btns = [...document.querySelectorAll('.input__btns button')];
-  input_btns.map(btn => (btn.disabled = false));
-})();
+  reverse_format ← {
+    (x y) ← ⍵
+    flat ← {⊃,/⍵}
+    pos ← ⍳⍴x
+    x ← ⊃,/pos⊂¨⍨⍥↓x
+    y ← ⊃,/pos⊂¨⍨⍥↓⍥⍉y
+    vec ← {∪¨x,∘flat¨(↓∨/¨x∘.∊⍵)/¨⊂⍵}y/⍨1≠≢¨y
+    vec ← {flat¨(⊂⍵)⌷⍨¨⊂¨{∪{⍵[⍋⍵]}¨∪¨⍵,∘flat¨(↓∨/¨∘.∊⍨⍵)/¨⊂⍵}⍸¨↓∨/¨∘.∊⍨⍵}vec
+    ⊃(⍳≢vec)+.×vec∊⍨¨⊂pos
+  }`;
 
 /**
  * Check if in td's background there's a cow.
@@ -151,7 +139,7 @@ document.querySelector('.input__modify .btns__redo').addEventListener('click', f
 });
 
 document.querySelector('.btns__solve').addEventListener('click', async function solve() {
-  input_btns.map(btn => (btn.disabled = true));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
   const matrix = [...document.querySelectorAll('.input__table tr')].map(tr =>
     [...tr.querySelectorAll('td')].map(
@@ -167,31 +155,31 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
   table.appendChild(tbody);
   output_table.appendChild(table);
 
-  JSON.parse(await executeAPL(`toJSON format solver fromJSON '${JSON.stringify(matrix)}'`)).map(
-    (item, i) => {
-      const tr = document.createElement('tr');
-      item.map((x, j) => {
-        const td = document.createElement('td');
+  JSON.parse(
+    await executeAPL(CODE, `toJSON format solver fromJSON '${JSON.stringify(matrix)}'`)
+  ).map((item, i) => {
+    const tr = document.createElement('tr');
+    item.map((x, j) => {
+      const td = document.createElement('td');
 
-        if (x & 1) td.style.borderLeft = '1px solid #000';
-        if (x & 2) td.style.borderTop = '1px solid #000';
+      if (x & 1) td.style.borderLeft = '1px solid #000';
+      if (x & 2) td.style.borderTop = '1px solid #000';
 
-        if (matrix[i][j]) td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
+      if (matrix[i][j]) td.style.backgroundImage = 'url("/img/logic_games/cow.png")';
 
-        td.appendChild(document.createElement('br'));
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    }
-  );
+      td.appendChild(document.createElement('br'));
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
   session_style(2);
 });
 
 document.querySelector('.btns__create').addEventListener('click', function create() {
   session_style(1);
-  input_btns.map(btn => (btn.disabled = true));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
   const input_table = document.querySelector('.input__table');
   const width =
@@ -254,7 +242,7 @@ document.querySelector('.btns__create').addEventListener('click', function creat
     tbody.appendChild(tr);
   });
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
 });
 
 document.querySelector('.btns__try').addEventListener('click', function try_solve() {
@@ -416,7 +404,7 @@ document.querySelector('.btns__verify').addEventListener('click', async function
     [...tr.querySelectorAll('td')].map(td => +isActiveBackground(td))
   );
 
-  const solution = await executeAPL(`toJSON solver fromJSON '${JSON.stringify(matrix)}'`);
+  const solution = await executeAPL(CODE, `toJSON solver fromJSON '${JSON.stringify(matrix)}'`);
   let try_matrix = [...document.querySelectorAll('.try__table tr')].map(tr => [
     ...tr.querySelectorAll('td'),
   ]);

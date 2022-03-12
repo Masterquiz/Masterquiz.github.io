@@ -24,77 +24,64 @@ const EXAMPLES = {
   ],
   12: [
     ["3 2 2 2 2 3 3 2 2 2 2 2", "1 0 0 0 0 1 1 0 0 0 0 0", "1 3 2 2 2 1 2 2 1 0 0 0", "1 3 2 1 0 2 1 0 1 0 0 0", "3 0 0 2 2 2 1 0 3 3 2 2", "3 1 0 0 0 3 2 3 0 2 1 0", "1 2 1 0 0 2 1 1 0 0 1 0", "1 3 0 0 0 0 1 2 1 0 2 2", "3 2 2 1 0 0 1 0 3 2 2 2", "1 3 2 2 2 3 0 0 2 1 0 0", "1 2 1 0 0 1 0 0 0 2 1 0", "1 3 0 0 3 0 0 0 0 3 0 0"],
-    // LIMIT ERROR:
     ["3 2 3 2 2 2 2 2 3 2 2 3", "1 0 2 1 0 0 0 0 1 0 0 1", "1 0 0 2 3 2 2 1 2 2 2 1", "3 2 2 3 0 0 0 1 0 0 3 0", "1 0 0 1 0 0 3 0 0 0 1 0", "3 2 1 2 1 0 2 1 0 0 3 2", "1 0 3 2 0 0 0 1 0 0 1 0", "1 0 1 0 0 0 3 2 2 3 0 0", "1 3 2 2 2 2 1 0 0 3 2 1", "1 1 0 0 0 0 1 0 0 2 1 1", "3 0 0 0 0 0 1 0 0 3 0 2", "1 0 0 0 0 0 1 3 2 0 0 0"],
   ],
   13: [
-    // LIMIT ERROR:
     ["3 2 2 2 2 2 2 2 3 2 3 2 2", "3 2 1 0 0 0 0 3 0 0 1 0 0", "1 0 2 1 0 0 3 2 2 2 0 0 0", "1 0 0 2 2 3 0 0 0 0 3 2 2", "1 0 0 0 0 2 1 0 0 0 1 0 0", "1 0 0 0 0 3 2 3 2 2 1 0 0", "1 0 0 0 0 1 0 1 0 0 2 1 3", "1 3 2 3 3 0 0 2 1 0 0 2 1", "3 0 0 1 2 2 1 3 0 0 0 0 1", "3 2 1 1 0 3 2 0 0 0 0 3 0", "1 0 2 1 0 2 1 0 0 3 2 1 0", "1 0 0 1 3 2 1 0 3 0 0 2 1", "1 0 3 2 0 0 1 0 1 0 0 0 2"],
   ]
 };
 
-(async function loadWS() {
-  const code = `
-    ⎕RL ← ⍬2
-    fromJSON ← (↑⍣≡0∘⎕JSON)
-    toJSON ← (1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵})
+const CODE = `
+  'cmat' ⎕CY 'dfns'
 
-    cmat ← {⊖⊃⍪/{k,¨⍪\\1+⍵}⍣⍺⊢(⊂⍉⍪⍬),d⍴⊂0 0⍴k←⌽⍳1+d←⍵-⍺}
+  f ← {
+    x ← ⍵
+    n ← ⍺
+    y ← ({⊃∘⍋⊢∘≢⌸⍵}⌷∪)0~⍨,⍺⍺×0=x
+    area ← y=⍺⍺
+    n>≢vec ← ⍸(0≤⍵)∧area: ⍬
+    vec ← ↓vec[n cmat≢vec]
+    res ← {1@⍵⊢x}¨vec
+    res ← res/⍨vec(n check)¨res
+    adj ← {×⍵-¯1 ¯1↓1 1↓⊃∨/⊃,/4 ¯4↑¨⊂,¯1 0 1∘.⊖¯1 0 1⌽¨⊂0(,∘⌽∘⍉⍣4)1=⍵}¨res
+    cr ← {(⊢-⊢<(n≤+/)∘.∨n≤+⌿)1=⍵}¨res
+    (⊢-(⊂area)∧0∘=)adj⌊cr
+  }
 
-    f ← {
-      x ← ⍵
-      n ← ⍺
-      y ← ({⊃⍤⍋⊢∘≢⌸⍵}⌷∪)0~⍨,⍺⍺×0=x
-      area ← y=⍺⍺
-      n>≢vec ← ⍸(0≤⍵)∧area: ⍬
-      vec ← ↓vec[n cmat≢vec]
-      res ← {1@⍵⊢x}¨vec
-      res ← res/⍨vec(n check)¨res
-      adj ← {×⍵-¯1 ¯1↓1 1↓⊃∨/⊃,/4 ¯4↑¨⊂,¯1 0 1∘.⊖¯1 0 1⌽¨⊂0(,∘⌽∘⍉⍣4)1=⍵}¨res
-      cr ← {(⊢-⊢<(n≤+/)∘.∨n≤+⌿)1=⍵}¨res
-      (⊢-(⊂area)∧0∘=)adj⌊cr
-    }
+  check ← {
+    ⍺⍺=1: ∧/⍺⍺≥(+/,+⌿)⍵>0
+    (∧/⍺⍺≥(+/,+⌿)⍵>0)>(0 1)(1 1)(1 0)∊⍨|-/⍺
+  }
 
-    check ← {
-      ⍺⍺=1: ∧/⍺⍺≥(+/,+⌿)⍵>0
-      (∧/⍺⍺≥(+/,+⌿)⍵>0)>(0 1)(1 1)(1 0)∊⍨|-/⍺
-    }
+  solver ← {
+    n ← 4 9⍸≢m ← ⍵
+    1={⊃,/n(m f)¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢⊂{0}¨⍵
+  }
 
-    solver ← {
-      n ← 4 9⍸≢m ← ⍵
-      1={⊃,/n(m f)¨⍵/⍨0∊¨⍵}⍣(⌈/,⍵)⊢⊂{0}¨⍵
-    }
+  createTree ← {
+    mat ← {(1+⌈/,⍵)@(⊂(?∘⍴⊃⊢)∘⍸¨(~(⊂+/),(⊂+⌿))×⍵)⊢⍵}⍣⍵⊢⍵ ⍵⍴0
+    {⍵+(0=⍵)×¯1 ¯1↓1 1↓⊃⊃⌈/2 4 5 6 8⌷¨⊂,¯1 0 1∘.⊖¯1 0 1⌽¨⊂0(,∘⌽∘⍉⍣4)⍵}⍣≡mat
+  }
 
-    createTree ← {
-      mat ← {(1+⌈/,⍵)@(⊂(?∘⍴⊃⊢)∘⍸¨(~+/,⍥⊂+⌿)×⍵)⊢⍵}⍣⍵⊢⍵ ⍵⍴0
-      {⍵+(0=⍵)×¯1 ¯1↓1 1↓⊃⊃⌈/2 4 5 6 8⌷¨⊂,¯1 0 1∘.⊖¯1 0 1⌽¨⊂0(,∘⌽∘⍉⍣4)⍵}⍣≡mat
-    }
+  creator ← {
+    4:: ∇⍵
+    n←1+8<≢m←createTree ⍵
+    (1=≢ ∧ (∧/1∘∊¨)) solver m:m
+    ∇⍵
+  }
 
-    creator ← {
-      4:: ∇⍵
-      n←1+8<≢m←createTree ⍵
-      (1=≢ ∧ (∧/1∘∊¨)) solver m:m
-      ∇⍵
-    }
+  format ← {(1,2≠/⍵)+(2⍪2×2≠⌿⍵)}
 
-    format ← {(1,2≠/⍵)+(2⍪2×2≠⌿⍵)}
-
-    reverse_format ← {
-      (x y) ← ⍵
-      flat ← {⊃,/⍵}
-      pos ← ⍳⍴x
-      x ← ⊃,/pos⊂¨⍨⍥↓x
-      y ← ⊃,/pos⊂¨⍨⍥↓⍥⍉y
-      vec ← {∪¨x,∘flat¨(↓∨/¨x∘.∊⍵)/¨⊂⍵}y/⍨1≠≢¨y
-      vec ← {flat¨(⊂⍵)⌷⍨¨⊂¨{∪{⍵[⍋⍵]}¨∪¨⍵,∘flat¨(↓∨/¨∘.∊⍨⍵)/¨⊂⍵}⍸¨↓∨/¨∘.∊⍨⍵}vec
-      ⊃(⍳≢vec)+.×vec∊⍨¨⊂pos
-    }`;
-
-  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
-
-  input_btns = [...document.querySelectorAll('.input__btns button')];
-  input_btns.map(elem => (elem.disabled = false));
-})();
+  reverse_format ← {
+    (x y) ← ⍵
+    flat ← {⊃,/⍵}
+    pos ← ⍳⍴x
+    x ← ⊃,/(↓pos)⊂¨⍨↓x
+    y ← ⊃,/(↓⍉pos)⊂¨⍨↓⍉y
+    vec ← {∪¨x,∘flat¨(↓∨/¨x∘.∊⍵)/¨⊂⍵}y/⍨1≠≢¨y
+    vec ← {flat¨(⊂⍵)⌷⍨¨⊂¨{∪{⍵[⍋⍵]}¨∪¨⍵,∘flat¨(↓∨/¨∘.∊⍨⍵)/¨⊂⍵}⍸¨↓∨/¨∘.∊⍨⍵}vec
+    ⊃(⍳≢vec)+.×vec∊⍨¨⊂pos
+  }`;
 
 /**
  * Check if a td's border color is black or not.
@@ -230,7 +217,7 @@ document.querySelector('.input__modify .btns__redo').addEventListener('click', f
 document.querySelector('.btns__solve').addEventListener('click', async function solve() {
   // TODO Manage LIMIT ERROR
   try {
-    input_btns.map(btn => (btn.disabled = true));
+    [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
     const matrix = [...document.querySelectorAll('.input__table tr')].map(tr => [
       ...tr.querySelectorAll('td'),
@@ -249,6 +236,7 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
 
     JSON.parse(
       await executeAPL(
+        CODE,
         `toJSON ⊃solver reverse_format fromJSON¨ '${JSON.stringify(rows)}' '${JSON.stringify(
           cols
         )}'`
@@ -270,15 +258,16 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
       session_style(2);
     });
   } catch (error) {
+    console.error(error);
     session_style(1);
   } finally {
-    input_btns.map(btn => (btn.disabled = false));
+    [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
   }
 });
 
 document.querySelector('.btns__create').addEventListener('click', async function create() {
   try {
-    input_btns.map(btn => (btn.disabled = true));
+    [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
     session_style(1);
 
     const input_table = document.querySelector('.input__table');
@@ -288,7 +277,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
 
     const matrix =
       width <= 7 || width == 9
-        ? await executeAPL(`format creator ${width}`)
+        ? await executeAPL(CODE, `format creator ${width}`)
         : EXAMPLES[width][(EXAMPLES[width].length * Math.random()) | 0];
 
     input_table.innerHTML = '';
@@ -342,7 +331,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
     alert(`Can't create a Trees with this width.\nBut you can still create one yourself!`);
   }
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
 });
 
 document.querySelector('.btns__try').addEventListener('click', function try_solve() {
@@ -475,6 +464,7 @@ document.querySelector('.btns__verify').addEventListener('click', async function
     const cols = matrix.map(tr => tr.map(td => +isActiveBorder(td, 'border-top-color')));
 
     const solution = await executeAPL(
+      CODE,
       `toJSON ⊃solver reverse_format fromJSON¨ '${JSON.stringify(rows)}' '${JSON.stringify(cols)}'`
     );
 
@@ -498,9 +488,10 @@ document.querySelector('.btns__verify').addEventListener('click', async function
       try_label.innerText = 'Wrong!';
     }
   } catch (error) {
+    console.error(error);
     session_style(1);
   } finally {
-    input_btns.map(btn => (btn.disabled = false));
+    [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
   }
 });
 

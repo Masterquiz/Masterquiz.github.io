@@ -1,5 +1,5 @@
 // TODO Add check validity
-// if ((await executeAPL(`(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`))[0].split` `[1] != 'ERROR:') {
+// if ((await exTryAPL(`toJSON solver fromJSON '${JSON.stringify(matrix)}'`))[0].split` `[1] != 'ERROR:') {
 
 // Game propriety
 const MIN_WIDTH = 5;
@@ -77,31 +77,22 @@ const EXAMPLES = {
   ],
 };
 
-(async function loadWS() {
-  const code = `
-    ⎕RL←⍬2 ⋄
+const CODE = `
+  ∇ res ← solver m;b;g;m1;m2;nbor;primes
+    nbor ← {⍺×⍵∨(0 1↓⍵,0)∨(1↓⍵⍪0)∨(0 ¯1↓0,⍵)∨¯1↓0⍪⍵}
+    primes ← 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47↑⍨≢m
+    g ← ⊃⊂∨.=⊂⌽⍨¨⍳∘(1-⍨≢)
+    m1 ← primes×⍤¯1⊢m×g m
+    m2 ← primes×⍤1⊢m×⍉g⍉m
+    b ← ⊃,/{((1,2≠/⊢)∘{⍵[⍋⍵]}⊂((⍸0≠⍵)⌷⍨∘⊂⍋))0~⍨,⍵}¨m1 m2
+    b ← {⍵∘~¨⊂¨⍵}¨b
+    res ← {⊃z⊣{z⊢←{⍵/⍨check¨⍵},z∘.{0@⍵⊢⍺}⍵}¨⍵⊣z←⊂m}b
+  ∇
 
-    ∇ res ← solver m;b;g;m1;m2;nbor;primes
-      nbor ← {⍺×⍵∨(0 1↓⍵,0)∨(1↓⍵⍪0)∨(0 ¯1↓0,⍵)∨¯1↓0⍪⍵}
-      primes ← 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47↑⍨≢m
-      g ← ⊃⊂∨.=⊂⌽⍨¨⍳∘(1-⍨≢)
-      m1 ← primes×⍤¯1⊢m×g m
-      m2 ← primes×⍤1⊢m×⍉g⍉m
-      b ← ⊃,/{((1,2≠/⊢)∘{⍵[⍋⍵]}⊂((⍸0≠⍵)⌷⍨∘⊂⍋))0~⍨,⍵}¨m1 m2
-      b ← {⍵∘~¨⊂¨⍵}¨b
-      res ← {⊃z⊣{z⊢←{⍵/⍨check¨⍵},z∘.{0@⍵⊢⍺}⍵}¨⍵⊣z←⊂m}b
-    ∇ ⋄
-
-    ∇ z←check x;T
-      z←0=+/,(x⍷⍨⍪0 0)∨0 0⍷x ⍝ no 2x1 black islands
-      z∧←{⍵≡⍵∘nbor⍣≡⊢1@(⊂⊃⍸⍵)⊢0⍴⍨⍴x}x≠0 ⍝ all blacks must be connected
-    ∇`;
-
-  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
-
-  input_btns = [...document.querySelectorAll('.input__btns button')];
-  input_btns.map(btn => (btn.disabled = false));
-})();
+  ∇ z←check x;T
+    z←0=+/,(x⍷⍨⍪0 0)∨0 0⍷x ⍝ no 2x1 black islands
+    z∧←{⍵≡⍵∘nbor⍣≡⊢1@(⊂⊃⍸⍵)⊢0⍴⍨⍴x}x≠0 ⍝ all blacks must be connected
+  ∇`;
 
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
   [...document.querySelectorAll('.input__table tr')].map((tr, i) =>
@@ -159,7 +150,7 @@ document.querySelector('.input__modify .btns__redo').addEventListener('click', f
 });
 
 document.querySelector('.btns__solve').addEventListener('click', async function solve() {
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
   const matrix = [...document.querySelectorAll('.input__table tr')].map(tr =>
     [...tr.querySelectorAll('td')].map(td => +td.innerText)
@@ -174,37 +165,35 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
     table.appendChild(tbody);
     output_table.appendChild(table);
 
-    JSON.parse(
-      await executeAPL(
-        `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`
-      )
-    ).map((item, i) => {
-      const tr = document.createElement('tr');
-      item.map((x, j) => {
-        const td = document.createElement('td');
+    JSON.parse(await executeAPL(CODE, `toJSON solver fromJSON '${JSON.stringify(matrix)}'`)).map(
+      (item, i) => {
+        const tr = document.createElement('tr');
+        item.map((x, j) => {
+          const td = document.createElement('td');
 
-        td.innerText = matrix[i][j];
-        if (!x) {
-          td.style.color = '#fff';
-          td.style.backgroundColor = '#4169e1';
-          td.style.opacity = 0.5;
-        }
+          td.innerText = matrix[i][j];
+          if (!x) {
+            td.style.color = '#fff';
+            td.style.backgroundColor = '#4169e1';
+            td.style.opacity = 0.5;
+          }
 
-        td.appendChild(document.createElement('br'));
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
+          td.appendChild(document.createElement('br'));
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      }
+    );
 
     session_style(2);
   } else alert(`An error occurred solving the puzzle`);
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
 });
 
 document.querySelector('.btns__create').addEventListener('click', async function create() {
   session_style(1);
-  input_btns.map(btn => (btn.disabled = true));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
 
   const input_table = document.querySelector('.input__table');
   const width =
@@ -237,7 +226,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
     tbody.appendChild(tr);
   });
 
-  input_btns.map(btn => (btn.disabled = false));
+  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
 });
 
 document.querySelector('.btns__try').addEventListener('click', async function try_solve() {
@@ -376,9 +365,7 @@ document.querySelector('.btns__verify').addEventListener('click', async function
     [...tr.querySelectorAll('td')].map(td => +td.innerText)
   );
 
-  const solution = await executeAPL(
-    `(1⎕JSON{1<≢⍴⍵:∇¨⊂⍤¯1⊢⍵ ⋄ ⍵}) solver (↑⍣≡0∘⎕JSON) '${JSON.stringify(matrix)}'`
-  );
+  const solution = await executeAPL(CODE, `toJSON solver fromJSON '${JSON.stringify(matrix)}'`);
 
   const try_matrix = JSON.stringify(
     [...document.querySelectorAll('.try__table tr')].map((item, i) =>

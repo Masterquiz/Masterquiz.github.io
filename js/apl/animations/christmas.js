@@ -18,44 +18,38 @@ const pic = [
   '             └─┘               ',
 ];
 
+const CODE = `
+  next ← {
+    (height width) ← ⍴⍵
+    snow ← ⍸'*'=⍵
+    inp ← ↑'[*]'⎕R' '⊢↓⍵
+    pos ← 1,¨width?⍨?4
+    pos ,← {⍵/⍨height≥⊃¨⍵}safe~⍨1 0∘+¨⌈snow
+    pos ,← safe/⍨safe∊snow
+    '*'@pos⊢inp
+  }
+
+  finish ← {
+    (height width) ← ⍴⍵
+    snow ← ⍸'*'=⍵
+    inp ← ↑'[*]'⎕R' '⊢↓⍵
+    pos  ← {⍵/⍨height≥⊃¨⍵} safe~⍨1 0∘+¨snow~safe
+    pos ,← safe/⍨safe∊snow
+    '*'@pos⊢inp
+  }`;
+
+document.querySelector('.input textarea').value = pic.join`\n`;
+
 /**
  * Display an array in output section
  *
  * @param {Array} image
  */
 
-function display(image) {
+const display = async image => {
   document.querySelector('.output textarea').value = image.join`\n`;
-}
-
-(async () => {
-  document.querySelector('.input button').disabled = true;
-  document.querySelector('.input textarea').value = pic.join`\n`;
-
-  const code = `
-    ⎕RL ← ⍬2
-
-    next ← {
-      (height width) ← ⍴⍵
-      snow ← ⍸'*'=⍵
-      inp ← ↑'*'⎕R' '⍠('Regex' 0)⊢↓⍵
-      pos ← 1,¨width?⍨?4
-      pos ,← {⍵/⍨height≥⊃¨⍵}safe~⍨1 0∘+¨⌈snow
-      pos ,← safe/⍨safe∊snow
-      '*'@pos⊢inp
-    }
-
-    finish ← {
-      (height width) ← ⍴⍵
-      snow ← ⍸'*'=⍵
-      inp ← ↑'*'⎕R' '⍠('Regex' 0)⊢↓⍵
-      pos  ← {⍵/⍨height≥⊃¨⍵} safe~⍨1 0∘+¨snow~safe
-      pos ,← safe/⍨safe∊snow
-      '*'@pos⊢inp
-    }`;
-  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
-  document.querySelector('.input button').disabled = false;
-})();
+  await new Promise(resolve => setTimeout(resolve, 500));
+};
 
 document.querySelector('.input button').addEventListener('click', async e => {
   e.target.disabled = true;
@@ -69,26 +63,27 @@ document.querySelector('.input button').addEventListener('click', async e => {
 
   document.querySelector('.output').classList.remove('hide');
 
-  [state, size, hash] = (
-    await executeAPL(
-      ` mat ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(image)}'
-      safe ← (⍸=∘'*'∨<⍀⍤≠∘' ') mat`,
-      true
-    )
-  ).slice(0, -1);
-
   let finish = false;
   document.querySelector('.output button').addEventListener('click', () => (finish = true));
 
-  for (let i = 0; i < 100 && !finish; ++i) {
-    [state, size, hash, image] = await executeAPL(`⎕← mat ← next mat`, true);
-    display(image);
-  }
+  const mainAnimation = await executeAPL(
+    CODE,
+    `
+    mat ← fromJSON '${JSON.stringify(image)}'
+    safe ← (⍸=∘'*'∨(<⍀≠∘' ')) mat
+    toJSON toJSON¨ 1↓{⍵,⊂next ⊃⌽⍵}⍣100 ⊢⊂mat`
+  );
 
-  for (let i = 0; i <= image.length; ++i) {
-    [state, size, hash, image] = await executeAPL(`⎕← mat ← finish mat`, true);
-    display(image);
-  }
+  const finishAnimation = await executeAPL(
+    CODE,
+    `
+    mat ← fromJSON '${JSON.stringify(inputSection.value.split`\n`)}'
+    safe ← (⍸=∘'*'∨(<⍀≠∘' ')) fromJSON '${JSON.stringify(image)}'
+    toJSON toJSON¨ 1↓{⍵,⊂finish ⊃⌽⍵}⍣100 ⊢⊂mat`
+  );
+
+  for (const frame of JSON.parse(mainAnimation)) await display(JSON.parse(frame));
+  for (const frame of JSON.parse(finishAnimation)) await display(JSON.parse(frame));
 
   setTimeout(() => document.querySelector('.output').classList.add('hide'), 1000);
 

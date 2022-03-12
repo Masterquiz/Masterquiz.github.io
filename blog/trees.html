@@ -304,7 +304,7 @@
   <script>
     (async () => {
       [state, size, hash] = (
-        await executeAPL('mat ← 5 5⍴1 1 2 3 4 1 1 2 2 4 5 1 2 4 4 5 5 5 4 4 5 5 5 5 5', true)
+        await exTryAPL('mat ← 5 5⍴1 1 2 3 4 1 1 2 2 4 5 1 2 4 4 5 5 5 4 4 5 5 5 5 5', true)
       ).splice(0, 3);
     })();
 

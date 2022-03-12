@@ -40,7 +40,7 @@ pre_list.map(async div_code => {
       .replaceAll('⎕←', `⋄''⋄⎕←`)
       .replace(`⋄''⋄⎕←`, '⎕←')
       .replaceAll('\\', '\\');
-    [state, size, hash, res] = await executeAPL(code, true);
+    [state, size, hash, res] = await exTryAPL(code, true);
 
     if (btn.parentElement.nextSibling.className === 'btn__close') {
       var pre_output = btn.parentElement.nextSibling.nextSibling;
@@ -72,18 +72,18 @@ pre_list.map(async div_code => {
     if (!res.length) res = ['Variable(s)/Function(s) saved'];
 
     // If there's a value error execute previous codeblocks
-    for (const line in res) {
-      if (res[line].slice(0, 11) === 'VALUE ERROR') {
-        for (i in pre_list) {
-          if (pre_list[i].nextSibling.nextElementSibling.className !== 'btn__close') {
-            code = pre_list[i]
+    for (const line of res) {
+      if (line.slice(0, 11) === 'VALUE ERROR') {
+        for (list of pre_list) {
+          if (list.nextSibling.nextElementSibling.className !== 'btn__close') {
+            code = list
               .querySelector('code')
               .textContent.replaceAll('\n', '⋄')
               .replaceAll('⎕←', `⋄''⋄⎕←`)
               .replace(`⋄''⋄⎕←`, '⎕←')
               .replaceAll('\\', '\\');
-            [state, size, hash, res] = await executeAPL(code, true);
-            if (pre_list[i] === div_code) break;
+            [state, size, hash, res] = await exTryAPL(code, true);
+            if (list === div_code) break;
           }
         }
         break;

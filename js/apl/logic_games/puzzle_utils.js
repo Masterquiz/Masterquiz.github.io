@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.dimension__value').value = '';
   document.querySelector('.dimension__button').click();
 
-  document.querySelector('.btns__solve').disabled = true;
-  document.querySelector('.btns__create').disabled = true;
   document.querySelector('.try__modify .btns__undo').disabled = true;
   document.querySelector('.try__modify .btns__redo').disabled = true;
 });

@@ -22,7 +22,10 @@ let mat2022 = [
  * @param {Array} image
  */
 
-const display = image => (document.querySelector('.input textarea').value = image.join`\n`);
+const display = async image => {
+  document.querySelector('.input textarea').value = image.join`\n`;
+  await new Promise(resolve => setTimeout(resolve, 500));
+};
 
 display(mat2021);
 
@@ -33,38 +36,24 @@ document.querySelector('.input button').addEventListener('click', async e => {
   if (document.querySelector('.input textarea').value[23] === '*')
     document.querySelector('.input textarea').value = '';
 
-  const code = `
-    ⎕RL←⍬2
-
-    mat2021 ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(mat2021)}'
-    mat2022 ← (↑⍣≡0∘⎕JSON) '${JSON.stringify(mat2022)}'
-
-    (vec2021 vec2022) ← ((⊂⍤?⍨∘≢⌷⊢)∘⍸=∘'*')¨ mat2021 mat2022
-    mat2022 ←' '⍴⍨⍴mat2022`;
-
-  [state, size, hash] = (await executeAPL(code, true)).slice(0, -1);
-
   display(mat2021);
 
-  const [len2021, len2022] = [mat2021, mat2022].map(
-    x => x.join``.match(new RegExp('[*]', 'g')).length
+  const animation2021 = JSON.parse(
+    await executeAPL(
+      `mat2021 ← fromJSON '${JSON.stringify(mat2021)}'`,
+      `toJSON toJSON ¨{⍵,⊂{' '@({⍵⌷⍨?≢⍵}⍸'*'=⍵)⊢⍵}⊃⌽⍵}⍣(+/'*'=,mat2021)⊢⊂mat2021`
+    )
   );
 
-  for (i = 0; i < len2021 / 2; ++i) {
-    [state, size, hash, image] = await executeAPL(
-      `⎕← mat2021 ← ' '@(2↑vec2021) ⊢mat2021 ⋄ vec2021 ← 2↓vec2021`,
-      true
-    );
-    display(image);
-  }
+  const animation2022 = JSON.parse(
+    await executeAPL(
+      `mat2022 ← fromJSON '${JSON.stringify(mat2022)}'`,
+      `toJSON toJSON ¨{⍵,⊂{'*'@({⍵⌷⍨?≢⍵}⍸('*'=mat2022)∧('*'≠⍵))⊢⍵}⊃⌽⍵}⍣(+/'*'=,mat2022)⊢⊂{' '}¨mat2022`
+    )
+  );
 
-  for (i = 0; i < len2022; ++i) {
-    [state, size, hash, image] = await executeAPL(
-      `⎕← mat2022 ← '*'@(1↑vec2022) ⊢mat2022 ⋄ vec2022 ← 1↓vec2022`,
-      true
-    );
-    display(image);
-  }
+  for (const frame of animation2021) await display(JSON.parse(frame));
+  for (const frame of animation2022) await display(JSON.parse(frame));
 
   e.target.disabled = false;
 });
