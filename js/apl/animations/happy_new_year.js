@@ -38,22 +38,18 @@ document.querySelector('.input button').addEventListener('click', async e => {
 
   display(mat2021);
 
-  const animation2021 = JSON.parse(
-    await executeAPL(
-      `mat2021 ← fromJSON '${JSON.stringify(mat2021)}'`,
-      `toJSON toJSON ¨{⍵,⊂{' '@({⍵⌷⍨?≢⍵}⍸'*'=⍵)⊢⍵}⊃⌽⍵}⍣(+/'*'=,mat2021)⊢⊂mat2021`
-    )
+  const animation2021 = await executeAPL(
+    `mat2021 ← fromJSON '${JSON.stringify(mat2021)}'`,
+    `toJSON toJSON ¨{⍵,⊂{' '@({⍵⌷⍨?≢⍵}⍸'*'=⍵)⊢⍵}⊃⌽⍵}⍣(+/'*'=,mat2021)⊢⊂mat2021`
   );
 
-  const animation2022 = JSON.parse(
-    await executeAPL(
-      `mat2022 ← fromJSON '${JSON.stringify(mat2022)}'`,
-      `toJSON toJSON ¨{⍵,⊂{'*'@({⍵⌷⍨?≢⍵}⍸('*'=mat2022)∧('*'≠⍵))⊢⍵}⊃⌽⍵}⍣(+/'*'=,mat2022)⊢⊂{' '}¨mat2022`
-    )
+  const animation2022 = await executeAPL(
+    `mat2022 ← fromJSON '${JSON.stringify(mat2022)}'`,
+    `toJSON toJSON ¨{⍵,⊂{'*'@({⍵⌷⍨?≢⍵}⍸('*'=mat2022)∧('*'≠⍵))⊢⍵}⊃⌽⍵}⍣(+/'*'=,mat2022)⊢⊂{' '}¨mat2022`
   );
 
-  for (const frame of animation2021) await display(JSON.parse(frame));
-  for (const frame of animation2022) await display(JSON.parse(frame));
+  for (const frame of JSON.parse(animation2021)) await display(JSON.parse(frame));
+  for (const frame of JSON.parse(animation2022)) await display(JSON.parse(frame));
 
   e.target.disabled = false;
 });
