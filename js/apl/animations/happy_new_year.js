@@ -24,7 +24,7 @@ let mat2022 = [
 
 const display = async image => {
   document.querySelector('.input textarea').value = image.join`\n`;
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise(resolve => setTimeout(resolve, 270));
 };
 
 display(mat2021);

@@ -9,6 +9,15 @@
     document.querySelector('nav ul').classList.toggle('menu-change');
   });
 
+  // Unfocus after click
+  [...document.querySelectorAll('button')].map(btn =>
+    btn.addEventListener('click', async () => {
+      await new Promise(resolve => setTimeout(resolve, 270));
+      document.querySelector('#home').click();
+      console.log('Hi');
+    })
+  );
+
   // Load footer
   await fetch('/base/footer.html')
     .then(res => res.text())
