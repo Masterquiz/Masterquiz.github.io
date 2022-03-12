@@ -329,3 +329,33 @@ const save_the_cow_solution = [
   [...save_the_cow_tds].map(td => (td.style.border = '1px solid #20202050'));
   animateSaveTheCow();
 })();
+
+// Sudoku table
+table = document.createElement('table');
+tbody = document.createElement('tbody');
+table.appendChild(tbody);
+document.querySelectorAll('.card__preview')[4].appendChild(table);
+
+[
+  [0, 0, 6, 0, 4, 0, 0, 9, 7],
+  [0, 4, 0, 7, 3, 0, 0, 1, 0],
+  [0, 1, 7, 0, 9, 2, 0, 3, 0],
+  [6, 0, 0, 0, 7, 0, 0, 8, 0],
+  [1, 0, 5, 0, 6, 0, 9, 0, 3],
+  [0, 2, 0, 0, 1, 0, 0, 0, 6],
+  [0, 5, 0, 9, 8, 0, 1, 6, 0],
+  [0, 9, 0, 0, 5, 6, 0, 7, 0],
+  [8, 6, 0, 0, 2, 0, 3, 0, 0],
+].map((item, i) => {
+  const tr = document.createElement('tr');
+  item.map((x, j) => {
+    const td = document.createElement('td');
+
+    if (0 === i % 3) td.style.borderTop = '1px solid #000';
+    if (0 === j % 3) td.style.borderLeft = '1px solid #000';
+
+    td.innerText = x === 0 ? '' : x;
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+});

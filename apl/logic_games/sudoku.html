@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sudoku - Logic games | Master Quiz</title>
+
+    <link rel="stylesheet" href="/css/apl/logic_games/puzzle.css" />
+
+    <script src="/js/script.js" defer></script>
+    <script src="/js/apl/logic_games/puzzle_utils.js" defer></script>
+    <script src="/js/apl/logic_games/sudoku.js" defer></script>
+
+    <script src="/js/apl/apl.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"
+      integrity="sha512-EAKzSKex+PXC0U9OG13r1059ysjrjkJEpZoONCnZa0mBROY28iBOOxZSErUVw1LzLr2+U5PhR7zPCPKidUVJqg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
+  </head>
+
+  <body>
+    <div id="header"></div>
+    <div id="nav"></div>
+
+    <main>
+      <h1>Sudoku solver</h1>
+
+      <div class="cards">
+        <section class="input">
+          <div class="input__dimension">
+            <input class="dimension__value" type="number" placeholder="Dimension" />
+            <button class="dimension__button">✓</button>
+          </div>
+
+          <div class="input__table"></div>
+
+          <div class="input__table"></div>
+
+          <div class="input__modify">
+            <button class="btns__undo">
+              <span class="material-icons"> undo </span>
+            </button>
+            <button class="btns__restart">
+              <span class="material-icons"> restart_alt </span>
+            </button>
+            <button class="btns__redo">
+              <span class="material-icons"> redo </span>
+            </button>
+          </div>
+
+          <div class="input__btns">
+            <button class="btns__solve">Solve</button>
+            <button class="btns__create">Create</button>
+            <button class="btns__try">Try</button>
+          </div>
+        </section>
+
+        <section class="output">
+          <h2>Solution</h2>
+
+          <div class="output__table"></div>
+        </section>
+
+        <section class="try">
+          <h2>Solve</h2>
+
+          <table class="try__table"></table>
+
+          <div class="try__modify">
+            <button class="btns__undo">
+              <span class="material-icons"> undo </span>
+            </button>
+            <button class="btns__restart">
+              <span class="material-icons"> restart_alt </span>
+            </button>
+            <button class="btns__redo">
+              <span class="material-icons"> redo </span>
+            </button>
+          </div>
+
+          <div class="try__btns">
+            <button class="btns__verify">Verify</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </body>
+</html>
