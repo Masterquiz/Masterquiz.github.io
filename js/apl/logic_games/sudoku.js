@@ -8,7 +8,17 @@ const EXAMPLES = {
   ],
 };
 
-const CODE = `'sudoku' ⎕CY 'dfns'`;
+const CODE = `
+  'sudoku' ⎕CY 'dfns'
+
+  creator ← {
+    shuffle ← ⊂⍤?⍨∘≢⌷⊢
+    puzzle ← ↑(0,9|+\\(9-1)⍴1,⍨2/9÷3)⌽¨⊂?⍨9
+    mat ← 9 9⍴0@(50?81)⊢,puzzle
+    1=≢sudoku mat: mat
+    ∇ ⍬
+  }
+ `;
 
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
   [...document.querySelectorAll('.input__table tr')].map((tr, i) =>
@@ -84,7 +94,7 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
   const tbody = document.createElement('tbody');
   table.appendChild(tbody);
   output_table.appendChild(table);
-  debugger;
+
   JSON.parse(await executeAPL(CODE, `toJSON ⊃sudoku fromJSON '${JSON.stringify(matrix)}'`)).map(
     (item, i) => {
       const tr = document.createElement('tr');
@@ -108,45 +118,45 @@ document.querySelector('.btns__solve').addEventListener('click', async function 
 });
 
 document.querySelector('.btns__create').addEventListener('click', async function create() {
-  session_style(1);
-  [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
+  try {
+    [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = true));
+    session_style(1);
 
-  const input_table = document.querySelector('.input__table');
-  const width =
-    document.querySelector('.dimension__value').value ||
-    input_table.querySelector('tr').childElementCount;
+    const input_table = document.querySelector('.input__table');
+    const width =
+      document.querySelector('.dimension__value').value ||
+      input_table.querySelector('tr').childElementCount;
 
-  input_table.innerHTML = '';
+    if (width != 9) throw 'You can create only 9x9 sudoku!';
 
-  const table = document.createElement('table');
-  const tbody = document.createElement('tbody');
-  table.appendChild(tbody);
-  input_table.appendChild(table);
+    const matrix = JSON.parse(await executeAPL(CODE, `toJSON creator ⍬`));
 
-  EXAMPLES[width][(EXAMPLES[width].length * Math.random()) | 0].map((item, i) => {
-    const tr = document.createElement('tr');
-    item.map((x, j) => {
-      const td = document.createElement('td');
+    input_table.innerHTML = '';
+    const table = document.createElement('table');
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    input_table.appendChild(table);
 
-      td.contentEditable = true;
-      td.innerText = x === 0 ? '' : x;
+    matrix.map((item, i) => {
+      const tr = document.createElement('tr');
+      item.map((x, j) => {
+        const td = document.createElement('td');
 
-      if (0 === i % 3) td.style.borderTop = '1px solid #000';
-      if (0 === j % 3) td.style.borderLeft = '1px solid #000';
+        if (0 === i % 3) td.style.borderTop = '1px solid #000';
+        if (0 === j % 3) td.style.borderLeft = '1px solid #000';
 
-      td.addEventListener('input', () => {
-        UNDO.push([[i, j], td.innerText.replace('\n', '')]);
-        document.querySelector('.input__modify .btns__undo').disabled = false;
+        if (x === 0) td.contentEditable = true;
+        else td.innerText = x;
 
-        REDO = [];
-        document.querySelector('.input__modify .btns__redo').disabled = true;
+        td.appendChild(document.createElement('br'));
+        tr.appendChild(td);
       });
-
-      td.appendChild(document.createElement('br'));
-      tr.appendChild(td);
+      tbody.appendChild(tr);
     });
-    tbody.appendChild(tr);
-  });
+  } catch (error) {
+    console.error(error);
+    console.warn("Why are you trying this? Soon this won't be a problem!");
+  }
 
   [...document.querySelectorAll('.input__btns button')].map(btn => (btn.disabled = false));
 });
