@@ -23,7 +23,7 @@
   --clr-dracula-white: #f8f8f2; /* 68 71 90 */
   --clr-dracula-grey: #44475a; /* 248 248 242 */
   --clr-dracula-blue: #6272a4; /*98 114 164 */
-  --clr-dracula-cyan: #8be9fd; /*139 233 253 */
+  --clr-dracula-cyan: rgb(139, 233, 253); /*139 233 253 */
   --clr-dracula-green: #50fa7b; /*80 250 123 */
   --clr-dracula-orange: #ffb86c; /*255 184 108 */
   --clr-dracula-pink: #ff79c6; /*255 121 198 */

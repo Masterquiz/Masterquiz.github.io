@@ -89,6 +89,20 @@ table tr:last-child td {
   border-bottom: 1px solid #000;
 }
 
+td span {
+  width: calc(100% / 3);
+  font-size: 11px;
+  position: absolute;
+  line-height: initial;
+  color: grey;
+}
+
+.highlight {
+  position: relative;
+  background-color: unset;
+  z-index: -1;
+}
+
 /* Input section */
 .input__dimension {
   display: flex;
@@ -197,6 +211,19 @@ table tr:last-child td {
 .try h2 {
   color: #4169e1;
   font-size: 1.5em;
+  margin-bottom: 0;
+}
+
+.numbers {
+  display: flex;
+  gap: 1em;
+}
+
+.numbers p {
+  margin: 0;
+  font-size: 2rem;
+  color: #ff9757;
+  text-underline-offset: 0.25em;
 }
 
 .try__modify {

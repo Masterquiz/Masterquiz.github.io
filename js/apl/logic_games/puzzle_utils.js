@@ -46,6 +46,13 @@ document.querySelector('.dimension__button').addEventListener('click', () => {
       const tr = document.createElement('tr');
       for (j = 0; j < width; ++j) {
         const td = document.createElement('td');
+
+        td.addEventListener('keydown', e => {
+          // FIXME: Prevent from stange thing in td in a better way
+          if (e.key === 'Enter' || (e.target.innerText.length > 3 && e.key !== 'Backspace'))
+            e.preventDefault();
+        });
+
         td.appendChild(document.createElement('br'));
         tr.appendChild(td);
       }
