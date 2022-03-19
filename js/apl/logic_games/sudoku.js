@@ -6,13 +6,10 @@ const CODE = `
   'sudoku' ⎕CY 'dfns'
 
   creator ← {
-    shuffle ← ⊂⍤?⍨∘≢⌷⊢
-    puzzle ← ↑(0,9|+\\(9-1)⍴1,⍨2/9÷3)⌽¨⊂?⍨9
-    mat ← 9 9⍴0@(50?81)⊢,puzzle
-    1=≢sudoku mat: mat
-    ∇ ⍬
-  }
- `;
+    shuffle←,(⊂∘(?⍨∘≢)⌷⊢)⍤1⊢3 3⍴⍳9
+    puzzle←{⍵[shuffle]}⍤1↑(0,9|+\\(9-1)⍴1,⍨2/9÷3)⌽¨⊂?⍨9
+    {⍵ ⌈ {puzzle×1+@(v[?≢v←⍸⍵]) ⊢{0}¨⍵} ⊃≠/2↑sudoku ⍵} ⍣ {1=≢sudoku ⍵} ⊢0@(↓?64 2⍴9 9) ⊢puzzle
+  }`;
 
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
   [...document.querySelectorAll('.input__table tr')].map((tr, i) =>
@@ -153,6 +150,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
       });
       tbody.appendChild(tr);
     });
+    alert(`Created a sudoku with ${matrix.flat().filter(x => x === 0).length} blank cells`);
   } catch (error) {
     console.error(error);
     console.warn("Why are you trying this? Soon this won't be a problem!");
