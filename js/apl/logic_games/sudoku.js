@@ -138,7 +138,7 @@ document.querySelector('.btns__create').addEventListener('click', async function
         if (0 === i % 3) td.style.borderTop = '1px solid #000';
         if (0 === j % 3) td.style.borderLeft = '1px solid #000';
 
-        if (!x === 0) td.innerText = x;
+        if (x) td.innerText = x;
 
         td.addEventListener('input', () => {
           TRY_UNDO.push([[i, j], td.innerText.replace('\n', '')]);
@@ -166,20 +166,31 @@ let lastNumberClicked = 0;
 const try_numbers = [...document.querySelectorAll('.numbers p')];
 try_numbers.map(p =>
   p.addEventListener('click', e => {
-    try_numbers.map(elem => (elem.style.textDecoration = 'none'));
-    e.target.style.textDecoration = 'underline';
-    lastNumberClicked = +e.target.innerText;
+    if (e.target.style.textDecoration === 'underline') {
+      e.target.style.textDecoration = 'none';
+      lastNumberClicked = 0;
 
-    [...document.querySelectorAll('.try__table td')].map(td => {
-      if (td.innerText == lastNumberClicked) {
-        td.style.fontWeight = 'bolder';
-        td.style.color = '#ff9757';
-      } else {
+      [...document.querySelectorAll('.try__table td')].map(td => {
         td.style.backgroundColor = 'unset';
-        td.style.fontWeight = 'unset';
         td.style.color = 'unset';
-      }
-    });
+        td.style.fontWeight = 'unset';
+      });
+    } else {
+      try_numbers.map(elem => (elem.style.textDecoration = 'none'));
+      e.target.style.textDecoration = 'underline';
+      lastNumberClicked = +e.target.innerText;
+
+      [...document.querySelectorAll('.try__table td')].map(td => {
+        if (td.innerText == lastNumberClicked) {
+          td.style.fontWeight = 'bolder';
+          td.style.color = '#ff9757';
+        } else {
+          td.style.backgroundColor = 'unset';
+          td.style.fontWeight = 'unset';
+          td.style.color = 'unset';
+        }
+      });
+    }
   })
 );
 
@@ -196,6 +207,10 @@ document.querySelector('.btns__try').addEventListener('click', async function tr
   //   [4, 8, 0, 0, 0, 0, 0, 1, 3],
   //   [7, 0, 5, 0, 0, 0, 0, 8, 0],
   // ];
+
+  const matrix = [...document.querySelectorAll('.input__table tr')].map(tr =>
+    [...tr.querySelectorAll('td')].map(td => +td.innerText)
+  );
 
   const try_label = document.querySelector('.try h2');
   try_label.innerText = 'Solve';
@@ -420,6 +435,6 @@ document.querySelector('.btns__mode').addEventListener('click', function mode() 
   }
 });
 
-setTimeout(() => {
-  document.querySelector('.btns__try').click();
-}, 100);
+// setTimeout(() => {
+//   document.querySelector('.btns__try').click();
+// }, 100);
