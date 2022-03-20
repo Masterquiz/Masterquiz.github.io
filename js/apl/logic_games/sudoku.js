@@ -8,7 +8,7 @@ const CODE = `
   creator ← {
     shuffle←,(⊂∘(?⍨∘≢)⌷⊢)⍤1⊢3 3⍴⍳9
     puzzle←{⍵[shuffle]}⍤1↑(0,9|+\\(9-1)⍴1,⍨2/9÷3)⌽¨⊂?⍨9
-    {⍵ ⌈ {puzzle×1+@(v[?≢v←⍸⍵]) ⊢{0}¨⍵} ⊃≠/2↑sudoku ⍵} ⍣ {1=≢sudoku ⍵} ⊢0@(↓?64 2⍴9 9) ⊢puzzle
+    {⍵ ⌈ {puzzle×1+@(v[?≢v←⍸⍵]) ⊢{0}¨⍵} ⊃≠/2↑sudoku ⍵} ⍣ {1=≢sudoku ⍵} ⊢0@({⍵[50?81]}⊃,/↓⍳9 9) ⊢puzzle
   }`;
 
 document.querySelector('.dimension__button').addEventListener('click', function customisedTD() {
