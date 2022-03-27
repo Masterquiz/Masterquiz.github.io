@@ -124,7 +124,10 @@
         margin-bottom: 22px;
         transition: 0.3s;
         font-weight: 600;
-        font-size: 1.1em;
+      }
+      
+      .contact-box form select {
+        background-color: rgba(255, 37, 195, 0.27);
       }
 
       .contact-box input:hover,
@@ -132,7 +135,8 @@
         background-color: rgba(255, 37, 195, 0.27);
       }
 
-      .contact-box input:not(:placeholder-shown) {
+      .contact-box input:not(:placeholder-shown),
+      .contact-box input:valid {
         background-color: rgba(255, 37, 195, 0.17);
       }
 
@@ -151,6 +155,14 @@
       .contact-box button:hover,
       .contact-box button:focus {
         background-color: rgba(255, 37, 195, 0.17);
+      }
+                 
+      @media only screen and (min-width: 618px) {
+        .contact-box form input,
+        .contact-box form select,
+        .contact-box button {
+          font-size: 1.1em;
+        }
       }
 
       /* Thanks */
@@ -217,7 +229,7 @@
           <option value="UFO Social Team">UFO Social Team</option>
         </select>
 
-        <button type="submit">Submit Form</button>
+        <button type="submit">Invia</button>
       </form>
     </div>
 
