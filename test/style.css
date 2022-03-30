@@ -1,0 +1,213 @@
+/* Background */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+img {
+  height: 30vh;
+  width: 30vh;
+  position: relative;
+  top: 7%;
+  left: 60%;
+  z-index: -2;
+}
+
+@media only screen and (min-width: 618px) {
+  img {
+    height: 35vh;
+    width: 35vh;
+  }
+}
+
+.stars {
+  background: black url("/img/stars.png") repeat;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  z-index: -4;
+}
+
+.twinkling {
+  width: 10000px;
+  height: 100%;
+  background: transparent url("/img/twinkling.png") repeat;
+  background-size: 1000px 1000px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -3;
+
+  animation: move-background 70s linear infinite;
+}
+
+.clouds {
+  width: 10000px;
+  height: 100%;
+  background: transparent url("/img/clouds_repeat.png") repeat;
+  background-size: 1000px 1000px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+
+  animation: move-background 150s linear infinite;
+}
+
+@keyframes move-background {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(1000px, 0, 0);
+  }
+}
+
+/* Form */
+.contact-box {
+  max-width: 30em;
+  text-align: center;
+  margin: 35vh auto 0;
+  padding: 25px 40px;
+  font-size: 1.5em;
+}
+
+.contact-box h2 {
+  color: #ff25c3;
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 1em;
+}
+
+.contact-box button {
+  width: 100%;
+  margin-top: 1em;
+  padding: 0.5rem 1rem;
+  color: #ff25c3;
+  background-color: transparent;
+  font-size: 1.1em;
+  border: 1px solid #ff25c3;
+  outline: none;
+  transition: 0.3s;
+}
+
+.contact-box button:hover,
+.contact-box button:focus {
+  background-color: rgba(255, 37, 195, 0.17);
+}
+
+.contact-box .g-signin2 {
+  margin: 0 auto 1em;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-box form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.contact-box form input,
+.contact-box form select {
+  outline: none;
+  color: #ff25c3;
+  border: 1px solid #ff25c3;
+  background-color: transparent;
+  padding: 0.5rem 0.75em;
+  margin-bottom: 22px;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.contact-box form input:not([type="email"]) {
+  text-transform: capitalize;
+}
+
+.contact-box input:hover,
+.contact-box input:focus {
+  background-color: rgba(255, 37, 195, 0.27);
+}
+
+.contact-box input:not(:placeholder-shown),
+.contact-box input:valid {
+  background-color: rgba(255, 37, 195, 0.17);
+}
+
+.contact-box form input::placeholder {
+  color: #ff25c3;
+}
+
+.contact-box form select {
+  background-color: rgba(255, 37, 195, 0.27);
+}
+
+@media only screen and (min-width: 618px) {
+  .contact-box form input,
+  .contact-box form select,
+  .contact-box button {
+    font-size: 1.1em;
+  }
+}
+
+/* Thanks */
+.thanks-box {
+  position: relative;
+  text-align: center;
+  height: 97vh;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  font-family: sans-serif;
+  font-size: 5rem;
+  font-weight: 200;
+  font-style: italic;
+  color: #fff;
+  padding: 4rem 6rem;
+  border: 0.4rem solid #fff;
+  border-radius: 2rem;
+  text-transform: uppercase;
+  animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff,
+      0 0 2rem #ff25c3, 0 0 4rem #ff25c3, 0 0 6rem #ff25c3, 0 0 8rem #ff25c3,
+      0 0 10rem #ff25c3;
+
+    box-shadow: 0 0 0.5rem #fff, inset 0 0 0.5rem #fff, 0 0 2rem #08f,
+      inset 0 0 2rem #08f, 0 0 4rem #08f, inset 0 0 4rem #08f;
+  }
+
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+    box-shadow: none;
+  }
+}
