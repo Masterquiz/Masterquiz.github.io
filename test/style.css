@@ -24,7 +24,7 @@ img {
 }
 
 .stars {
-  background: black url("/img/stars.png") repeat;
+  background: black url("/stars.png") repeat;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -37,7 +37,7 @@ img {
 .twinkling {
   width: 10000px;
   height: 100%;
-  background: transparent url("/img/twinkling.png") repeat;
+  background: transparent url("/twinkling.png") repeat;
   background-size: 1000px 1000px;
   position: absolute;
   right: 0;
@@ -51,7 +51,7 @@ img {
 .clouds {
   width: 10000px;
   height: 100%;
-  background: transparent url("/img/clouds_repeat.png") repeat;
+  background: transparent url("/clouds_repeat.png") repeat;
   background-size: 1000px 1000px;
   position: absolute;
   right: 0;
