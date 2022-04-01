@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presenze UFO</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js"></script>
+    <script async defer src="https://accounts.google.com/gsi/client"></script>
+  </head>
+
+  <body>
+    <div class="background-container">
+      <img src="/test/img/moon2.png" />
+      <div class="stars"></div>
+      <div class="twinkling"></div>
+      <div class="clouds"></div>
+    </div>
+
+    <div class="contact-box">
+      <h2>Presenze UFO:</h2>
+      <script>
+        document.querySelector('.contact-box h2').innerText +=
+          ' ' +
+          new Date().toLocaleDateString('it-IT', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          });
+      </script>
+
+      <div
+        id="g_id_onload"
+        data-client_id="585871178834-6ccf5b0dcukd6grao01d4fsbgcee0oj2.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleCredentialResponse"></div>
+
+      <div class="g-signin2" style="display: none">
+        <div
+          class="g_id_signin"
+          data-type="standard"
+          data-shape="pill"
+          data-theme="outline"
+          data-text="continue_with"
+          data-size="large"
+          data-logo_alignment="left"></div>
+      </div>
+
+      <form id="form" method="POST">
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          maxlength="32"
+          pattern="\S+.*"
+          required />
+
+        <input name="name" placeholder="Nome" id="name" maxlength="32" pattern="\S+.*" required />
+        <input
+          type="text"
+          name="surname"
+          id="surname"
+          placeholder="Cognome"
+          maxlength="32"
+          pattern="\S+.*"
+          required />
+
+        <select id="activity" name="activity">
+          <option value="Studio" selected>Studio</option>
+          <option value="Accademia del profondo">Accademia del profondo</option>
+          <option value="Argonauti">Argonauti</option>
+          <option value="Officina dell'inutile">Officina dell'inutile</option>
+          <option value="Sonora">Sonora</option>
+          <option value="UFO Social Team">UFO Social Team</option>
+        </select>
+
+        <button type="submit">Invia</button>
+      </form>
+    </div>
+
+    <div class="thanks-box" style="display: none">
+      <h1>BENVENUTO A UFO!</h1>
+    </div>
+  </body>
+</html>
