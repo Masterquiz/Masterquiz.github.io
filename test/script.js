@@ -43,6 +43,7 @@ function handleCredentialResponse(response) {
 const initClient = () => {
   gapi.client
     .init({
+      apiKey: "AIzaSyDKx7AMwVu65LAGW-Ar9C9kOZ8os7Vw5us",
       clientId:
         "585871178834-6ccf5b0dcukd6grao01d4fsbgcee0oj2.apps.googleusercontent.com",
       discoveryDocs: [
