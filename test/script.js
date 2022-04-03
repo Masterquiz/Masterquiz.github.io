@@ -57,9 +57,6 @@ const updateSigninStatus = isSignedIn => {
 
       const values = [...document.querySelectorAll('form input')].map(input => input.value);
 
-      // ?Useful
-      await new Promise(resolve => setTimeout(resolve, 500));
-
       await SheetDB.write('https://sheetdb.io/api/v1/vhlwbey389lk8', {
         sheet: 'Presenze',
         data: {
@@ -73,7 +70,9 @@ const updateSigninStatus = isSignedIn => {
           Cognome: capitalize(values[2]),
           Laboratorio: document.querySelector('form select').value,
         },
-      });
+      })
+        .then(res => console.log(res))
+        .catch(error => console.error(error));
 
       document.querySelector('.contact-box').style.display = 'none';
       document.querySelector('.thanks-box').style.display = 'flex';
