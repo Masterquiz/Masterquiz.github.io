@@ -56,23 +56,27 @@ const updateSigninStatus = isSignedIn => {
       e.preventDefault();
 
       const values = [...document.querySelectorAll('form input')].map(input => input.value);
+      const data = {
+        Data: new Date().toLocaleDateString('en-UK', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        }),
+        Email: values[0],
+        Nome: capitalize(values[1]),
+        Cognome: capitalize(values[2]),
+        Laboratorio: document.querySelector('form select').value,
+      };
 
-      await SheetDB.write('https://sheetdb.io/api/v1/vhlwbey389lk8', {
-        sheet: 'Presenze',
-        data: {
-          Data: new Date().toLocaleDateString('en-UK', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric',
-          }),
-          Email: values[0],
-          Nome: capitalize(values[1]),
-          Cognome: capitalize(values[2]),
-          Laboratorio: document.querySelector('form select').value,
-        },
-      })
-        .then(res => console.log(res))
-        .catch(error => console.error(error));
+      if (data) {
+        await SheetDB.write('https://sheetdb.io/api/v1/vhlwbey389lk8', {
+          sheet: 'Presenze',
+          data: data,
+        });
+      } else {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        document.querySelector('form').submit();
+      }
 
       document.querySelector('.contact-box').style.display = 'none';
       document.querySelector('.thanks-box').style.display = 'flex';
