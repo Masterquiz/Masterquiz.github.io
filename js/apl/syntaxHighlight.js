@@ -3,32 +3,36 @@
 function html(str) {
   let htmlMap = {};
   let res = '';
+
   for (let chr of str) {
     if (
-      ((chr >= '0') & (chr <= '9')) |
-      ((chr >= 'a') & (chr <= 'z')) |
-      ((chr >= 'A') & (chr <= 'Z')) |
-      (chr === ' ') |
-      (chr === '_')
+      chr >= '0' & chr <= '9' |
+      chr >= 'a' & chr <= 'z' |
+      chr >= 'A' & chr <= 'Z' |
+      chr === ' ' | chr === '_'
     )
       res += chr;
-    else if (chr === '\n') res += '<br>';
+    else if (chr === '\n') res += '<span></span>\n';
     else {
-      let m = htmlMap[chr];
-      if (!m) m = htmlMap[chr] = new Option(chr).innerHTML;
-      res += m;
+      // Manage APL Unicode characters
+      htmlMap[chr] = new Option(chr).innerHTML;
+      res += htmlMap[chr];
     }
   }
+
   return res;
 }
 
 function colorCode(elem) {
   const str = elem.innerText;
   let cols = parseAPL(str);
+
   const wrap = (sub, col) => `<span class=${'A' + col}>${html(sub)}</span>`;
+
   let code = '';
   let pcol = cols[0];
   let li = 0;
+
   for (let i = 0; i < str.length; i++) {
     let ncol = cols[i];
     if (ncol && pcol != ncol) {
@@ -37,7 +41,9 @@ function colorCode(elem) {
       pcol = ncol;
     }
   }
+
   if (pcol) code += wrap(str.slice(li), pcol);
+
   elem.innerHTML = code;
 }
 
@@ -48,7 +54,7 @@ function parseAPL(str) {
   const nam = '⎕⍞∆ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_';
   const dig = '0123456789¯';
   const arr = '⍬';
-  const dfn = '⍺⍵∇{}():';
+  const dfn = '⍺⍵()[]{}:∇';
   const dmd = '⋄←→';
 
   const res = new Array(str.length).fill();

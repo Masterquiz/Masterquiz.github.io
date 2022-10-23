@@ -48,16 +48,18 @@ const executeAPL = async (code, input) => {
  * Execute an APL code via tryapl.org API using global [state, size, hash]
  * or, if undefined, set them to ['', 0, ''].
  *
- * Return the output by default, or the Array [state, size, hash, data] when preserve = true.
- * Kept for backward compatibility
+ * Return the Array [state, size, hash, data] by default,
+ * or just the output when preserve = true.
  *
  * @param {string}  code
- * @param {boolean} [preserve = false]
+ * @param {boolean} [preserve = true]
  */
 
-async function exTryAPL(code, preserve = false) {
+async function exTryAPL(code, preserve = true) {
+  console.log('Executing code...');
   if (typeof state === 'undefined') [state, size, hash] = ['', 0, ''];
-  return await fetch('https://tryapl.org/Exec', {
+
+  const data = await fetch('https://tryapl.org/Exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify([state, size, hash, code]),
@@ -66,4 +68,6 @@ async function exTryAPL(code, preserve = false) {
     .then(data => {
       return preserve ? data : data[3];
     });
+
+  return data;
 }

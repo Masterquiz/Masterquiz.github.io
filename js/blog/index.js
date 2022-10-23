@@ -34,6 +34,8 @@ pre_list.map(async div_code => {
     btn.disabled = true;
     btn.style.color = '#ff0090';
 
+    console.log(div_code.querySelector('code').textContent);
+
     let code = div_code
       .querySelector('code')
       .textContent.replaceAll('\n', '⋄')
@@ -43,7 +45,9 @@ pre_list.map(async div_code => {
     [state, size, hash, res] = await exTryAPL(code, true);
 
     if (btn.parentElement.nextSibling.className === 'btn__close') {
-      var pre_output = btn.parentElement.nextSibling.nextSibling;
+      var btn_close = btn.parentElement.nextSibling;
+
+      var pre_output = btn_close.nextSibling;
       var code_output = pre_output.querySelector('code');
     } else {
       var pre_output = document.createElement('pre');
@@ -69,6 +73,7 @@ pre_list.map(async div_code => {
     }
 
     code_output.innerHTML = '';
+
     if (!res.length) res = ['Variable(s)/Function(s) saved'];
 
     // If there's a value error execute previous codeblocks

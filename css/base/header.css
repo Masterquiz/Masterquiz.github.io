@@ -27,7 +27,7 @@ header {
   font-size: 5vh;
   flex-grow: 1;
   text-align: initial;
-  padding-right: 0.5em;
+  padding-inline: 0.5em;
   font-family: var(--ff-accent);
   text-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.1);
   color: var(--clr-primary-300);
